@@ -1,0 +1,16 @@
+{
+  "name": "SAIN - Ferme École Bio",
+  "short_name": "SAIN",
+  "description": "Solidarités Agricoles Intégrées - Ferme école, agroécologie, formations agricoles, hébergement rural, restaurant bio et circuits découverte au Bénin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

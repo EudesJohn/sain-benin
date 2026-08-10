@@ -1,0 +1,22 @@
+/* Respect prefers-reduced-motion for users with motion sensitivity */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Remove float animation in hero */
+  .particle-float {
+    animation: none !important;
+  }
+
+  /* Disable scale transforms on hover */
+  .hover\\:scale-103,
+  .hover\\:scale-105 {
+    transform: none !important;
+  }
+
+  /* Remove all Framer Motion animations — they will skip to final state */
+}
