@@ -105,7 +105,7 @@ const Accommodation = () => {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   '/images/Accueil-Sain-150x150.jpg',
-                  '/images/Chambres-Sain-150x150.jpg',
+                  '/images/Chambres-Sain-1024x768.jpg',
                   '/images/sain1-150x150.jpg',
                   '/images/Cuisine-Gite-150x150.jpg',
                 ].map((img, i) => (

@@ -185,7 +185,7 @@ const Formations = () => {
                       alt="Retraite"
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.src = '/images/Jardin3-Sain-1024x768.jpg'
+                        e.currentTarget.src = '/images/Jardin-Sain-1024x768.jpg'
                       }}
                     />
                   </Reveal>

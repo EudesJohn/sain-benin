@@ -183,7 +183,7 @@ const Circuits = () => {
             viewport={{ once: true }}
           >
             {[
-              '/images/Maraichage-4-150x150.jpg',
+              '/images/Marécage-150x150.jpg',
               '/images/Pirogue-150x114.jpg',
               '/images/Elevage-Poules-Sain-150x150.jpg',
               '/images/Palme-Sain-150x150.jpg',

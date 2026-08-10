@@ -10,7 +10,7 @@ const Production = () => {
   return (
     <>
       <PageHero
-        image="/images/Papaye-Sain-150x150.jpg"
+        image="/images/Jardin-Sain-1024x768.jpg"
         eyebrow="Nos produits"
         title="Nos Produits"
         subtitle="Des produits frais et transformés cultivés avec amour"
@@ -101,8 +101,8 @@ const Production = () => {
                   {category.items.map((item, j) => (
                     <ProductCard
                       key={j}
-                      name={item}
-                      image={category.image}
+                      name={typeof item === 'string' ? item : item.name}
+                      image={(typeof item === 'object' && item.image) || category.image}
                       category={category.name}
                       index={j}
                     />

@@ -134,7 +134,18 @@ export const products = {
   fresh: {
     title: 'Produits frais',
     items: [
-      { name: 'Fruits', items: ['Papayes', 'Oranges', 'Coco', 'Pastèques', 'Ananas', 'Bananes plantains'], image: 'Fruits-Sain-150x150.jpg' },
+      {
+        name: 'Fruits',
+        image: 'Fruits-Sain-150x150.jpg',
+        items: [
+          { name: 'Papayes', image: 'Papaye-Sain-150x150.jpg' },
+          { name: 'Oranges' },
+          { name: 'Coco', image: 'Palme-Sain-150x150.jpg' },
+          { name: 'Pastèques' },
+          { name: 'Ananas', image: 'Ananas-2-150x150.jpg' },
+          { name: 'Bananes plantains', image: 'banaan-1024x768.jpg' },
+        ],
+      },
       { name: 'Légumes', items: ['Piments', 'Oignons', 'Haricots verts'], image: 'Maraichage-4-150x150.jpg' },
       { name: 'œufs', items: ['Œufs de poule', 'Œufs de cailles'], image: 'Elevage-Poules-Sain-150x150.jpg' },
       { name: 'Viandes', items: ['Lapin', 'Caille', 'Pigeon', 'Canard'], image: 'Lapins-Elevage-150x150.jpg' },
