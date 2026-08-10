@@ -22,6 +22,5 @@
       "status": 200,
       "dest": "/"
     }
-  ],
-  "cleanOutputs": true
+  ]
 }
