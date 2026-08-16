@@ -2,15 +2,30 @@ import { motion } from 'framer-motion'
 import { ShoppingCart, Package, Calendar, Leaf, Wheat, PawPrint, Droplet } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
 import { products } from '../data/sainData'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
+// Clés photos pour les produits (doivent correspondre au registre des sections)
+const slugify = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+const freshCategoryKey = (name: string) => `produit-fresh-${slugify(name)}`
+const freshItemKey = (name: string) => `produit-fresh-item-${slugify(name)}`
+const processedKey = (name: string) => `produit-processed-${slugify(name)}`
+
 const Production = () => {
+  const { photos, freePhotos } = useSectionPhotos('production')
   return (
     <>
       <PageHero
-        image="/images/Jardin-Sain-1024x768.jpg"
+        image={photos['hero']?.url || '/images/Jardin-Sain-1024x768.jpg'}
         eyebrow="Nos produits"
         title="Nos Produits"
         subtitle="Des produits frais et transformés cultivés avec amour"
@@ -98,15 +113,20 @@ const Production = () => {
               >
                 <h3 className="text-2xl font-bold text-ink mb-6">{category.name}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {category.items.map((item, j) => (
-                    <ProductCard
-                      key={j}
-                      name={typeof item === 'string' ? item : item.name}
-                      image={(typeof item === 'object' && item.image) || category.image}
-                      category={category.name}
-                      index={j}
-                    />
-                  ))}
+                  {category.items.map((item, j) => {
+                    const categoryUrl = photos[freshCategoryKey(category.name)]?.url || ''
+                    const itemUrl =
+                      typeof item === 'object' ? photos[freshItemKey(item.name)]?.url || '' : ''
+                    return (
+                      <ProductCard
+                        key={j}
+                        name={typeof item === 'string' ? item : item.name}
+                        image={itemUrl || categoryUrl || undefined}
+                        category={category.name}
+                        index={j}
+                      />
+                    )
+                  })}
                 </div>
               </motion.div>
             ))}
@@ -139,11 +159,13 @@ const Production = () => {
                   <div
                     className="h-48 bg-cover bg-center relative"
                     style={{
-                      backgroundImage: product.image ? `url('/images/${product.image}')` : undefined,
-                      backgroundColor: !product.image ? '#EFE9DE' : undefined,
+                      backgroundImage: (photos[processedKey(product.name)]?.url || product.image)
+                        ? `url('${photos[processedKey(product.name)]?.url || `/images/${product.image}`}')`
+                        : undefined,
+                      backgroundColor: !(photos[processedKey(product.name)]?.url || product.image) ? '#EFE9DE' : undefined,
                     }}
                   >
-                    {!product.image && (
+                    {!(photos[processedKey(product.name)]?.url || product.image) && (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <Package className="w-12 h-12 text-earth-400" aria-hidden="true" />
                       </div>
@@ -215,6 +237,8 @@ const Production = () => {
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Commandez nos produits"

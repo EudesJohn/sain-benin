@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, ExternalLink } from 'lucide-react'
+import { Mail, Phone, MapPin } from 'lucide-react'
 import { SiFacebook, SiYoutube, SiInstagram } from '@icons-pack/react-simple-icons'
+import sainLogo from '../assets/SAIN-Logo.png'
 
 const easeOut = [0.23, 1, 0.32, 1]
 
@@ -65,7 +66,11 @@ const Footer = () => {
         >
           {/* Logo & Contact */}
           <motion.div variants={itemVariants}>
-            <h3 className="text-xl font-display font-bold mb-4">SAIN</h3>
+            <img
+              src={sainLogo}
+              alt="SAIN Ferme École Bio"
+              className="h-14 w-auto mb-4"
+            />
             <p className="text-sm text-earth-200 mb-4">
               Productions en agroécologie • Ferme École • Hébergement • Restauration • Séjours Nature
             </p>
@@ -158,19 +163,8 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.3, ease: easeOut }}
         >
-          <p className="mb-2">
+          <p>
             © {currentYear} SAIN • Tous droits réservés
-          </p>
-          <p className="flex items-center justify-center gap-1">
-            <span>Développé par</span>
-            <a
-              href="https://bawete.fr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-[color] duration-200"
-            >
-              Bawete <ExternalLink className="w-3 h-3 inline" />
-            </a>
           </p>
         </motion.div>
       </div>

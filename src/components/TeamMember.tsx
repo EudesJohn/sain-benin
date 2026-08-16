@@ -4,6 +4,7 @@ interface TeamMemberProps {
   name: string
   role: string
   description?: string
+  /** URL complète de la photo */
   image: string
   index: number
 }
@@ -23,7 +24,7 @@ const TeamMember = ({ name, role, description, image, index }: TeamMemberProps) 
       {/* Photo */}
       <div className="relative h-64 bg-sun-100 overflow-hidden">
         <motion.img
-          src={`/images/${image}`}
+          src={image}
           alt={name}
           className="w-full h-full object-cover object-center"
           onError={(e) => {

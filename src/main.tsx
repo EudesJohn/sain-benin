@@ -14,3 +14,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </React.StrictMode>,
 )
+
+// Service worker : enregistre les photos Supabase dans le cache du navigateur
+// pour éviter de les re-télécharger à chaque visite.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Échec silencieux : le site fonctionne sans service worker
+    })
+  })
+}

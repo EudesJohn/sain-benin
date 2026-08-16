@@ -1,16 +1,23 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import { useSectionVideos } from '../hooks/useSectionVideos'
 
 const easeOut = [0.23, 1, 0.32, 1]
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const { photos, freePhotos, loading, preloadProgress, allReady } = useSectionPhotos('galerie')
+  const { videos } = useSectionVideos('galerie')
+  // Écran de chargement tant que toutes les photos ne sont pas prêtes
+  const showPhotoLoader = loading || !allReady
 
-  const galleryImages = [
+  // Photos par défaut (repli si aucune photo gérée dans Supabase)
+  const defaultGalleryImages = [
     // ── La ferme & les travaux ──
     { src: '/images/Travaux-Ferme-1024x768.jpg', alt: 'Travaux à la ferme' },
     { src: '/images/Ecole-Sain-Arrosage-1-1024x867.jpg', alt: 'Arrosage des cultures' },
@@ -82,24 +89,10 @@ const Gallery = () => {
     { src: '/images/sain5-150x150.jpg', alt: 'Vie à la ferme' },
   ]
 
-  // Vidéos YouTube — 3 proviennent de l'ancienne galerie du site, 9 de la chaîne officielle
-  const galleryVideos = [
-    // ── Ancienne galerie (sain-benin.org) ──
-    { id: 'zG4hkH2Sjpo', title: 'Sain-Benin (présentation)' },
-    { id: 'ebattfJkYkU', title: '17  Augustin 1' },
-    { id: 'jMCzuutr7yY', title: '14' },
+  const galleryImages = freePhotos.length > 0 ? freePhotos.map((photo) => ({ src: photo.url, alt: photo.alt })) : defaultGalleryImages
 
-    // ── Chaîne officielle « Ferme école SAIN » ──
-    { id: 'HR1WALBrX6A', title: "A la découverte de la Ferme école SAIN de Kakanitchoé au Bénin (Adjohoun-Ouémé)" },
-    { id: 'YqyEomOeKyw', title: 'La Ferme Ecole SAIN et la Fondation Collibri' },
-    { id: 'zI-ZXgILGjo', title: 'La 23ième promotion des jeunes entrepreneurs de la Ferme École SAIN' },
-    { id: '1qbu0Z0b4Ew', title: 'Les jeunes formés à la Ferme-école SAIN parlent de leurs activités' },
-    { id: '6zjG2PlL0e4', title: 'Les jeunes formés à la Ferme-école SAIN parlent de leurs activités' },
-    { id: 'ALYKlX-yHCI', title: 'Les jeunes formés à la Ferme-école SAIN parlent de leurs activités' },
-    { id: 'g1tTBNIs8Do', title: 'Les jeunes formés à la Ferme-école SAIN parlent de leurs activités' },
-    { id: 'oua2snW8qfw', title: 'Les jeunes formés à la Ferme-école SAIN parlent de leurs activités' },
-    { id: 'hVuvXNtj4LI', title: 'Agriculture : destruction de la Ferme École SAIN de Kakanitchoé par une tempête' },
-  ]
+  // Vidéos YouTube — celles gérées dans Supabase (ou les vidéos par défaut du site)
+  const galleryVideos = videos.map((video) => ({ id: video.youtubeId, title: video.title }))
 
   const openModal = (index: number) => {
     setSelectedImage(index)
@@ -151,7 +144,7 @@ const Gallery = () => {
   return (
     <>
       <PageHero
-        image="/images/Travaux-Ferme-1024x768.jpg"
+        image={photos['hero']?.url || '/images/Travaux-Ferme-1024x768.jpg'}
         eyebrow="Galerie"
         title="Galerie Photo"
         subtitle="Toute la vie de la ferme en images"
@@ -167,43 +160,63 @@ const Gallery = () => {
             className="mb-16"
           />
 
-          <motion.div
-            className="columns-2 md:columns-3 lg:columns-4 gap-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.15, ease: easeOut }}
-            viewport={{ once: true }}
-          >
-            {galleryImages.map((image, i) => (
-              <motion.div
-                key={i}
-                className="mb-4 break-inside-avoid cursor-zoom-in"
-                initial={{ opacity: 0, scale: 0.92 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.02, duration: 0.3, ease: easeOut }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02 }}
-                onClick={() => openModal(i)}
-                role="button"
-                tabIndex={0}
-                aria-label={`Voir l'image : ${image.alt}`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    openModal(i)
-                  }
-                }}
-              >
-                <motion.img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full rounded-lg shadow-card transition-[box-shadow] duration-200"
-                  loading="lazy"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+          {showPhotoLoader ? (
+            /* Chargement complet des photos avant affichage */
+            <motion.div
+              className="flex flex-col items-center justify-center py-24"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, ease: easeOut }}
+              role="status"
+              aria-live="polite"
+            >
+              <Loader2 className="w-10 h-10 text-sun-600 animate-spin mb-4" aria-hidden="true" />
+              <p className="text-ink font-semibold">Chargement des photos…</p>
+              {!loading && preloadProgress.total > 0 && (
+                <p className="text-sm text-ink-soft mt-1">
+                  {preloadProgress.ready}/{preloadProgress.total} photos prêtes
+                </p>
+              )}
+            </motion.div>
+          ) : (
+            <motion.div
+              className="columns-2 md:columns-3 lg:columns-4 gap-4"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.15, ease: easeOut }}
+              viewport={{ once: true }}
+            >
+              {galleryImages.map((image, i) => (
+                <motion.div
+                  key={i}
+                  className="mb-4 break-inside-avoid cursor-zoom-in"
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.02, duration: 0.3, ease: easeOut }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => openModal(i)}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Voir l'image : ${image.alt}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      openModal(i)
+                    }
+                  }}
+                >
+                  <motion.img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full rounded-lg shadow-card transition-[box-shadow] duration-200"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </section>
 

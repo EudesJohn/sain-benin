@@ -15,6 +15,8 @@ import TestimonialCard from '../components/TestimonialCard'
 import SectionHeading from '../components/ui/SectionHeading'
 import Reveal from '../components/ui/Reveal'
 import Button from '../components/ui/Button'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 
 const easeOut = [0.23, 1, 0.32, 1] as const
 
@@ -29,6 +31,8 @@ const serviceIcons: Record<string, typeof Sprout> = {
 }
 
 const Home = () => {
+  const { photos, freePhotos } = useSectionPhotos('accueil')
+  const previewImages = ['apercu-1', 'apercu-2', 'apercu-3', 'apercu-4', 'apercu-5', 'apercu-6']
   return (
     <div className="overflow-hidden">
       <HeroSection />
@@ -97,8 +101,8 @@ const Home = () => {
             <Reveal delay={0.1}>
               <div className="relative">
                 <img
-                  src="/images/A-PROPOS-SAIN-1024x715.jpg"
-                  alt="SAIN — À propos"
+                  src={photos['apropos']?.url || '/images/A-PROPOS-SAIN-1024x715.jpg'}
+                  alt={photos['apropos']?.alt || 'SAIN — À propos'}
                   className="w-full object-cover rounded-card shadow-card-hover aspect-[4/3]"
                   loading="lazy"
                 />
@@ -123,25 +127,21 @@ const Home = () => {
             subtitle="Un aperçu de notre quotidien entre serres, étangs, champs et tables d'hôtes."
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-14">
-            {[
-              'Travaux-Ferme-1024x768.jpg',
-              'Etudiants-Sain-150x150.jpg',
-              'Fruits-Sain-150x150.jpg',
-              'Chambres-Sain-150x150.jpg',
-              'Compost-Sain-150x150.jpg',
-              'Jardin-Sain-150x150.jpg',
-            ].map((img, i) => (
-              <Reveal key={img} delay={i * 0.05}>
-                <div className="aspect-square rounded-xl overflow-hidden shadow-card hover-lift cursor-pointer">
-                  <img
-                    src={`/images/${img}`}
-                    alt={`La vie à la ferme — image ${i + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-              </Reveal>
-            ))}
+            {previewImages.map((key, i) => {
+              const photo = photos[key]
+              return (
+                <Reveal key={key} delay={i * 0.05}>
+                  <div className="aspect-square rounded-xl overflow-hidden shadow-card hover-lift cursor-pointer">
+                    <img
+                      src={photo?.url || `/images/Travaux-Ferme-1024x768.jpg`}
+                      alt={photo?.alt || `La vie à la ferme — image ${i + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                </Reveal>
+              )
+            })}
           </div>
           <div className="text-center mt-12">
             <Reveal delay={0.1}>
@@ -164,11 +164,20 @@ const Home = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={testimonial.id} {...testimonial} index={index} />
+              <TestimonialCard
+                key={testimonial.id}
+                name={testimonial.name}
+                role={testimonial.role}
+                quote={testimonial.quote}
+                image={photos[`temoin-${index + 1}`]?.url || `/images/${testimonial.image}`}
+                index={index}
+              />
             ))}
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
     </div>
   )
 }

@@ -5,6 +5,7 @@ interface TestimonialCardProps {
   name: string
   role: string
   quote: string
+  /** URL complète de la photo */
   image: string
   index: number
 }
@@ -32,7 +33,7 @@ const TestimonialCard = ({ name, role, quote, image, index }: TestimonialCardPro
         transition={{ duration: 0.2, ease: easeOut }}
       >
         <img
-          src={`/images/${image}`}
+          src={image}
           alt={name}
           className="w-full h-full object-cover"
           onError={(e) => {

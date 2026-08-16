@@ -82,6 +82,26 @@ npm run build
 vercel --prod
 ```
 
+## 🖼️ Administration des photos
+
+Une zone d'administration est disponible sur `/admin` (lien discret dans le pied de page).
+L'admin peut **ajouter, modifier, remplacer et supprimer** les photos de chaque section du site,
+ainsi que **gérer les prix et tarifs** (hébergement, circuits découverte, programmes de soutien) —
+les tarifs ne sont plus codés en dur dans le site : ils sont lus depuis la table `prices`.
+Les données sont stockées dans **Supabase** (Postgres + Storage + Auth).
+
+### Mise en place (une seule fois)
+
+1. Créez un projet sur [supabase.com](https://supabase.com) (ou utilisez le vôtre).
+2. Dans **SQL Editor**, exécutez le contenu de `supabase/setup.sql` (tables, sécurité, stockage, seed des photos actuelles).
+3. Créez le compte admin : **Authentication → Users → Add user** (email + mot de passe).
+4. Copiez `.env.example` vers `.env.local` et renseignez `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`
+   (Dashboard → Settings → API).
+5. Redémarrez `npm run dev` — le site lit alors les photos depuis Supabase.
+6. En production (Vercel), ajoutez ces deux variables dans les réglages du projet.
+
+> Sans Supabase configuré, le site continue de fonctionner avec les photos locales par défaut.
+
 ## 📞 Support
 
 Pour toute question ou collaboration :

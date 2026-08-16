@@ -14,6 +14,7 @@ import {
 
 interface ProductCardProps {
   name: string
+  /** URL complète de la photo (vide = icône) */
   image?: string
   category: string
   index: number
@@ -52,7 +53,7 @@ const ProductCard = ({ name, image, category, index }: ProductCardProps) => {
       <div className="h-32 bg-earth-50 overflow-hidden flex items-center justify-center">
         {image ? (
           <img
-            src={`/images/${image}`}
+            src={image}
             alt={name}
             className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
             loading="lazy"

@@ -1,52 +1,22 @@
 import { motion } from 'framer-motion'
-import { GraduationCap, Droplet, HandHeart, Construction, BookOpen } from 'lucide-react'
+import { GraduationCap, Droplet, HandHeart, Construction, BookOpen, Loader2 } from 'lucide-react'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import { useSectionPrices } from '../hooks/useSectionPrices'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Button } from '../components/ui/Button'
 import { CTASection } from '../components/ui/CTASection'
 
 const Support = () => {
-  const supportPrograms = [
-    {
-      title: 'Parrainage Mensuel',
-      description: ' soutenir un jeune dans sa formation agricole',
-      price: '€3/jour (€90/mois)',
-      icon: GraduationCap,
-      color: 'from-sun-500 to-sun-700',
-      details: [
-        'Couvre les besoins en fournitures et en alimentation',
-        'Permet l\'accès à la formation professionnelle',
-        'Suivi personnalisé tout au long de la formation',
-        'Partenaire avec des projets durables',
-      ],
-    },
-    {
-      title: 'Amélioration des Infrastructures',
-      description: 'financer des aménagements agricoles et pédagogiques',
-      price: 'Sur mesure',
-      icon: Construction,
-      color: 'from-leaf-500 to-leaf-700',
-      details: [
-        'Systèmes d\'irrigation durable',
-        'Bassins de pisciculture',
-        'Unités de transformation agroalimentaire',
-        'Espaces pédagogiques améliorés',
-      ],
-    },
-    {
-      title: 'Bourses pour Jeunes',
-      description: 'financer l\'éducation des enfants défavorisés',
-      price: '€10-25/mois',
-      icon: BookOpen,
-      color: 'from-earth-500 to-earth-700',
-      details: [
-        'Fournitures scolaires',
-        'Frais d\'inscription',
-        'Repas et hébergement',
-        'Suivi éducatif personnalisé',
-      ],
-    },
-  ]
+  const { photos, freePhotos } = useSectionPhotos('nous-soutenir')
+  // Programmes chargés depuis Supabase (gérés dans l'admin — plus rien en dur dans le code)
+  const { prices, loading } = useSectionPrices('nous-soutenir')
+  const supportPrograms = [...prices].sort((a, b) => a.position - b.position)
+
+  // Icônes et couleurs attribuées aux programmes selon leur ordre d'affichage
+  const programIcons = [GraduationCap, Construction, BookOpen]
+  const programColors = ['from-sun-500 to-sun-700', 'from-leaf-500 to-leaf-700', 'from-earth-500 to-earth-700']
 
   const specificProjects = [
     {
@@ -72,7 +42,7 @@ const Support = () => {
   return (
     <>
       <PageHero
-        image="/images/Ecole-Sain-Arrosage-1-1024x867.jpg"
+        image={photos['hero']?.url || '/images/Ecole-Sain-Arrosage-1-1024x867.jpg'}
         eyebrow="Faire un don"
         title="Nous Soutenir"
         subtitle="Ensemble, construisons un avenir durable pour les jeunes et la communauté"
@@ -92,37 +62,49 @@ const Support = () => {
             className="mb-16"
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {supportPrograms.map((program, i) => (
-              <motion.div
-                key={i}
-                className="bg-white rounded-card shadow-card overflow-hidden group"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.2, duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <div
-                  className={`h-24 bg-gradient-to-br ${program.color} flex items-center justify-center`}
+          {loading ? (
+            <div className="flex items-center justify-center py-16 text-ink-soft">
+              <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
+              Chargement des programmes…
+            </div>
+          ) : supportPrograms.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {supportPrograms.map((program, i) => (
+                <motion.div
+                  key={program.id ?? i}
+                  className="bg-white rounded-card shadow-card overflow-hidden group"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.2, duration: 0.6 }}
+                  viewport={{ once: true }}
                 >
-                  <program.icon className="w-10 h-10 text-white" aria-hidden="true" />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-ink mb-2">{program.title}</h3>
-                  <p className="text-sm text-ink-soft mb-3">{program.description}</p>
-                  <p className="text-lg font-bold text-leaf-600 mb-4">{program.price}</p>
-                  <ul className="space-y-2 text-sm text-ink-soft">
-                    {program.details.map((detail, j) => (
-                      <li key={j} className="flex items-start">
-                        <span>•</span>
-                        <span className="ml-2">{detail}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <div
+                    className={`h-24 bg-gradient-to-br ${programColors[i % programColors.length]} flex items-center justify-center`}
+                  >
+                    {(() => {
+                      const Icon = programIcons[i % programIcons.length]
+                      return <Icon className="w-10 h-10 text-white" aria-hidden="true" />
+                    })()}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-ink mb-2">{program.title}</h3>
+                    <p className="text-sm text-ink-soft mb-3">{program.description}</p>
+                    <p className="text-lg font-bold text-leaf-600 mb-4">{program.price}</p>
+                    <ul className="space-y-2 text-sm text-ink-soft">
+                      {program.details.split('\n').filter(Boolean).map((detail, j) => (
+                        <li key={j} className="flex items-start">
+                          <span>•</span>
+                          <span className="ml-2">{detail}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-ink-soft">Aucun programme pour le moment.</p>
+          )}
         </div>
       </section>
 
@@ -210,30 +192,30 @@ const Support = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <img
-                src="/images/Etudiant-4-1024x683.jpg"
-                alt="Étudiant"
-                className="w-full h-48 object-cover rounded-xl shadow-card"
-              />
-              <img
-                src="/images/Formation-Apiculture-1024x768.jpg"
-                alt="Formation"
-                className="w-full h-48 object-cover rounded-xl shadow-card"
-              />
-              <img
-                src="/images/Ecole-Sain-Arrosage-1-1024x867.jpg"
-                alt="Arrosage"
-                className="w-full h-48 object-cover rounded-xl shadow-card"
-              />
-              <img
-                src="/images/Etudiants-2-150x150.jpg"
-                alt="Étudiants"
-                className="w-full h-48 object-cover rounded-xl shadow-card"
-              />
+              {['photo-1', 'photo-2', 'photo-3', 'photo-4'].map((key, i) => {
+                const photo = photos[key]
+                const fallbacks = [
+                  '/images/Etudiant-4-1024x683.jpg',
+                  '/images/Formation-Apiculture-1024x768.jpg',
+                  '/images/Ecole-Sain-Arrosage-1-1024x867.jpg',
+                  '/images/Etudiants-2-150x150.jpg',
+                ]
+                const alts = ['Étudiant', 'Formation', 'Arrosage', 'Étudiants']
+                return (
+                  <img
+                    key={key}
+                    src={photo?.url || fallbacks[i]}
+                    alt={photo?.alt || alts[i]}
+                    className="w-full h-48 object-cover rounded-xl shadow-card"
+                  />
+                )
+              })}
             </motion.div>
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Soutenez notre mission"

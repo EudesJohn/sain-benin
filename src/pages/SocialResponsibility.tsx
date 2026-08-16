@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion'
 import { School, GraduationCap, Sprout } from 'lucide-react'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const SocialResponsibility = () => {
+  const { photos, freePhotos } = useSectionPhotos('responsabilite-sociale')
   const initiatives = [
     {
       icon: School,
@@ -43,7 +46,7 @@ const SocialResponsibility = () => {
   return (
     <>
       <PageHero
-        image="/images/Engagement-Social-Sain-1024x768.jpg"
+        image={photos['hero']?.url || '/images/Engagement-Social-Sain-1024x768.jpg'}
         eyebrow="Responsabilité sociale"
         title="Notre Responsabilité Sociale"
         subtitle="Engagés pour le développement durable et l'intégration des jeunes — « Améliorer les conditions de vie locales à travers l'agriculture »."
@@ -137,6 +140,8 @@ const SocialResponsibility = () => {
           </motion.div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Soutenez nos actions sociales"

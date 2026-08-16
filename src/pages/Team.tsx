@@ -1,15 +1,18 @@
 import { motion } from 'framer-motion'
 import { teamData } from '../data/sainData'
 import TeamMember from '../components/TeamMember'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const Team = () => {
+  const { photos, freePhotos } = useSectionPhotos('equipe-sain')
   return (
     <>
       <PageHero
-        image="/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg"
+        image={photos['hero']?.url || '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg'}
         eyebrow="Notre équipe"
         title="Notre Équipe"
         subtitle="Rencontrez les personnes passionnées qui font vivre le projet SAIN"
@@ -27,7 +30,14 @@ const Team = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {teamData.map((member, index) => (
-              <TeamMember key={member.id} {...member} />
+              <TeamMember
+                key={member.id}
+                name={member.name}
+                role={member.role}
+                description={member.description}
+                image={photos[`membre-${index + 1}`]?.url || `/images/${member.image}`}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -45,6 +55,8 @@ const Team = () => {
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Une équipe à votre écoute"

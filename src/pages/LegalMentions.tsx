@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion'
 import { sainData } from '../data/sainData'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 
 const LegalMentions = () => {
+  const { photos, freePhotos } = useSectionPhotos('mentions-legales')
   return (
     <>
       <PageHero
-        image="/images/Recherche-Sain-1024x767.jpg"
+        image={photos['hero']?.url || '/images/Recherche-Sain-1024x767.jpg'}
         eyebrow="Informations légales"
         title="Mentions Légales"
         subtitle={sainData.siteName}
@@ -51,18 +54,9 @@ const LegalMentions = () => {
               </div>
             </div>
 
-            {/* Development */}
-            <div>
-              <h2 className="text-2xl font-display font-bold text-ink mb-4">4. Création du Site</h2>
-              <div className="text-ink-soft">
-                <p>Bawete – Orée d'Anjou – France</p>
-                <p>Site web: <a href="https://bawete.fr" className="text-sun-600">www.bawete.fr</a></p>
-              </div>
-            </div>
-
             {/* Cookies */}
             <div>
-              <h2 className="text-2xl font-display font-bold text-ink mb-4">5. Cookies</h2>
+              <h2 className="text-2xl font-display font-bold text-ink mb-4">4. Cookies</h2>
               <p className="text-ink-soft">
                 Ce site utilise des cookies pour des raisons statistiques et d'affichage.
                 En poursuivant votre navigation sur ce site, vous en acceptez l'utilisation.
@@ -72,7 +66,7 @@ const LegalMentions = () => {
 
             {/* External Links */}
             <div>
-              <h2 className="text-2xl font-display font-bold text-ink mb-4">6. Liens Hypertextes</h2>
+              <h2 className="text-2xl font-display font-bold text-ink mb-4">5. Liens Hypertextes</h2>
               <p className="text-ink-soft">
                 Le présent site peut contenir des liens hypertextes vers d'autres sites
                 internet. SAIN ne peut être tenu responsable du contenu de ces sites
@@ -83,7 +77,7 @@ const LegalMentions = () => {
 
             {/* Data Protection */}
             <div>
-              <h2 className="text-2xl font-display font-bold text-ink mb-4">7. Données Personnelles</h2>
+              <h2 className="text-2xl font-display font-bold text-ink mb-4">6. Données Personnelles</h2>
               <p className="text-ink-soft mb-4">
                 Conformément à la loi "Informatique et Libertés" (Loi 78-17), vous disposez
                 d'un droit d'accès, de rectification et d'opposition sur les données personnelles
@@ -99,12 +93,14 @@ const LegalMentions = () => {
             {/* Legal disclaimer */}
             <div className="pt-8 border-t border-earth-200">
               <p className="text-sm text-ink-faint">
-                Création Bawete © Juin 2022 - Dernière mise à jour : {new Date().getFullYear()}
+                Dernière mise à jour : {new Date().getFullYear()}
               </p>
             </div>
           </motion.div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
     </>
   )
 }

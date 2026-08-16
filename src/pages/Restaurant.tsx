@@ -1,4 +1,6 @@
 import { Leaf, Clock, MapPin } from 'lucide-react'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Reveal } from '../components/ui/Reveal'
@@ -6,6 +8,7 @@ import { IconTile } from '../components/ui/IconTile'
 import { CTASection } from '../components/ui/CTASection'
 
 const Restaurant = () => {
+  const { photos, freePhotos } = useSectionPhotos('restaurant')
   const menuCategories = [
     {
       name: 'Entrées',
@@ -28,7 +31,7 @@ const Restaurant = () => {
   return (
     <>
       <PageHero
-        image="/images/Restaurant-Sain-724x1024.png"
+        image={photos['hero']?.url || '/images/Restaurant-Sain-724x1024.png'}
         eyebrow="Restaurant"
         title="Restaurant SAIN"
         subtitle="Du champ à l'assiette - Découvrez la cuisine bio de notre ferme"
@@ -60,15 +63,15 @@ const Restaurant = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="group aspect-square rounded-card overflow-hidden shadow-card cursor-pointer">
                   <img
-                    src="/images/Restaurant-Sain-724x1024.png"
-                    alt="Restaurant SAIN"
+                    src={photos['photo-1']?.url || '/images/Restaurant-Sain-724x1024.png'}
+                    alt={photos['photo-1']?.alt || 'Restaurant SAIN'}
                     className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   />
                 </div>
                 <div className="group aspect-[4/6] rounded-card overflow-hidden shadow-card cursor-pointer">
                   <img
-                    src="/images/Fruits-Sain-1024x717.jpg"
-                    alt="Menu SAIN"
+                    src={photos['photo-2']?.url || '/images/Fruits-Sain-1024x717.jpg'}
+                    alt={photos['photo-2']?.alt || 'Menu SAIN'}
                     className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   />
                 </div>
@@ -147,6 +150,8 @@ const Restaurant = () => {
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Réservez Votre Repas"

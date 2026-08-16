@@ -28,3 +28,6 @@ dist-ssr
 
 .vercel
 .env*
+
+# Captures de test générées par les scripts
+scripts/shots_*.png

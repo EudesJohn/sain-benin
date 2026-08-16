@@ -2,6 +2,8 @@ import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { SiFacebook, SiYoutube, SiInstagram, SiWhatsapp } from '@icons-pack/react-simple-icons'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Button } from '../components/ui/Button'
@@ -11,6 +13,7 @@ const WHATSAPP_NUMBER = '22962444744' // +229 62 44 47 44 (sans le +)
 const CONTACT_EMAIL = 'sainbenin@yahoo.fr'
 
 const Contact = () => {
+  const { photos, freePhotos } = useSectionPhotos('contact')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,7 +62,7 @@ const Contact = () => {
   return (
     <>
       <PageHero
-        image="/images/Etudiant-4-1024x683.jpg"
+        image={photos['hero']?.url || '/images/Etudiant-4-1024x683.jpg'}
         eyebrow="Contact"
         title="Contactez-nous"
         subtitle="Nous sommes à votre écoute pour toute question ou collaboration"
@@ -204,8 +207,7 @@ const Contact = () => {
                 <p className="text-sm text-ink-soft">
                   Société S.A.R.L (immatriculée au RCCM: RB/PNO/21 3196)<br />
                   Directeur de Publication: Pascal Gbenou<br />
-                  Hébergeur: STARTLOGIC'S, Jacksonville, FL, USA<br />
-                  Site créé par <a href="https://bawete.fr" target="_blank" rel="noopener noreferrer" className="text-sun-600">Bawete</a> © Juin 2022
+                  Hébergeur: STARTLOGIC'S, Jacksonville, FL, USA
                 </p>
               </motion.div>
             </motion.div>
@@ -389,6 +391,8 @@ const Contact = () => {
           </motion.div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
     </>
   )
 }

@@ -1,4 +1,6 @@
 import { GraduationCap, BookOpen, PawPrint, Salad, Star, Droplet } from 'lucide-react'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Reveal } from '../components/ui/Reveal'
@@ -7,6 +9,7 @@ import { IconTile } from '../components/ui/IconTile'
 import { CTASection } from '../components/ui/CTASection'
 
 const Formations = () => {
+  const { photos, freePhotos } = useSectionPhotos('formations')
   const formationsLongues = [
     {
       title: 'Formation Professionnelle Complète (18 mois)',
@@ -62,7 +65,7 @@ const Formations = () => {
   return (
     <>
       <PageHero
-        image="/images/Formation-Apiculture-ppttd5u5ckwjd1zlrd6anyyhcbtdn27r04x4niza9w.jpg"
+        image={photos['hero']?.url || '/images/Formation-Apiculture-ppttd5u5ckwjd1zlrd6anyyhcbtdn27r04x4niza9w.jpg'}
         eyebrow="Ferme-école SAIN"
         title="Formations"
         subtitle="Une approche pédagogique innovante: apprendre par l'action"
@@ -181,8 +184,8 @@ const Formations = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                   <Reveal delay={0.05} className="aspect-square lg:aspect-auto">
                     <img
-                      src="/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg"
-                      alt="Retraite"
+                      src={photos['etudiant']?.url || '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg'}
+                      alt={photos['etudiant']?.alt || 'Retraite'}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.src = '/images/Jardin-Sain-1024x768.jpg'
@@ -211,6 +214,8 @@ const Formations = () => {
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Prêt à rejoindre nos formations ?"

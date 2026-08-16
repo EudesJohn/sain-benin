@@ -53,7 +53,10 @@ graph TD
 sain-modern/
 ├── public/
 │   ├── images/              # 101 images téléchargées depuis WordPress
-│   ├── favicon.svg
+│   ├── favicon-32x32.png    # Favicon (logo SAIN)
+│   ├── favicon-192x192.png
+│   ├── favicon-512x512.png
+│   ├── apple-touch-icon.png
 │   └── site.webmanifest     # PWA manifest
 ├── src/
 │   ├── assets/              # Logo SAIN (PNG)

@@ -1,14 +1,37 @@
 import { motion } from 'framer-motion'
 import { Salad, PawPrint, Fish, Sprout, FlaskConical, BookOpen } from 'lucide-react'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const Activities = () => {
+  const { photos, freePhotos } = useSectionPhotos('activites-sain')
+  const poles = [
+    {
+      title: 'Production Végétale',
+      description: 'Cultures maraîchères, arrosage, engrais organiques et pesticides biologiques',
+      icon: Salad,
+      image: photos['pole-1']?.url || '/images/Fruits-Sain-1024x717.jpg',
+    },
+    {
+      title: 'Production Animale',
+      description: 'Élevage des lapins, poule, pigeonneaux, canards et cailles',
+      icon: PawPrint,
+      image: photos['pole-2']?.url || '/images/Elevage-lapin-Sain-1024x806.jpg',
+    },
+    {
+      title: 'Aquaculture',
+      description: 'Élevage de poissons dans des bassins spécialement aménagés',
+      icon: Fish,
+      image: photos['pole-3']?.url || '/images/Riz-Sain-1024x743.jpg',
+    },
+  ]
   return (
     <>
       <PageHero
-        image="/images/Travaux-Ferme-1024x768.jpg"
+        image={photos['hero']?.url || '/images/Travaux-Ferme-1024x768.jpg'}
         eyebrow="Nos activités"
         title="Nos Activités"
         subtitle="Une ferme intégrée alliant production agricole, éducation, recherche et tourisme"
@@ -25,26 +48,7 @@ const Activities = () => {
             />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Production Végétale',
-                description: 'Cultures maraîchères, arrosage, engrais organiques et pesticides biologiques',
-                icon: Salad,
-                image: '/images/Fruits-Sain-1024x717.jpg',
-              },
-              {
-                title: 'Production Animale',
-                description: 'Élevage des lapins, poule, pigeonneaux, canards et cailles',
-                icon: PawPrint,
-                image: '/images/Elevage-lapin-Sain-1024x806.jpg',
-              },
-              {
-                title: 'Aquaculture',
-                description: 'Élevage de poissons dans des bassins spécialement aménagés',
-                icon: Fish,
-                image: '/images/Riz-Sain-1024x743.jpg',
-              },
-            ].map((section, i) => (
+            {poles.map((pole, i) => (
               <motion.div
                 key={i}
                 className="bg-white rounded-2xl shadow-card overflow-hidden group"
@@ -55,17 +59,17 @@ const Activities = () => {
               >
                 <div className="h-48 overflow-hidden">
                   <img
-                    src={section.image}
-                    alt={section.title}
+                    src={pole.image}
+                    alt={pole.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
                 <div className="p-6">
                   <div className="w-14 h-14 mb-3 rounded-2xl bg-sun-600/10 flex items-center justify-center">
-                    <section.icon className="w-7 h-7 text-sun-700" aria-hidden="true" />
+                    <pole.icon className="w-7 h-7 text-sun-700" aria-hidden="true" />
                   </div>
-                  <h3 className="text-xl font-bold text-ink mb-2">{section.title}</h3>
-                  <p className="text-ink-soft">{section.description}</p>
+                  <h3 className="text-xl font-bold text-ink mb-2">{pole.title}</h3>
+                  <p className="text-ink-soft">{pole.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -203,8 +207,8 @@ const Activities = () => {
             viewport={{ once: true }}
           >
             <img
-              src="/images/Fruits-Sain-1024x717.jpg"
-              alt="Agritourisme"
+              src={photos['agritourisme']?.url || '/images/Fruits-Sain-1024x717.jpg'}
+              alt={photos['agritourisme']?.alt || 'Agritourisme'}
               className="w-full h-64 object-cover"
             />
             <div className="p-8">
@@ -218,6 +222,8 @@ const Activities = () => {
           </motion.div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Venez vivre la ferme autrement"

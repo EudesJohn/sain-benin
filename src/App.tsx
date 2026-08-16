@@ -16,17 +16,35 @@ import Support from './pages/Support'
 import Gallery from './pages/Gallery'
 import Contact from './pages/Contact'
 import LegalMentions from './pages/LegalMentions'
+import Admin from './pages/admin/Admin'
 import BackToTop from './components/BackToTop'
+import { preloadHeroPhotos } from './lib/preload'
 
 function App() {
   const location = useLocation()
+  const isAdmin = location.pathname.startsWith('/admin')
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  // Précharge en arrière-plan les bannières de toutes les pages (photos « phare »)
+  useEffect(() => {
+    if (!isAdmin) preloadHeroPhotos()
+  }, [isAdmin])
+
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/admin/*" element={<Admin />} />
+      </Routes>
+    )
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
+    // overflow-x-hidden : évite le défilement horizontal causé par les animations
+    // d'entrée (framer-motion translateX) tant que les sections ne sont pas visibles.
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       <main className="flex-grow">
         <Routes>

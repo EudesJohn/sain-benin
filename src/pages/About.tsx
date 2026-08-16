@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { sainData } from '../data/sainData'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Reveal } from '../components/ui/Reveal'
@@ -18,10 +20,11 @@ import {
 } from 'lucide-react'
 
 const About = () => {
+  const { photos, freePhotos } = useSectionPhotos('projet-global')
   return (
     <>
       <PageHero
-        image="/images/A-PROPOS-SAIN-1024x715.jpg"
+        image={photos['hero']?.url || '/images/A-PROPOS-SAIN-1024x715.jpg'}
         eyebrow="Le projet global"
         title="À Propos de SAIN"
         subtitle={sainData.philosophy}
@@ -214,6 +217,8 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
         title="Envie de nous rencontrer ?"

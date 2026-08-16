@@ -1,16 +1,19 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, MapPin, Phone } from 'lucide-react'
 import { Button } from './ui/Button'
+import { useSectionPhotos } from '../hooks/useSectionPhotos'
 
 const easeOut = [0.23, 1, 0.32, 1] as const
 
 const HeroSection = () => {
+  const { photos } = useSectionPhotos('accueil')
+  const hero = photos['hero']
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Fond photo + voiles */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url('/images/Riz-Sain-1024x743.jpg')` }}
+        style={{ backgroundImage: `url('${hero?.url || '/images/Riz-Sain-1024x743.jpg'}')` }}
         aria-hidden="true"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/50 to-ink/75" aria-hidden="true" />

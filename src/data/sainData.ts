@@ -165,64 +165,6 @@ export const products = {
   },
 }
 
-// Tournures
-export const tourisms = [
-  {
-    id: 1,
-    title: 'Découverte du marché local',
-    subtitle: 'Marché d\'Akpadanou',
-    description: 'Immersive local market experience with guided tours and tasting of local specialties.',
-    price: '10 000 FCFA jusqu\'à 5 pers, +1 000 FCFA/personne',
-    duration: '1-3 heures (jours de marché)',
-    image: '',
-  },
-  {
-    id: 2,
-    title: 'Découverte du village',
-    subtitle: 'Kakanitchoé',
-    description: 'Cultural immersion experiencing daily village life including oil preparation, gari making, and traditional distillation.',
-    price: '10 000 FCFA jusqu\'à 5 pers, +1 000 FCFA/personne',
-    duration: '1-3 heures (matin ou après-midi)',
-    image: '',
-  },
-  {
-    id: 3,
-    title: 'Circuit Nature',
-    subtitle: 'Faune et flore',
-    description: 'Educational nature center offering school groups and families programs about local flora/fauna.',
-    price: '20 000 FCFA jusqu\'à 5 pers, +2 000 FCFA/personne',
-    duration: '1-3 heures',
-    image: '',
-  },
-  {
-    id: 4,
-    title: 'Randonnée',
-    subtitle: 'Champs et marécage',
-    description: 'Agricultural field exploration showing seasonal crops and farmer interactions, plus marshland visit.',
-    price: '10 000 FCFA jusqu\'à 5 pers, +1 000 FCFA/personne',
-    duration: '1-3 heures (matin ou après-midi)',
-    image: '',
-  },
-  {
-    id: 5,
-    title: 'Tour en pirogue',
-    subtitle: 'Fleuve Ouémé',
-    description: 'Traditional canoe tour along Ouémé River visiting KPINKON protected forest island.',
-    price: '10 000 FCFA jusqu\'à 4 pers, 12 500 FCFA jusqu\'à 5 pers, +1 000 FCFA/personne',
-    duration: '1-3 heures (matin ou après-midi)',
-    image: '',
-  },
-  {
-    id: 6,
-    title: 'Visite de la ferme',
-    subtitle: 'Activités agroécoliques',
-    description: 'Guided farm visit showcasing agroecological practices including mushroom production, honey, fish, rabbits, and quails.',
-    price: '5 000 FCFA jusqu\'à 4 pers, +1 000 FCFA/personne',
-    duration: '1-2 heures',
-    image: '',
-  },
-]
-
 // Témoignages
 export const testimonials = [
   {
