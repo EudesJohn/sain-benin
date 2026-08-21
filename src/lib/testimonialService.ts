@@ -1,5 +1,6 @@
 import { supabase, PHOTOS_BUCKET } from './supabase'
 import { storagePathFromUrl } from './photoService'
+import { logError } from './logger'
 
 export interface Testimonial {
   id?: string
@@ -22,7 +23,7 @@ export async function fetchTestimonials(): Promise<Testimonial[]> {
     .select(COLUMNS)
     .order('position', { ascending: true })
   if (error) {
-    console.error('Erreur fetchTestimonials:', error.message)
+    logError('Erreur fetchTestimonials:', error.message)
     return []
   }
   return (data ?? []).map((row) => ({
@@ -57,7 +58,7 @@ export async function upsertTestimonial(testimonial: Testimonial): Promise<boole
       .update(payload)
       .eq('id', testimonial.id)
     if (error) {
-      console.error('Erreur upsertTestimonial (update):', error.message)
+      logError('Erreur upsertTestimonial (update):', error.message)
       return false
     }
     return true
@@ -65,7 +66,7 @@ export async function upsertTestimonial(testimonial: Testimonial): Promise<boole
 
   const { error } = await supabase.from('testimonials').insert(payload)
   if (error) {
-    console.error('Erreur upsertTestimonial (insert):', error.message)
+    logError('Erreur upsertTestimonial (insert):', error.message)
     return false
   }
   return true
@@ -83,7 +84,7 @@ export async function deleteTestimonial(id: string): Promise<boolean> {
   // Supprimer la ligne en base
   const { error } = await supabase.from('testimonials').delete().eq('id', id)
   if (error) {
-    console.error('Erreur deleteTestimonial:', error.message)
+    logError('Erreur deleteTestimonial:', error.message)
     return false
   }
   // Nettoyer l'image du stockage
@@ -135,22 +136,22 @@ export async function uploadTestimonialImage(file: File): Promise<string | null>
   if (!supabase) return null
   // Validation du type
   if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-    console.error('Type de fichier non supporté:', file.type)
+    logError('Type de fichier non supporté:', file.type)
     return null
   }
   // Validation de la taille
   if (file.size > MAX_UPLOAD_SIZE) {
-    console.error('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
+    logError('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
     return null
   }
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
-  const path = `testimonials/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const path = `testimonials/${crypto.randomUUID()}.${ext}`
   const { error } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file, {
     cacheControl: '31536000',
     upsert: false,
   })
   if (error) {
-    console.error('Erreur uploadTestimonialImage:', error.message)
+    logError('Erreur uploadTestimonialImage:', error.message)
     return null
   }
   return supabase.storage.from(PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl

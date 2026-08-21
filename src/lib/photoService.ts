@@ -1,4 +1,5 @@
 import { supabase, PHOTOS_BUCKET } from './supabase'
+import { logError } from './logger'
 
 export interface Photo {
   id?: string
@@ -47,7 +48,7 @@ export async function fetchSectionPhotos(sectionSlug: string): Promise<Photo[]> 
     .eq('section_id', sectionId)
     .order('position', { ascending: true })
   if (error) {
-    console.error('Erreur fetchSectionPhotos:', error.message)
+    logError('Erreur fetchSectionPhotos:', error.message)
     return []
   }
   return (data ?? []).map(toPhoto)
@@ -62,7 +63,7 @@ export async function getSectionId(sectionSlug: string): Promise<string | null> 
     .eq('slug', sectionSlug)
     .maybeSingle()
   if (error || !data) {
-    console.error('Erreur getSectionId:', error?.message)
+    logError('Erreur getSectionId:', error?.message)
     return null
   }
   return data.id
@@ -87,7 +88,7 @@ export async function upsertPhoto(sectionSlug: string, photo: Photo): Promise<bo
 
   if (photo.id) {
     const { error } = await supabase.from('photos').update(payload).eq('id', photo.id)
-    if (error) console.error('Erreur upsertPhoto (update):', error.message)
+    if (error) logError('Erreur upsertPhoto (update):', error.message)
     return !error
   }
 
@@ -101,13 +102,13 @@ export async function upsertPhoto(sectionSlug: string, photo: Photo): Promise<bo
       .maybeSingle()
     if (existing) {
       const { error } = await supabase.from('photos').update(payload).eq('id', existing.id)
-      if (error) console.error('Erreur upsertPhoto (update par key):', error.message)
+      if (error) logError('Erreur upsertPhoto (update par key):', error.message)
       return !error
     }
   }
 
   const { error } = await supabase.from('photos').insert(payload)
-  if (error) console.error('Erreur upsertPhoto (insert):', error.message)
+  if (error) logError('Erreur upsertPhoto (insert):', error.message)
   return !error
 }
 
@@ -117,7 +118,7 @@ export async function deletePhoto(photo: Photo): Promise<boolean> {
   if (photo.id) {
     const { error } = await supabase.from('photos').delete().eq('id', photo.id)
     if (error) {
-      console.error('Erreur deletePhoto:', error.message)
+      logError('Erreur deletePhoto:', error.message)
       return false
     }
   }
@@ -167,23 +168,23 @@ export async function uploadImage(file: File, sectionSlug: string): Promise<stri
   if (!supabase) return null
   // Validation du type
   if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-    console.error('Type de fichier non supporté:', file.type)
+    logError('Type de fichier non supporté:', file.type)
     return null
   }
   // Validation de la taille
   if (file.size > MAX_UPLOAD_SIZE) {
-    console.error('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
+    logError('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
     return null
   }
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
-  const path = `${sectionSlug}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const path = `${sectionSlug}/${crypto.randomUUID()}.${ext}`
   const { error } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file, {
     // Les noms de fichiers sont uniques (timestamp) : cache long sans risque
     cacheControl: '31536000',
     upsert: false,
   })
   if (error) {
-    console.error('Erreur uploadImage:', error.message)
+    logError('Erreur uploadImage:', error.message)
     return null
   }
   return supabase.storage.from(PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl

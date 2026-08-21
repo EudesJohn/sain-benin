@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { useTranslation } from 'react-i18next'
+import { logError } from './logger'
 
 export interface Price {
   id?: string
@@ -92,7 +93,7 @@ export async function fetchSectionPrices(sectionSlug: string): Promise<Price[]> 
     .eq('section_id', section.id)
     .order('position', { ascending: true })
   if (error) {
-    console.error('Erreur fetchSectionPrices:', error.message)
+    logError('Erreur fetchSectionPrices:', error.message)
     return []
   }
   return (data ?? []).map(toPrice)
@@ -128,12 +129,12 @@ export async function upsertPrice(sectionSlug: string, price: Price): Promise<bo
 
   if (price.id) {
     const { error } = await supabase.from('prices').update(payload).eq('id', price.id)
-    if (error) console.error('Erreur upsertPrice (update):', error.message)
+    if (error) logError('Erreur upsertPrice (update):', error.message)
     return !error
   }
 
   const { error } = await supabase.from('prices').insert(payload)
-  if (error) console.error('Erreur upsertPrice (insert):', error.message)
+  if (error) logError('Erreur upsertPrice (insert):', error.message)
   return !error
 }
 
@@ -141,7 +142,7 @@ export async function upsertPrice(sectionSlug: string, price: Price): Promise<bo
 export async function deletePrice(id: string): Promise<boolean> {
   if (!supabase) return false
   const { error } = await supabase.from('prices').delete().eq('id', id)
-  if (error) console.error('Erreur deletePrice:', error.message)
+  if (error) logError('Erreur deletePrice:', error.message)
   return !error
 }
 
@@ -157,7 +158,7 @@ export async function reorderPrices(orderedPrices: Price[]): Promise<boolean> {
       .update({ position: i })
       .eq('id', price.id)
     if (error) {
-      console.error('Erreur reorderPrices:', error.message)
+      logError('Erreur reorderPrices:', error.message)
       ok = false
     }
   }

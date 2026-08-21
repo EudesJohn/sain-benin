@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { getSectionId } from './photoService'
+import { logError } from './logger'
 
 export interface Video {
   id?: string
@@ -49,7 +50,7 @@ export async function fetchSectionVideos(sectionSlug: string): Promise<Video[]> 
     .eq('section_id', sectionId)
     .order('position', { ascending: true })
   if (error) {
-    console.error('Erreur fetchSectionVideos:', error.message)
+    logError('Erreur fetchSectionVideos:', error.message)
     return []
   }
   return (data ?? []).map(toVideo)
@@ -70,12 +71,12 @@ export async function upsertVideo(sectionSlug: string, video: Video): Promise<bo
 
   if (video.id) {
     const { error } = await supabase.from('videos').update(payload).eq('id', video.id)
-    if (error) console.error('Erreur upsertVideo (update):', error.message)
+    if (error) logError('Erreur upsertVideo (update):', error.message)
     return !error
   }
 
   const { error } = await supabase.from('videos').insert(payload)
-  if (error) console.error('Erreur upsertVideo (insert):', error.message)
+  if (error) logError('Erreur upsertVideo (insert):', error.message)
   return !error
 }
 
@@ -83,7 +84,7 @@ export async function upsertVideo(sectionSlug: string, video: Video): Promise<bo
 export async function deleteVideo(id?: string): Promise<boolean> {
   if (!supabase || !id) return false
   const { error } = await supabase.from('videos').delete().eq('id', id)
-  if (error) console.error('Erreur deleteVideo:', error.message)
+  if (error) logError('Erreur deleteVideo:', error.message)
   return !error
 }
 
@@ -99,7 +100,7 @@ export async function reorderVideos(orderedVideos: Video[]): Promise<boolean> {
       .update({ position: i })
       .eq('id', video.id)
     if (error) {
-      console.error('Erreur reorderVideos:', error.message)
+      logError('Erreur reorderVideos:', error.message)
       ok = false
     }
   }

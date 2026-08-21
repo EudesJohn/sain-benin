@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import { getSectionId } from './photoService'
+import { logError } from './logger'
 
 export interface MenuItem {
   id?: string
@@ -74,7 +75,7 @@ export async function fetchSectionMenus(sectionSlug: string): Promise<MenuCatego
     .eq('section_id', sectionId)
     .order('position', { ascending: true })
   if (catError) {
-    console.error('Erreur fetchSectionMenus (catégories):', catError.message)
+    logError('Erreur fetchSectionMenus (catégories):', catError.message)
     return []
   }
 
@@ -83,7 +84,7 @@ export async function fetchSectionMenus(sectionSlug: string): Promise<MenuCatego
     .select(ITEM_COLUMNS)
     .order('position', { ascending: true })
   if (itemError) {
-    console.error('Erreur fetchSectionMenus (plats):', itemError.message)
+    logError('Erreur fetchSectionMenus (plats):', itemError.message)
     return []
   }
 
@@ -113,12 +114,12 @@ export async function upsertMenuCategory(
 
   if (category.id) {
     const { error } = await supabase.from('menu_categories').update(payload).eq('id', category.id)
-    if (error) console.error('Erreur upsertMenuCategory (update):', error.message)
+    if (error) logError('Erreur upsertMenuCategory (update):', error.message)
     return !error
   }
 
   const { error } = await supabase.from('menu_categories').insert(payload)
-  if (error) console.error('Erreur upsertMenuCategory (insert):', error.message)
+  if (error) logError('Erreur upsertMenuCategory (insert):', error.message)
   return !error
 }
 
@@ -126,7 +127,7 @@ export async function upsertMenuCategory(
 export async function deleteMenuCategory(id: string): Promise<boolean> {
   if (!supabase) return false
   const { error } = await supabase.from('menu_categories').delete().eq('id', id)
-  if (error) console.error('Erreur deleteMenuCategory:', error.message)
+  if (error) logError('Erreur deleteMenuCategory:', error.message)
   return !error
 }
 
@@ -144,7 +145,7 @@ export async function reorderMenuCategories(
       .update({ position: i })
       .eq('id', category.id)
     if (error) {
-      console.error('Erreur reorderMenuCategories:', error.message)
+      logError('Erreur reorderMenuCategories:', error.message)
       ok = false
     }
   }
@@ -171,13 +172,13 @@ export async function upsertMenuItem(
 
   if (item.id) {
     const { error } = await supabase.from('menu_items').update(payload).eq('id', item.id)
-    if (error) console.error('Erreur upsertMenuItem (update):', error.message)
+    if (error) logError('Erreur upsertMenuItem (update):', error.message)
     return error ? null : item.id
   }
 
   const { data, error } = await supabase.from('menu_items').insert(payload).select('id').single()
   if (error) {
-    console.error('Erreur upsertMenuItem (insert):', error.message)
+    logError('Erreur upsertMenuItem (insert):', error.message)
     return null
   }
   return data?.id ?? null
@@ -187,7 +188,7 @@ export async function upsertMenuItem(
 export async function deleteMenuItem(id: string): Promise<boolean> {
   if (!supabase) return false
   const { error } = await supabase.from('menu_items').delete().eq('id', id)
-  if (error) console.error('Erreur deleteMenuItem:', error.message)
+  if (error) logError('Erreur deleteMenuItem:', error.message)
   return !error
 }
 
@@ -203,7 +204,7 @@ export async function reorderMenuItems(ordered: { id?: string; position: number 
       .update({ position: i })
       .eq('id', item.id)
     if (error) {
-      console.error('Erreur reorderMenuItems:', error.message)
+      logError('Erreur reorderMenuItems:', error.message)
       ok = false
     }
   }
