@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { PageHero } from '../components/ui/PageHero'
@@ -17,7 +17,7 @@ const Gallery = () => {
   const { videos } = useSectionVideos('galerie')
   const showPhotoLoader = loading || !allReady
 
-  const defaultGalleryImages = [
+  const defaultGalleryImages = useMemo(() => [
     { src: '/images/Travaux-Ferme-1024x768.jpg', alt: t('gallery.images.farmWorks') },
     { src: '/images/Ecole-Sain-Arrosage-1-1024x867.jpg', alt: t('gallery.images.watering') },
     { src: '/images/Arrosage-Etudiant-150x150.jpg', alt: t('gallery.images.studentWatering') },
@@ -78,7 +78,7 @@ const Gallery = () => {
     { src: '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg', alt: t('gallery.images.gaze') },
     { src: '/images/Restaurant-Sain-724x1024.png', alt: t('gallery.images.farmRestaurant') },
     { src: '/images/sain5-150x150.jpg', alt: t('gallery.images.farmLife') },
-  ]
+  ], [t])
 
   // Dédupliquer par URL pour éviter les doublons (hero + photo libre identique)
   const heroUrl = photos['hero']?.url

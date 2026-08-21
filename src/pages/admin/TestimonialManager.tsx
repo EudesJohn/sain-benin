@@ -29,6 +29,10 @@ interface TestimonialCardProps {
   onChanged: () => void
 }
 
+// Classe CSS partagée pour les champs de saisie
+const INPUT_CLASS =
+  'w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200'
+
 const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps) => {
   const { t } = useTranslation()
   const dragControls = useDragControls()
@@ -78,9 +82,6 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
     e.target.value = ''
   }
 
-  const inputClass =
-    'w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200'
-
   return (
     <Reorder.Item value={testimonial} dragListener={false} dragControls={dragControls} className="list-none">
       <div className="bg-white rounded-2xl shadow-card overflow-hidden flex flex-col sm:flex-row">
@@ -107,8 +108,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
             value={name}
             onChange={(e) => setName(e.target.value)}
             aria-label="Nom du témoin"
-            placeholder="Nom du témoin (identique FR/EN)"
-            className={inputClass}
+            placeholder="Nom du témoin (identique FR/EN)"              className={formInputClass}
           />
 
           {/* Rôle FR / EN */}
@@ -119,7 +119,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
               onChange={(e) => setRole(e.target.value)}
               aria-label={t('admin.testimonialRoleFr')}
               placeholder={t('admin.testimonialRoleFr')}
-              className={inputClass}
+              className={INPUT_CLASS}
             />
             <input
               type="text"
@@ -127,7 +127,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
               onChange={(e) => setRoleEn(e.target.value)}
               aria-label={t('admin.testimonialRoleEn')}
               placeholder={t('admin.testimonialRoleEn')}
-              className={`${inputClass} border-blue-200`}
+              className={`${INPUT_CLASS} border-blue-200`}
             />
           </div>
 
@@ -139,7 +139,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
               aria-label={t('admin.testimonialQuoteFr')}
               placeholder={t('admin.testimonialQuoteFr')}
               rows={3}
-              className={`${inputClass} resize-none`}
+              className={`${INPUT_CLASS} resize-none`}
             />
             <textarea
               value={quoteEn}
@@ -147,7 +147,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
               aria-label={t('admin.testimonialQuoteEn')}
               placeholder={t('admin.testimonialQuoteEn')}
               rows={3}
-              className={`${inputClass} resize-none border-blue-200`}
+              className={`${INPUT_CLASS} resize-none border-blue-200`}
             />
           </div>
 
@@ -289,7 +289,7 @@ const TestimonialManager = () => {
     e.target.value = ''
   }
 
-  const inputClass =
+  const formInputClass =
     'px-3 py-2.5 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200'
 
   return (
@@ -313,8 +313,7 @@ const TestimonialManager = () => {
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             aria-label="Nom du témoin"
-            placeholder="Nom du témoin"
-            className={`${inputClass} flex-1`}
+            placeholder="Nom du témoin"              className={`${formInputClass} flex-1`}
           />
           <div className="flex items-center gap-2">
             {newImageUrl ? (
@@ -344,16 +343,14 @@ const TestimonialManager = () => {
             value={newRole}
             onChange={(e) => setNewRole(e.target.value)}
             aria-label="Rôle (FR)"
-            placeholder="Rôle FR (ex. Ancien élève)"
-            className={inputClass}
+            placeholder="Rôle FR (ex. Ancien élève)"              className={formInputClass}
           />
           <input
             type="text"
             value={newRoleEn}
             onChange={(e) => setNewRoleEn(e.target.value)}
             aria-label="Rôle (EN)"
-            placeholder="Rôle EN (ex. Former student)"
-            className={`${inputClass} border-blue-200`}
+            placeholder="Rôle EN (ex. Former student)"              className={`${formInputClass} border-blue-200`}
           />
         </div>
 
@@ -364,16 +361,14 @@ const TestimonialManager = () => {
             onChange={(e) => setNewQuote(e.target.value)}
             aria-label="Citation (FR)"
             placeholder="Citation du témoin (FR)"
-            rows={3}
-            className={`${inputClass} resize-none`}
+            rows={3}              className={`${formInputClass} resize-none`}
           />
           <textarea
             value={newQuoteEn}
             onChange={(e) => setNewQuoteEn(e.target.value)}
             aria-label="Citation (EN)"
             placeholder="Citation du témoin (EN)"
-            rows={3}
-            className={`${inputClass} resize-none border-blue-200`}
+            rows={3}              className={`${formInputClass} resize-none border-blue-200`}
           />
         </div>
 
@@ -422,7 +417,7 @@ const TestimonialManager = () => {
           >
             {order.map((testimonial, index) => (
               <TestimonialCard
-                key={testimonial.id ?? `new-${index}`}
+                key={`${testimonial.id}-${testimonial.position}`}
                 testimonial={testimonial}
                 index={index}
                 onChanged={load}

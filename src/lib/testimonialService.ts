@@ -1,4 +1,5 @@
 import { supabase, PHOTOS_BUCKET } from './supabase'
+import { storagePathFromUrl } from './photoService'
 
 export interface Testimonial {
   id?: string
@@ -70,34 +71,45 @@ export async function upsertTestimonial(testimonial: Testimonial): Promise<boole
   return true
 }
 
-/** Supprime un témoignage */
+/** Supprime un témoignage et nettoie l'image du stockage */
 export async function deleteTestimonial(id: string): Promise<boolean> {
   if (!supabase) return false
+  // Récupérer l'image_url avant suppression
+  const { data } = await supabase
+    .from('testimonials')
+    .select('image_url')
+    .eq('id', id)
+    .single()
+  // Supprimer la ligne en base
   const { error } = await supabase.from('testimonials').delete().eq('id', id)
   if (error) {
     console.error('Erreur deleteTestimonial:', error.message)
     return false
   }
+  // Nettoyer l'image du stockage
+  if (data?.image_url) {
+    const storagePath = storagePathFromUrl(data.image_url)
+    if (storagePath) {
+      await supabase.storage.from(PHOTOS_BUCKET).remove([storagePath])
+    }
+  }
   return true
 }
 
-/** Enregistre le nouvel ordre des témoignages */
+/** Enregistre le nouvel ordre des témoignages (requêtes parallèles) */
 export async function reorderTestimonials(ordered: { id?: string; position: number }[]): Promise<boolean> {
   if (!supabase) return false
-  let ok = true
-  for (let i = 0; i < ordered.length; i++) {
-    const t = ordered[i]
-    if (!t.id) continue
-    const { error } = await supabase
-      .from('testimonials')
-      .update({ position: i })
-      .eq('id', t.id)
-    if (error) {
-      console.error('Erreur reorderTestimonials:', error.message)
-      ok = false
-    }
-  }
-  return ok
+  const updates = ordered
+    .map((t, i) => ({ id: t.id, position: i }))
+    .filter((t) => t.id)
+    .map((t) =>
+      supabase
+        .from('testimonials')
+        .update({ position: t.position })
+        .eq('id', t.id!)
+    )
+  const results = await Promise.all(updates)
+  return results.every(({ error }) => !error)
 }
 
 /** Localise un témoignage selon la langue */
@@ -112,12 +124,25 @@ export function localizeTestimonial(t: Testimonial, lang: string): Testimonial {
   return t
 }
 
+const MAX_UPLOAD_SIZE = 5 * 1024 * 1024 // 5 Mo
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+
 /**
  * Téléverse l'image d'un témoignage dans le bucket « photos » et renvoie
  * l'URL publique, ou null en cas d'erreur.
  */
 export async function uploadTestimonialImage(file: File): Promise<string | null> {
   if (!supabase) return null
+  // Validation du type
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    console.error('Type de fichier non supporté:', file.type)
+    return null
+  }
+  // Validation de la taille
+  if (file.size > MAX_UPLOAD_SIZE) {
+    console.error('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
+    return null
+  }
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
   const path = `testimonials/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
   const { error } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file, {

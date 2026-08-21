@@ -135,20 +135,17 @@ export async function deletePhoto(photo: Photo): Promise<boolean> {
  */
 export async function reorderPhotos(orderedPhotos: Photo[]): Promise<boolean> {
   if (!supabase) return false
-  let ok = true
-  for (let i = 0; i < orderedPhotos.length; i++) {
-    const photo = orderedPhotos[i]
-    if (!photo.id) continue
-    const { error } = await supabase
-      .from('photos')
-      .update({ position: i })
-      .eq('id', photo.id)
-    if (error) {
-      console.error('Erreur reorderPhotos:', error.message)
-      ok = false
-    }
-  }
-  return ok
+  const updates = orderedPhotos
+    .map((photo, i) => ({ id: photo.id, position: i }))
+    .filter((p) => p.id)
+    .map((p) =>
+      supabase
+        .from('photos')
+        .update({ position: p.position })
+        .eq('id', p.id!)
+    )
+  const results = await Promise.all(updates)
+  return results.every(({ error }) => !error)
 }
 
 /** Renvoie le chemin dans le bucket depuis une URL publique, ou null */
@@ -163,8 +160,21 @@ export function storagePathFromUrl(url: string): string | null {
  * Téléverse un fichier image dans le bucket « photos » et renvoie son URL publique,
  * ou null en cas d'erreur.
  */
+const MAX_UPLOAD_SIZE = 5 * 1024 * 1024 // 5 Mo
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+
 export async function uploadImage(file: File, sectionSlug: string): Promise<string | null> {
   if (!supabase) return null
+  // Validation du type
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+    console.error('Type de fichier non supporté:', file.type)
+    return null
+  }
+  // Validation de la taille
+  if (file.size > MAX_UPLOAD_SIZE) {
+    console.error('Fichier trop volumineux:', file.size, 'octets (max:', MAX_UPLOAD_SIZE, ')')
+    return null
+  }
   const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
   const path = `${sectionSlug}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
   const { error } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file, {
