@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { GraduationCap, BookOpen, PawPrint, Salad, Star, Droplet } from 'lucide-react'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
@@ -9,31 +10,21 @@ import { IconTile } from '../components/ui/IconTile'
 import { CTASection } from '../components/ui/CTASection'
 
 const Formations = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('formations')
+
   const formationsLongues = [
     {
-      title: 'Formation Professionnelle Complète (18 mois)',
-      description: 'Cycle complet de formation agricole professionnelle pour jeunes défavorisés',
-      details: [
-        'Public cible : jeunes décrocheurs de familles défavorisées',
-        'Durée : 18 mois',
-        'Recrutement : 15 à 20 jeunes annuellement via les communes',
-        'Hébergement et repas inclus',
-        'Financement partiel par les ventes agricoles de la ferme',
-        'Parrainage pour compléter le financement',
-      ],
+      title: t('formations.long.title'),
+      description: t('formations.long.description'),
+      details: t('formations.long.details', { returnObjects: true }) as string[],
       icon: GraduationCap,
       color: 'from-sun-500 to-sun-700',
     },
     {
-      title: 'Formation Courte (15-21 jours)',
-      description: 'Formation intensive à distance pour les bénéficiaires du Programme des Communautés Unies (PCM)',
-      details: [
-        'Jeunes des PCM soutenus par le PNUD',
-        'Modules de base en agriculture',
-        'Accompagnement individualisé sur parcelle',
-        'Suivi post-formation intégré',
-      ],
+      title: t('formations.short.title'),
+      description: t('formations.short.description'),
+      details: t('formations.short.details', { returnObjects: true }) as string[],
       icon: BookOpen,
       color: 'from-leaf-500 to-leaf-700',
     },
@@ -41,23 +32,23 @@ const Formations = () => {
 
   const modulesTechniques = [
     {
-      title: 'Techniques d\'Élevage',
-      items: ['Lapins', 'Poules', 'Cailles', 'Escargots'],
+      title: t('formations.modules.livestock.title'),
+      items: t('formations.modules.livestock.items', { returnObjects: true }) as string[],
       icon: PawPrint,
     },
     {
-      title: 'Techniques de Production',
-      items: ['Maraîchage biologique', 'Compostage', 'Riziculture (SRI)', 'Techniques climato-intelligentes'],
+      title: t('formations.modules.production.title'),
+      items: t('formations.modules.production.items', { returnObjects: true }) as string[],
       icon: Salad,
     },
     {
-      title: 'Leadership & Développement',
-      items: ['Élaboration de business plans', 'Agroécologie & entrepreneurship', 'Innovation rurale', 'Communication non-violente'],
+      title: t('formations.modules.leadership.title'),
+      items: t('formations.modules.leadership.items', { returnObjects: true }) as string[],
       icon: Star,
     },
     {
-      title: 'Apiculture',
-      items: ['Technique d\'apiculture traditionnelle', 'Gestion des ruches', 'Récolte du miel'],
+      title: t('formations.modules.beekeeping.title'),
+      items: t('formations.modules.beekeeping.items', { returnObjects: true }) as string[],
       icon: Droplet,
     },
   ]
@@ -66,35 +57,33 @@ const Formations = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Formation-Apiculture-ppttd5u5ckwjd1zlrd6anyyhcbtdn27r04x4niza9w.jpg'}
-        eyebrow="Ferme-école SAIN"
-        title="Formations"
-        subtitle="Une approche pédagogique innovante: apprendre par l'action"
+        eyebrow={t('formations.eyebrow')}
+        title={t('formations.title')}
+        subtitle={t('formations.subtitle')}
       >
         <blockquote className="w-full max-w-2xl text-xl md:text-2xl italic text-earth-100 border-l-2 border-sun-400 pl-6">
-          « Notre approche privilégiée est la recherche-action formative, autrement dit : ancrer la réflexion dans la pratique. »
+          {t('formations.quote')}
         </blockquote>
       </PageHero>
 
-      {/* Méthode Pédagogique */}
+      {/* M\u00e9thode P\u00e9dagogique */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <SectionHeading
-              eyebrow="Approche pédagogique"
-              title="Notre Méthode Pédagogique"
-              subtitle="Apprendre en faisant : une approche pratique et immersive qui permet d'acquérir des compétences concrètes et durables."
+              eyebrow={t('formations.method.eyebrow')}
+              title={t('formations.method.title')}
+              subtitle={t('formations.method.subtitle')}
               className="mb-10"
             />
             <Reveal delay={0.05}>
               <blockquote className="text-2xl italic text-earth-700 border-l-4 border-sun-500 pl-6 mb-6">
-                « Apprendre en faisant »
+                {t('formations.method.quote')}
               </blockquote>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-ink-soft">
-                Les apprenants découvrent les techniques agricoles par la pratique
-                directe sur notre ferme de 14 hectares. Cette méthode permet d'acquérir
-                des compétences concrètes et durables.
+                {t('formations.method.description')}
               </p>
             </Reveal>
           </div>
@@ -105,9 +94,9 @@ const Formations = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Insertion professionnelle"
-            title="Formations de Longue Durée"
-            subtitle="Programmes complets pour accompagner les jeunes vers l'insertion professionnelle"
+            eyebrow={t('formations.long.eyebrow')}
+            title={t('formations.long.heading')}
+            subtitle={t('formations.long.subtitle')}
             className="mb-12"
           />
 
@@ -124,9 +113,9 @@ const Formations = () => {
                   <h3 className="text-2xl font-bold text-ink mb-4">{formation.title}</h3>
                   <p className="text-ink-soft mb-6">{formation.description}</p>
                   <ul className="space-y-3">
-                    {formation.details.map((detail, j) => (
+                    {formation.details.map((detail: string, j: number) => (
                       <li key={j} className="flex items-start gap-2 text-ink-soft">
-                        <span className="text-sun-600" aria-hidden="true">•</span>
+                        <span className="text-sun-600" aria-hidden="true">&bull;</span>
                         <span>{detail}</span>
                       </li>
                     ))}
@@ -142,9 +131,9 @@ const Formations = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Modules courts"
-            title="Modules Techniques & Thématiques"
-            subtitle="Découvrez les compétences enseignées lors de nos formations courtes"
+            eyebrow={t('formations.modules.eyebrow')}
+            title={t('formations.modules.title')}
+            subtitle={t('formations.modules.subtitle')}
             className="mb-12"
           />
 
@@ -155,7 +144,7 @@ const Formations = () => {
                   <IconTile icon={module.icon} tone="leaf" size="md" className="mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-ink mb-4">{module.title}</h3>
                   <ul className="space-y-2">
-                    {module.items.map((item, j) => (
+                    {module.items.map((item: string, j: number) => (
                       <li key={j} className="text-sm text-ink-soft">
                         {item}
                       </li>
@@ -172,9 +161,9 @@ const Formations = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Retraites & groupes"
-            title="Retraites en Familles ou en Groupes"
-            subtitle="Un lieu idéal pour réfléchir à l'agriculture et se ressourcer en pleine nature"
+            eyebrow={t('formations.retreats.eyebrow')}
+            title={t('formations.retreats.title')}
+            subtitle={t('formations.retreats.subtitle')}
             className="mb-12"
           />
 
@@ -185,7 +174,7 @@ const Formations = () => {
                   <Reveal delay={0.05} className="aspect-square lg:aspect-auto">
                     <img
                       src={photos['etudiant']?.url || '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg'}
-                      alt={photos['etudiant']?.alt || 'Retraite'}
+                      alt={photos['etudiant']?.alt || t('formations.retreats.title')}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.currentTarget.src = '/images/Jardin-Sain-1024x768.jpg'
@@ -194,18 +183,16 @@ const Formations = () => {
                   </Reveal>
                   <Reveal delay={0.1} className="p-8">
                     <h3 className="text-xl font-bold text-ink mb-4">
-                      Découvrez notre cadre de travail
+                      {t('formations.retreats.cardTitle')}
                     </h3>
                     <p className="text-ink-soft leading-relaxed mb-4">
-                      La ferme SAIN, étendue sur 14 hectares, offre des espaces verts
-                      pour des retrouilles, des ateliers et des moments de réflexion.
+                      {t('formations.retreats.description1')}
                     </p>
                     <p className="text-ink-soft leading-relaxed mb-6">
-                      Plusieurs zones de repos et de méditation sont disponibles
-                      tout au long du domaine, avec des sentiers pédestres agréables.
+                      {t('formations.retreats.description2')}
                     </p>
                     <Button to="/contact" variant="accent">
-                      Réserver une retraite
+                      {t('formations.retreats.cta')}
                     </Button>
                   </Reveal>
                 </div>
@@ -218,9 +205,9 @@ const Formations = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Prêt à rejoindre nos formations ?"
-        subtitle="Contactez-nous pour plus d'informations sur nos programmes de formation et nos disponibilités."
-        label="Contactez-nous"
+        title={t('formations.ctaTitle')}
+        subtitle={t('formations.ctaText')}
+        label={t('contact.formName')}
       />
     </>
   )

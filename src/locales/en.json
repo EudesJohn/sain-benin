@@ -1,0 +1,637 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "aboutProject": "The project",
+    "responsability": "Social responsibility",
+    "activities": "Our activities",
+    "team": "Our team",
+    "ecoTourism": "Eco-tourism",
+    "accommodation": "Accommodation",
+    "restaurant": "Restaurant",
+    "circuits": "Discovery tours",
+    "formations": "Training",
+    "production": "Our products",
+    "support": "Support us",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "legal": "Legal notices"
+  },
+  "hero": {
+    "eyebrow": "Training Farm \u2022 Agroecology \u2022 Eco-tourism",
+    "title": "Integrated Agricultural Solidarity",
+    "quote": "\u00ab Communion between Man, Nature and the Community \u00bb",
+    "location": "Kakanitchoé Village, 12 km from Adjohoun, Benin",
+    "discoverFormations": "Discover our training programs",
+    "bookVisit": "Book a visit"
+  },
+  "home": {
+    "aboutTitle": "About SAIN",
+    "aboutText": "Since 1991, the SAIN Training Farm has been teaching young people sustainable agriculture and agricultural entrepreneurship in Benin.",
+    "activitiesSubtitle": "Sustainable agriculture, education and ecological tourism: everything is connected on the farm.",
+    "aboutFarmTitle": "A training farm in the heart of Benin",
+    "yearsExperience": "Years of experience",
+    "galleryEyebrow": "In pictures",
+    "galleryTitle": "Life on the farm",
+    "gallerySubtitle": "A glimpse of our daily life between greenhouses, ponds, fields and guest tables.",
+    "testimonialsSubtitle": "What our partners say",
+    "testimonialsDescription": "Their experience speaks for itself.",
+    "servicesTitle": "Our services",
+    "services": {
+      "agroecology": { "title": "Agroecology", "description": "Sustainable agricultural production respectful of the environment" },
+      "school": { "title": "Training Farm", "description": "Professional training in sustainable agriculture" },
+      "products": { "title": "Fresh & processed products", "description": "Sale of organic products grown on site" },
+      "accommodation": { "title": "Farm Accommodation", "description": "Stay in a peaceful rural setting" },
+      "restaurant": { "title": "Restaurant", "description": "Organic cuisine, from farm to table" },
+      "nature": { "title": "Nature Stays", "description": "Discover our discovery tours" }
+    },
+    "testimonialsTitle": "Testimonials",
+    "galleryPreview": "Gallery preview",
+    "seeAll": "See full gallery",
+    "cta": "Want to discover SAIN?",
+    "ctaText": "Join us for a unique experience in the heart of Beninese agroecology."
+  },
+  "about": {
+    "eyebrow": "The global project",
+    "title": "About SAIN",
+    "history": "Our History",
+    "historyText1": "Founded in 1991, SAIN (Integrated Agricultural Solidarity) has been based in Kakanitchoé village, 12 km from Adjohoun in Benin, since 1998. The farm spans 14 hectares, including highlands and lowland crops.",
+    "historyText2": "Our farm has thrived for over 30 years through a deeply rooted approach in values of solidarity, respect for nature, and community development.",
+    "hectares": "Farm hectares",
+    "years": "Years of experience",
+    "mission": "Our Mission",
+    "missionText": "Promote sustainable agricultural and food systems to feed and provide dignified livelihoods for populations, particularly youth and women.",
+    "vision": "Our Vision",
+    "visionText": "A better world where people live with dignity in a healthy environment.",
+    "philosophy": "Our Philosophy",
+    "philosophyText": "Communion between Man, Nature and the Community.",
+    "valuesTitle": "Our Core Values",
+    "valuesSubtitle": "The pillars on which our daily commitment is based",
+    "values": {
+      "youth": { "title": "Youth Support", "description": "We train young people to offer them sustainable opportunities in their home region." },
+      "environment": { "title": "Sustainable Environment", "description": "All our agricultural practices are based on agroecology, permaculture and biodiversity." },
+      "local": { "title": "Local Development", "description": "We actively contribute to the socio-economic development of our local community." }
+    },
+    "interventionsTitle": "Our Areas of Intervention",
+    "interventions": {
+      "production": { "title": "Agricultural Production", "description": "Implementation of environmentally friendly agricultural techniques with three sections: plant production, animal husbandry and aquaculture." },
+      "training": { "title": "Professional Training", "description": "Since 2002, SAIN is a training farm teaching young people sustainable agriculture with a learning-by-doing approach." },
+      "research": { "title": "Action Research", "description": "Development of innovative and sustainable agricultural strategies, in collaboration with the scientific community." },
+      "tourism": { "title": "Agro-Tourism", "description": "Accommodation, restaurant and discovery tours in a preserved rural setting." }
+    },
+    "ctaTitle": "Want to meet us?",
+    "ctaText": "Visit the farm, join a training program or support our project."
+  },
+  "activities": {
+    "eyebrow": "Our activities",
+    "title": "Our Activities",
+    "subtitle": "An integrated farm combining agricultural production, education, research and tourism",
+    "poles": {
+      "vegetal": { "title": "Plant Production", "description": "Market gardening, watering, organic fertilizers and biological pesticides" },
+      "animal": { "title": "Animal Production", "description": "Rabbit, chicken, duck, quail and pigeon farming" },
+      "aquaculture": { "title": "Aquaculture", "description": "Fish farming in specially designed ponds" }
+    },
+    "production": {
+      "eyebrow": "Agricultural production",
+      "title": "Agricultural Production",
+      "subtitle": "SAIN practices integrated and sustainable agriculture with three main sections"
+    },
+    "training": {
+      "eyebrow": "Agricultural training",
+      "title": "Agricultural Training",
+      "subtitle": "Since 2002, SAIN is a training farm offering professional training in sustainable agriculture",
+      "methodTitle": "Our Teaching Method",
+      "quote": "\"Learning by doing\" - a practical and immersive approach",
+      "description": "Learners discover agricultural techniques through direct practice on our 14-hectare farm. This method enables them to acquire concrete and lasting skills.",
+      "longTitle": "Long-term Training (18 months)",
+      "longDetails": [
+        "Target: disadvantaged youth",
+        "Recruitment through local municipalities",
+        "Funding: sales of farm produce",
+        "Post-training follow-up included"
+      ],
+      "shortTitle": "Short Training Courses",
+      "shortDetails": [
+        "Duration: a few days to several weeks",
+        "Topics: agricultural techniques, leadership",
+        "Audience: PCM, Colibri, organizations",
+        "Individual plot follow-up"
+      ]
+    },
+    "research": {
+      "eyebrow": "Action research",
+      "title": "Action Research",
+      "subtitle": "Development of innovative and sustainable agricultural strategies",
+      "goalsTitle": "Research Objectives",
+      "description": "SAIN farm is dedicated to developing innovative and sustainable agricultural strategies. Our research team works to propose environmentally friendly techniques while increasing productivity and resilience to climate change.",
+      "point1": "Innovative agricultural techniques",
+      "point2": "Climate adaptation",
+      "point3": "Knowledge sharing"
+    },
+    "agritourism": {
+      "eyebrow": "Agritourism",
+      "title": "Agritourism",
+      "subtitle": "Discover a peaceful setting for family stays, seminars or retreats",
+      "description": "Located in the heart of Kakanitchoé village, our farm offers a magnificent and relaxing environment. Whether you are with family, friends or colleagues, you can enjoy our green spaces, hiking trails and educational activities."
+    },
+    "ctaTitle": "Come experience the farm differently",
+    "ctaText": "A visit, a training course or a stay: it all starts with a conversation."
+  },
+  "formations": {
+    "eyebrow": "SAIN Training Farm",
+    "title": "Training Programs",
+    "subtitle": "An innovative teaching approach: learning by doing",
+    "quote": "« Our preferred approach is formative action research, in other words: anchoring reflection in practice. »",
+    "method": {
+      "eyebrow": "Teaching approach",
+      "title": "Our Teaching Method",
+      "subtitle": "Learning by doing: a practical and immersive approach that enables the acquisition of concrete and lasting skills.",
+      "quote": "« Learning by doing »",
+      "description": "Learners discover agricultural techniques through direct practice on our 14-hectare farm. This method enables them to acquire concrete and lasting skills."
+    },
+    "long": {
+      "eyebrow": "Professional integration",
+      "heading": "Long-term Training",
+      "subtitle": "Complete programs to support young people towards professional integration",
+      "title": "Complete Professional Training (18 months)",
+      "description": "Full professional agricultural training cycle for disadvantaged youth",
+      "details": [
+        "Target: dropouts from disadvantaged families",
+        "Duration: 18 months",
+        "Recruitment: 15 to 20 young people annually via municipalities",
+        "Accommodation and meals included",
+        "Partial funding through farm agricultural sales",
+        "Sponsorship to complement funding"
+      ]
+    },
+    "short": {
+      "title": "Short Training (15-21 days)",
+      "description": "Intensive distance training for beneficiaries of the United Communities Program (PCM)",
+      "details": [
+        "Youth from PCM supported by UNDP",
+        "Basic agriculture modules",
+        "Individual plot support",
+        "Integrated post-training follow-up"
+      ]
+    },
+    "modules": {
+      "eyebrow": "Short modules",
+      "title": "Technical & Thematic Modules",
+      "subtitle": "Discover the skills taught during our short training courses",
+      "livestock": { "title": "Livestock Techniques", "items": ["Rabbits", "Chickens", "Quails", "Snails"] },
+      "production": { "title": "Production Techniques", "items": ["Organic market gardening", "Composting", "Rice cultivation (SRI)", "Climate-smart techniques"] },
+      "leadership": { "title": "Leadership & Development", "items": ["Business plan development", "Agroecology & entrepreneurship", "Rural innovation", "Non-violent communication"] },
+      "beekeeping": { "title": "Beekeeping", "items": ["Traditional beekeeping techniques", "Hive management", "Honey harvesting"] }
+    },
+    "retreats": {
+      "eyebrow": "Retreats & groups",
+      "title": "Family or Group Retreats",
+      "subtitle": "An ideal place to reflect on agriculture and recharge in nature",
+      "cardTitle": "Discover our working environment",
+      "description1": "SAIN farm, spanning 14 hectares, offers green spaces for gatherings, workshops and moments of reflection.",
+      "description2": "Several rest and meditation areas are available throughout the property, with pleasant walking trails.",
+      "cta": "Book a retreat"
+    },
+    "ctaTitle": "Ready to join our training programs?",
+    "ctaText": "Contact us for more information about our training programs and availability."
+  },
+  "accommodation": {
+    "eyebrow": "Rural accommodation",
+    "title": "Farm Accommodation",
+    "subtitle": "Come to SAIN to recharge, discover the magnificent landscapes of Benin.",
+    "rooms": "Rooms",
+    "board": "Full board",
+    "comfort": "Simple and authentic comfort",
+    "comfortText": "Enjoy a peaceful stay in the heart of nature, in clean and functional rooms.",
+    "stayEyebrow": "On the farm",
+    "stayTitle": "A Stay in Nature",
+    "stayText1": "Our establishment is ideal for family stays, seminars or retreats. Enjoy a peaceful setting surrounded by beautiful Beninese landscapes.",
+    "stayText2": "Located in the heart of Kakanitchoé village, our farm offers a calm and relaxing environment, far from the pollution and stress of city life.",
+    "distance": "12 km from Adjohoun",
+    "capacity": "Capacity: 40 people",
+    "previewAlt": "Accommodation {{index}}",
+    "roomsEyebrow": "Accommodation",
+    "roomsTitle": "Room Types",
+    "roomsSubtitle": "Options adapted to all needs",
+    "noPrices": "No rates available at the moment.",
+    "boardEyebrow": "Full board",
+    "boardTitle": "Full Board Rates",
+    "boardSubtitle": "Meals included with fresh products from our farm",
+    "organicNote": "All meals are prepared with our organic farm produce",
+    "spacesEyebrow": "Gallery",
+    "spacesTitle": "Discover Our Spaces",
+    "spaces": {
+      "rooms": "Rooms",
+      "garden": "Garden",
+      "greenAreas": "Green areas"
+    },
+    "ctaTitle": "Book Your Stay",
+    "ctaText": "Contact us for more information and check availability."
+  },
+  "restaurant": {
+    "eyebrow": "Restaurant",
+    "title": "SAIN Restaurant",
+    "subtitle": "From farm to table - Discover the organic cuisine of our farm",
+    "concept": {
+      "eyebrow": "Agroecology",
+      "title": "Our Concept",
+      "description1": "From farm to table: our menus are prepared with fresh produce grown on our own agroecological farm.",
+      "description2": "Our cuisine combines Beninese tradition and creativity, using local and seasonal products, ensuring freshness and authentic flavors.",
+      "badge": "100% Organic & Local"
+    },
+    "hours": {
+      "eyebrow": "Schedule",
+      "title": "Service Hours",
+      "breakfast": "Breakfast",
+      "breakfastTime": "7:00 AM - 10:00 AM",
+      "dinner": "Dinner",
+      "dinnerTime": "6:30 PM - 9:00 PM",
+      "location": "SAIN Restaurant - Kakanitchoé Village, 12 km from Adjohoun",
+      "groupNote": "For groups, reservation required 24 hours in advance"
+    },
+    "menu": {
+      "eyebrow": "Menu",
+      "title": "Our Menu",
+      "subtitle": "Dishes prepared with our farm produce"
+    },
+    "ctaTitle": "Reserve Your Meal",
+    "ctaText": "Discover the flavors of our organic cuisine during your farm stay."
+  },
+  "circuits": {
+    "eyebrow": "Eco-tourism",
+    "title": "Discovery Tours",
+    "subtitle": "Discover the natural and cultural treasures of our region",
+    "quote": "« All tours include a passionate local guide. Transportation is not included. »",
+    "loading": "Loading tours\u2026",
+    "empty": "No tours available at the moment.",
+    "list": {
+      "eyebrow": "Our tours",
+      "title": "Discover Our 6 Tours",
+      "subtitle": "Each tour immerses you in a unique aspect of Beninese culture and nature"
+    },
+    "details": {
+      "eyebrow": "How does it work?",
+      "title": "Tour Details",
+      "subtitle": "All our discoveries await you in small groups for an immersive and authentic experience."
+    },
+    "gallery": {
+      "eyebrow": "Gallery",
+      "title": "In Pictures",
+      "item": "Tour {{number}}"
+    },
+    "ctaTitle": "Book Your Discovery",
+    "ctaText": "Contact us to book your favorite tour and experience a unique adventure in the heart of Beninese nature.",
+    "ctaLabel": "Book now"
+  },
+  "production": {
+    "eyebrow": "Our products",
+    "title": "Our Products",
+    "subtitle": "Fresh and processed products grown with love",
+    "quote": "Balanced production across three sectors: plants, animals and agro-processing",
+    "intro": {
+      "eyebrow": "Our production",
+      "title": "Sustainable Agricultural Production",
+      "subtitle": "Our farm practices 100% organic agriculture with environmentally friendly techniques.",
+      "crops": "Crops",
+      "cropsDescription": "Fruits, vegetables and cereals",
+      "livestock": "Livestock",
+      "livestockDescription": "Rabbits, chickens, fish",
+      "processing": "Processing",
+      "processingDescription": "Juices, oils, jams"
+    },
+    "fresh": {
+      "eyebrow": "From farm to basket",
+      "title": "Fresh Products",
+      "subtitle": "Seasonal products, grown with care"
+    },
+    "processed": {
+      "eyebrow": "On-site processing",
+      "title": "Processed Products",
+      "subtitle": "Our processed products with ingredients from our farm"
+    },
+    "services": {
+      "eyebrow": "Our services",
+      "title": "Distribution Services",
+      "subtitle": "Several ways to order our fresh products",
+      "directSales": "Direct Sales",
+      "directSalesDescription": "Buy our products directly from the farm",
+      "monthlyBasket": "Monthly Basket",
+      "monthlyBasketDescription": "Monthly subscription for fresh product delivery",
+      "monthlyEvent": "Monthly Event",
+      "monthlyEventDescription": "Monthly barbecue with our farm-raised meats"
+    },
+    "ctaTitle": "Order our products",
+    "ctaText": "Contact us to place your order or discover our complete range of agricultural products.",
+    "ctaLabel": "Order now"
+  },
+  "support": {
+    "eyebrow": "Make a donation",
+    "title": "Support Us",
+    "subtitle": "Together, let's build a sustainable future for youth and the community",
+    "quote": "« SAIN is a small social economy structure. Its model relies on paid training and various grants. »",
+    "programs": {
+      "eyebrow": "Three ways to act",
+      "title": "Support Programs",
+      "subtitle": "Join us in our mission to promote agroecology and youth empowerment",
+      "empty": "No programs available at the moment."
+    },
+    "projects": {
+      "eyebrow": "In progress",
+      "title": "Specific Projects",
+      "subtitle": "Discover our current initiatives and track their progress",
+      "completed": "completed",
+      "latrine": { "title": "One Family One Latrine", "description": "Improving sanitary hygiene in local households" },
+      "water": { "title": "Access to Clean Water", "description": "Installation of wells and boreholes in villages" },
+      "scholarship": { "title": "Scholarship Program", "description": "Financial support for disadvantaged students" }
+    },
+    "students": {
+      "eyebrow": "Education",
+      "title": "Student Support",
+      "description1": "Our educational support program covers all the needs of disadvantaged students: school supplies, registration fees, and food needs.",
+      "description2": "Each donation directly contributes to the successful integration of our youth into a promising future through sustainable agriculture.",
+      "cta": "Become a sponsor",
+      "photo1": "Student",
+      "photo2": "Training",
+      "photo3": "Watering",
+      "photo4": "Students"
+    },
+    "ctaTitle": "Support our mission",
+    "ctaText": "Your support enables us to continue training young people, protecting the environment and developing our community.",
+    "ctaLabel": "Contact us to support"
+  },
+  "team": {
+    "eyebrow": "Our team",
+    "title": "Our Team",
+    "subtitle": "Meet the passionate people who bring the SAIN project to life",
+    "members": {
+      "eyebrow": "The farm's actors",
+      "title": "The Permanent Team",
+      "subtitle": "People dedicated to promoting sustainable agriculture and youth integration"
+    },
+    "values": {
+      "eyebrow": "Our values",
+      "title": "Committed to a Sustainable Future",
+      "subtitle": "Our team is united by a common passion for sustainable agriculture, youth education and community development. Together, we are building a future where people, nature and the community live in harmony."
+    },
+    "ctaTitle": "A team at your service",
+    "ctaText": "Ask your questions or plan a visit: the SAIN team welcomes you to the farm."
+  },
+  "socialResponsibility": {
+    "eyebrow": "Social responsibility",
+    "title": "Our Social Responsibility",
+    "subtitle": "Committed to sustainable development and youth integration \u2014 \"Improving local living conditions through agriculture.\"",
+    "engagement": {
+      "eyebrow": "Our commitment",
+      "title": "Our Commitment",
+      "subtitle": "SAIN promotes trust, openness and environmental values. Our initiatives extend to education, youth support, professional training and rural development."
+    },
+    "actions": {
+      "eyebrow": "Our initiatives",
+      "title": "Concrete actions for the community"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "quote": "« Contributing to a better world where people live with dignity in a healthy environment »",
+      "description": "We promote sustainable agricultural and food systems, valuing indigenous knowledge and focusing on people, nature and the community."
+    },
+    "initiatives": {
+      "school": {
+        "title": "Kakanitchoé Xwhenusu Primary School",
+        "description": "School established in 2000. The first students obtained their master's degree in 2021, demonstrating the lasting impact of education supported by SAIN.",
+        "impact": "Over 100 students trained"
+      },
+      "scholarships": {
+        "title": "Scholarships for Disadvantaged Youth",
+        "description": "We provide financial support to disadvantaged youth for access to professional or academic training.",
+        "details": ["School supplies provided", "Registration fees covered", "Food needs ensured"],
+        "impact": "45 annual beneficiaries"
+      },
+      "training": {
+        "title": "Professional Agricultural Training",
+        "description": "Our training farm offers professional training in sustainable agriculture with a learning-by-doing approach.",
+        "details": ["18-month program", "15-20 young people recruited annually", "Funding through agricultural sales", "Sponsorship to complement funding"],
+        "impact": "130+ youth trained since 2002"
+      }
+    },
+    "ctaTitle": "Support our social actions",
+    "ctaText": "Your commitment multiplies the impact of our initiatives among young people."
+  },
+  "gallery": {
+    "eyebrow": "Gallery",
+    "title": "Photo Gallery",
+    "subtitle": "All the life of the farm in pictures",
+    "loading": "Loading photos\u2026",
+    "photosReady": "photos ready",
+    "grid": {
+      "eyebrow": "Our daily life",
+      "title": "Farm Life in Pictures",
+      "subtitle": "Discover the highlights of our farming community"
+    },
+    "viewImage": "View image: {{alt}}",
+    "videos": {
+      "eyebrow": "Videos",
+      "title": "The Farm in Videos",
+      "subtitle": "Follow the life of the farm in motion on our YouTube channel",
+      "seeAll": "See all our videos on YouTube"
+    },
+    "modal": {
+      "label": "Image: {{alt}}"
+    },
+    "images": {
+      "farmWorks": "Farm work",
+      "watering": "Crop watering",
+      "studentWatering": "A student watering the garden",
+      "garden": "The farm garden",
+      "garden2": "Farm garden",
+      "compost": "Composting",
+      "marketGardening": "Market gardening",
+      "marketGardening2": "Market garden",
+      "marketGardening3": "Market gardening",
+      "marketGardening4": "Market garden",
+      "wetland": "The farm wetland",
+      "farmWorks2": "Farm work",
+      "transplanting": "Transplanting seedlings",
+      "transplanting2": "Transplanting seedlings",
+      "riceField": "Rice field",
+      "riceHarvest": "Rice harvest",
+      "palmTrees": "Palm grove",
+      "flowers": "Farm flowers",
+      "rabbitFarming": "Rabbit farming",
+      "rabbits": "Farm rabbits",
+      "chickenFarming": "Chicken farming",
+      "beekeepingTraining": "Beekeeping training",
+      "beekeeping": "Beekeeping",
+      "fruits": "Farm fruits",
+      "freshFruits": "Fresh fruits",
+      "papaya": "Papayas",
+      "turmeric": "Turmeric",
+      "pineapple": "Farm pineapple",
+      "plantains": "Plantain bananas",
+      "cucumberJuice": "Cucumber juice",
+      "students": "Training farm students",
+      "student": "A student at the farm",
+      "studentTraining": "Student in training",
+      "practicalTraining": "Practical training",
+      "students2": "Farm students",
+      "studentGroup": "Group of farm students",
+      "sainTeam": "The SAIN team",
+      "smilingYouth": "Smiling youth",
+      "socialEngagement": "Social engagement",
+      "solidarity": "Solidarity engagement",
+      "accommodation": "Farm accommodation",
+      "rooms": "SAIN rooms",
+      "accommodation2": "Farm accommodation",
+      "accommodation3": "Farm accommodation",
+      "guesthouseKitchen": "Guesthouse kitchen",
+      "farmKitchen": "Farm kitchen",
+      "welcome": "Farm welcome",
+      "farmWelcome": "Farm welcome",
+      "farmView": "Farm view",
+      "farmVisit": "Farm visit",
+      "guidedTour": "Guided tour",
+      "canoeTrip": "Canoe trip",
+      "plasticSorting": "Plastic sorting",
+      "actionResearch": "Action research",
+      "labResearch": "Laboratory research",
+      "research": "Research",
+      "sainFarm": "SAIN farm",
+      "gaze": "Gaze",
+      "farmRestaurant": "The farm restaurant",
+      "farmLife": "Farm life"
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Contact us",
+    "subtitle": "We are at your disposal for any questions or collaboration",
+    "coordinates": "Our contact details",
+    "address": "Address",
+    "addressText": "SAIN \u2014 Kakanitchoé Village\n12 km from Adjohoun, Benin\n44 km from Porto-Novo (\u00b1 1h)\n84 km from Cotonou (\u00b1 2h)",
+    "phones": "Phone numbers",
+    "email": "Email",
+    "hours": "Opening hours",
+    "hoursText": "Monday to Friday\n8:00 AM - 5:00 PM (Benin time)",
+    "formTitle": "Contact Form",
+    "formName": "Name",
+    "formEmail": "Email",
+    "formPhone": "Phone",
+    "formSubject": "Reason for contact",
+    "formMessage": "Message",
+    "formNamePlaceholder": "Your full name",
+    "formEmailPlaceholder": "your@email.com",
+    "formPhonePlaceholder": "+229 97 00 00 00",
+    "formSubjectPlaceholder": "Reservation, internship, visit, question...",
+    "formMessagePlaceholder": "Your message...",
+    "sendWhatsApp": "Send via WhatsApp",
+    "sendEmail": "Send via Email",
+    "socialTitle": "Follow us on social media",
+    "legalInfo": "Legal Information",
+    "legalText": "S.A.R.L company (registered at RCCM: RB/PNO/21 3196)\nPublication Director: Pascal Gbenou\nHost: STARTLOGIC'S, Jacksonville, FL, USA"
+  },
+  "legal": {
+    "eyebrow": "Legal information",
+    "title": "Legal Notices",
+    "editor": "Website Publisher",
+    "rccm": "S.A.R.L registered with the Trade and Personal Property Credit Register RCCM: RB/PNO/21 3196",
+    "ifu": "Unique Tax Identification Number (IFU): 3 2021 12 62 37 34",
+    "director": "Publication Director",
+    "website": "Website",
+    "address": "Address",
+    "addressDetail": "GBENOU House, Kakanitchoé, Kodé, Adjohoun, 04 km from the Porto-Novo – Bohicon road",
+    "postalBox": "P.O. Box: 21 ADJHOUN, BENIN (West Africa)",
+    "hosting": "Hosting",
+    "hostingProvider": "STARTLOGIC'S – Jacksonville, FL 32256 – U.S.A.",
+    "cookies": "Cookies",
+    "cookiesText": "This website uses cookies for statistical and display purposes. By continuing to browse this site, you accept their use. You can configure your choices via your browser.",
+    "links": "Hyperlinks",
+    "linksText": "This website may contain hyperlinks to other websites. SAIN cannot be held responsible for the content of these external sites. Any creation of a link to this site requires prior authorization.",
+    "data": "Personal Data",
+    "dataText": "In accordance with the Data Protection Act (Law 78-17), you have the right to access, rectify and object to the personal data you provide via the contact form.",
+    "dataRetention": "The data collected is never shared with third parties. They are kept for a maximum period of 3 years. To exercise your rights,",
+    "dataContact": "contact us at",
+    "lastUpdate": "Last updated"
+  },
+  "footer": {
+    "about": "About",
+    "services": "Services",
+    "usefulLinks": "Useful links",
+    "description": "Agroecological production \u2022 Training Farm \u2022 Accommodation \u2022 Restaurant \u2022 Nature Stays",
+    "copyright": "All rights reserved",
+    "village": "Kakanitchoé Village",
+    "distance": "12 km from Adjohoun, Benin"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "seeMore": "See more",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "close": "Close",
+    "noPrices": "No rates available at the moment."
+  },
+  "admin": {
+    "photos": "Photos & videos",
+    "prices": "Prices & rates",
+    "menus": "Menus",
+    "contacts": "Contacts",
+    "manageSite": "Site management",
+    "adminZone": "SAIN Administration Zone",
+    "viewSite": "View site",
+    "logout": "Logout",
+    "sections": "Site sections",
+    "missingPhotos": "missing photo(s)",
+    "addPhoto": "Add a photo",
+    "replace": "Replace",
+    "save": "Save",
+    "saved": "Saved",
+    "saving": "Saving...",
+    "delete": "Delete",
+    "custom": "Customized",
+    "default": "Default photo",
+    "missing": "To add",
+    "photoMissing": "Missing photo",
+    "altFr": "Alt text (FR)",
+    "altEn": "Alt text (EN)",
+    "captionFr": "Caption (FR)",
+    "captionEn": "Caption (EN)",
+    "noPrices": "This section does not manage prices.",
+    "noMenus": "This section does not manage menus.",
+    "addCategory": "Add a category",
+    "addDish": "Add a dish",
+    "categoryName": "Category name",
+    "dishName": "Dish name",
+    "newDish": "New dish",
+    "contactInfo": "Contact information",
+    "contactDesc": "Modify phone numbers, email and social media.",
+    "titleFr": "Title (FR)",
+    "titleEn": "Title (EN)",
+    "priceFr": "Price (FR)",
+    "priceEn": "Price (EN)",
+    "descFr": "Description (FR)",
+    "descEn": "Description (EN)",
+    "detailsFr": "Details (FR, one bullet per line)",
+    "detailsEn": "Details (EN, one bullet per line)",
+    "priceRequired": "Title and price are required to add an item.",
+    "pricesDescription": "add, modify or delete rates. Changes are immediately visible on the site.",
+    "newPriceTitle": "Title (e.g. Triple Room)",
+    "newPriceValue": "Price (e.g. 22,000 FCFA)",
+    "addPrice": "Add",
+    "noPricesYet": "No rates yet — add one above.",
+    "dragReorder": "Drag and drop items to reorder — the order is saved automatically.",
+    "menusDescription": "add, modify or delete categories and dishes. Changes are immediately visible on the site.",
+    "categoryRequired": "Category name cannot be empty.",
+    "categoryNameFr": "Category name (FR)",
+    "categoryNameEn": "Category name (EN)",
+    "newCategoryFr": "New category (FR)",
+    "newCategoryEn": "New category (EN)",
+    "dishNameFr": "Dish name (FR)",
+    "dishNameEn": "Dish name (EN)",
+    "newDishFr": "New dish (FR)",
+    "newDishEn": "New dish (EN)",
+    "noDishes": "No dishes in this category — add one above.",
+    "noCategoriesYet": "No categories yet — add one above.",
+    "bilingualHint": "Blue fields: English version. Fill in both columns for the bilingual site."
+  }
+}

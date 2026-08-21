@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Reorder, useDragControls } from 'framer-motion'
 import {
   Tag,
@@ -9,6 +10,7 @@ import {
   Check,
   GripVertical,
   Info,
+  Globe,
 } from 'lucide-react'
 import {
   fetchSectionPrices,
@@ -31,27 +33,39 @@ interface PriceCardProps {
 }
 
 const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCardProps) => {
+  const { t } = useTranslation()
   const dragControls = useDragControls()
   const [title, setTitle] = useState(price.title)
+  const [titleEn, setTitleEn] = useState(price.title_en)
   const [subtitle, setSubtitle] = useState(price.subtitle)
+  const [subtitleEn, setSubtitleEn] = useState(price.subtitle_en)
   const [priceValue, setPriceValue] = useState(price.price)
+  const [priceEn, setPriceEn] = useState(price.price_en)
   const [duration, setDuration] = useState(price.duration)
   const [description, setDescription] = useState(price.description)
+  const [descriptionEn, setDescriptionEn] = useState(price.description_en)
   const [details, setDetails] = useState(price.details)
+  const [detailsEn, setDetailsEn] = useState(price.details_en)
   const [category, setCategory] = useState(price.category || categories?.[0]?.value || '')
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null)
   const [saved, setSaved] = useState(false)
+  const [showEn, setShowEn] = useState(false)
 
   const save = async () => {
     setBusy('save')
     const ok = await upsertPrice(sectionSlug, {
       ...price,
       title: title.trim(),
+      title_en: titleEn.trim(),
       subtitle: subtitle.trim(),
+      subtitle_en: subtitleEn.trim(),
       price: priceValue.trim(),
+      price_en: priceEn.trim(),
       duration: duration.trim(),
       description: description.trim(),
+      description_en: descriptionEn.trim(),
       details,
+      details_en: detailsEn,
       category,
     })
     setBusy(null)
@@ -91,11 +105,22 @@ const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCa
         <div className="flex-1 min-w-0 p-4 space-y-3">
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs font-semibold text-earth-700">Article #{index + 1}</p>
-            {price.key && (
-              <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-leaf-50 text-leaf-700">
-                Par défaut
-              </span>
-            )}
+            <div className="flex items-center gap-2">
+              {price.key && (
+                <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-leaf-50 text-leaf-700">
+                  {t('admin.default')}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => setShowEn(!showEn)}
+                className={`inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-full transition-colors duration-200 cursor-pointer ${showEn ? 'bg-blue-100 text-blue-700' : 'bg-earth-100 text-earth-600 hover:bg-earth-200'}`}
+                title={showEn ? 'Masquer les champs EN' : 'Afficher les champs EN'}
+              >
+                <Globe className="w-3 h-3" />
+                EN
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -103,19 +128,40 @@ const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCa
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              aria-label="Titre (ex. Chambre Simple)"
-              placeholder="Titre (ex. Chambre Simple)"
+              aria-label={t('admin.titleFr')}
+              placeholder={t('admin.titleFr')}
               className={inputClass}
             />
             <input
               type="text"
               value={priceValue}
               onChange={(e) => setPriceValue(e.target.value)}
-              aria-label="Prix (ex. 10,000 FCFA)"
-              placeholder="Prix (ex. 10,000 FCFA)"
+              aria-label={t('admin.priceFr')}
+              placeholder={t('admin.priceFr')}
               className={inputClass}
             />
           </div>
+
+          {showEn && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input
+                type="text"
+                value={titleEn}
+                onChange={(e) => setTitleEn(e.target.value)}
+                aria-label={t('admin.titleEn')}
+                placeholder={t('admin.titleEn')}
+                className={`${inputClass} border-blue-200`}
+              />
+              <input
+                type="text"
+                value={priceEn}
+                onChange={(e) => setPriceEn(e.target.value)}
+                aria-label={t('admin.priceEn')}
+                placeholder={t('admin.priceEn')}
+                className={`${inputClass} border-blue-200`}
+              />
+            </div>
+          )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input
@@ -136,6 +182,17 @@ const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCa
             />
           </div>
 
+          {showEn && (
+            <input
+              type="text"
+              value={subtitleEn}
+              onChange={(e) => setSubtitleEn(e.target.value)}
+              aria-label="Subtitle (EN, optional)"
+              placeholder="Subtitle (EN, optional)"
+              className={`${inputClass} border-blue-200`}
+            />
+          )}
+
           <input
             type="text"
             value={description}
@@ -145,6 +202,17 @@ const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCa
             className={inputClass}
           />
 
+          {showEn && (
+            <input
+              type="text"
+              value={descriptionEn}
+              onChange={(e) => setDescriptionEn(e.target.value)}
+              aria-label="Description (EN, optional)"
+              placeholder="Description (EN, optional)"
+              className={`${inputClass} border-blue-200`}
+            />
+          )}
+
           <textarea
             value={details}
             onChange={(e) => setDetails(e.target.value)}
@@ -153,6 +221,17 @@ const PriceCard = ({ sectionSlug, price, index, categories, onChanged }: PriceCa
             rows={2}
             className={`${inputClass} resize-none`}
           />
+
+          {showEn && (
+            <textarea
+              value={detailsEn}
+              onChange={(e) => setDetailsEn(e.target.value)}
+              aria-label="Details EN — one bullet per line (optional)"
+              placeholder="Details EN — one bullet per line (optional)"
+              rows={2}
+              className={`${inputClass} resize-none border-blue-200`}
+            />
+          )}
 
           {categories && categories.length > 0 && (
             <select
@@ -209,6 +288,7 @@ interface PriceManagerProps {
 }
 
 const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
+  const { t } = useTranslation()
   const [prices, setPrices] = useState<Price[]>([])
   const [order, setOrder] = useState<Price[]>([])
   const [loading, setLoading] = useState(true)
@@ -245,7 +325,7 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
 
   const add = async () => {
     if (!newTitle.trim() || !newPrice.trim()) {
-      setError('Le titre et le prix sont obligatoires pour ajouter un article.')
+      setError(t('admin.priceRequired'))
       return
     }
     setError(null)
@@ -255,11 +335,16 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
       key: null,
       category: categories ? newCategory : '',
       title: newTitle.trim(),
+      title_en: '',
       subtitle: '',
+      subtitle_en: '',
       description: '',
+      description_en: '',
       price: newPrice.trim(),
+      price_en: '',
       duration: '',
       details: '',
+      details_en: '',
       position: maxPosition + 1,
     })
     setAdding(false)
@@ -275,8 +360,7 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
       <div className="flex items-start gap-3 bg-white rounded-2xl shadow-card p-6 text-ink-soft">
         <Info className="w-5 h-5 text-sun-600 flex-shrink-0" aria-hidden="true" />
         <p className="text-sm">
-          Cette section ne gère pas de prix/tarifs. Les prix sont disponibles sur
-          les sections Hébergement, Circuits découverte et Soutien.
+          {t('admin.noPrices')}
         </p>
       </div>
     )
@@ -290,11 +374,10 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
       <div>
         <h2 className="text-2xl font-display font-bold text-ink flex items-center gap-2">
           <Tag className="w-6 h-6 text-sun-600" aria-hidden="true" />
-          Prix &amp; tarifs
+          {t('admin.prices')}
         </h2>
         <p className="text-sm text-ink-soft">
-          {config.label} — ajoutez, modifiez ou supprimez les tarifs. Les changements
-          sont visibles immédiatement sur le site.
+          {config.label} — {t('admin.pricesDescription')}
         </p>
       </div>
 
@@ -305,16 +388,16 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
           type="text"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
-          aria-label="Titre du nouvel article"
-          placeholder="Titre (ex. Chambre Triple)"
+          aria-label={t('admin.newPriceTitle')}
+          placeholder={t('admin.newPriceTitle')}
           className={`${inputClass} flex-1`}
         />
         <input
           type="text"
           value={newPrice}
           onChange={(e) => setNewPrice(e.target.value)}
-          aria-label="Prix du nouvel article"
-          placeholder="Prix (ex. 22,000 FCFA)"
+          aria-label={t('admin.newPriceValue')}
+          placeholder={t('admin.newPriceValue')}
           className={`${inputClass} flex-1`}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -348,7 +431,7 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
           ) : (
             <Plus className="w-4 h-4" aria-hidden="true" />
           )}
-          Ajouter
+          {t('admin.addPrice')}
         </button>
       </div>
       {error && (
@@ -361,13 +444,12 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
       {loading ? (
         <div className="flex items-center justify-center py-16 text-ink-soft">
           <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-          Chargement…
+          {t('common.loading')}
         </div>
       ) : order.length > 0 ? (
         <>
           <p className="text-sm text-ink-soft">
-            Glissez-déposez les articles pour les réordonner — l'ordre est enregistré
-            automatiquement et s'applique sur le site.
+            {t('admin.dragReorder')}
           </p>
           <Reorder.Group
             axis="y"
@@ -389,7 +471,7 @@ const PriceManager = ({ sectionSlug }: PriceManagerProps) => {
         </>
       ) : (
         <p className="text-sm text-ink-soft bg-white rounded-2xl shadow-card p-6">
-          Aucun tarif pour le moment — ajoutez-en un ci-dessus.
+          {t('admin.noPricesYet')}
         </p>
       )}
     </div>

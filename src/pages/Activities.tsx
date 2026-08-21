@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { Salad, PawPrint, Fish, Sprout, FlaskConical, BookOpen } from 'lucide-react'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
@@ -7,23 +8,24 @@ import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const Activities = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('activites-sain')
   const poles = [
     {
-      title: 'Production Végétale',
-      description: 'Cultures maraîchères, arrosage, engrais organiques et pesticides biologiques',
+      title: t('activities.poles.vegetal.title'),
+      description: t('activities.poles.vegetal.description'),
       icon: Salad,
       image: photos['pole-1']?.url || '/images/Fruits-Sain-1024x717.jpg',
     },
     {
-      title: 'Production Animale',
-      description: 'Élevage des lapins, poule, pigeonneaux, canards et cailles',
+      title: t('activities.poles.animal.title'),
+      description: t('activities.poles.animal.description'),
       icon: PawPrint,
       image: photos['pole-2']?.url || '/images/Elevage-lapin-Sain-1024x806.jpg',
     },
     {
-      title: 'Aquaculture',
-      description: 'Élevage de poissons dans des bassins spécialement aménagés',
+      title: t('activities.poles.aquaculture.title'),
+      description: t('activities.poles.aquaculture.description'),
       icon: Fish,
       image: photos['pole-3']?.url || '/images/Riz-Sain-1024x743.jpg',
     },
@@ -32,18 +34,18 @@ const Activities = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Travaux-Ferme-1024x768.jpg'}
-        eyebrow="Nos activités"
-        title="Nos Activités"
-        subtitle="Une ferme intégrée alliant production agricole, éducation, recherche et tourisme"
+        eyebrow={t('activities.eyebrow')}
+        title={t('activities.title')}
+        subtitle={t('activities.subtitle')}
       />
 
       {/* Production */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-              eyebrow="Production agricole"
-              title="Production Agricole"
-              subtitle="SAIN pratique une agriculture intégrée et durable avec trois sections principales"
+              eyebrow={t('activities.production.eyebrow')}
+              title={t('activities.production.title')}
+              subtitle={t('activities.production.subtitle')}
               className="mb-12"
             />
 
@@ -81,9 +83,9 @@ const Activities = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-              eyebrow="Formation agricole"
-              title="Formation Agricole"
-              subtitle="Depuis 2002, SAIN est une ferme-école offrant une formation professionnelle en agriculture durable"
+              eyebrow={t('activities.training.eyebrow')}
+              title={t('activities.training.title')}
+              subtitle={t('activities.training.subtitle')}
               className="mb-12"
             />
 
@@ -96,15 +98,13 @@ const Activities = () => {
               viewport={{ once: true }}
             >
               <h3 className="text-2xl font-bold text-ink mb-4">
-                Notre Méthode Pédagogique
+                {t('activities.training.methodTitle')}
               </h3>
               <blockquote className="text-xl italic text-earth-700 border-l-4 border-sun-500 pl-4 mb-4">
-                "Apprendre en faire" - une approche pratique et immersive
+                {t('activities.training.quote')}
               </blockquote>
               <p className="text-ink-soft leading-relaxed">
-                Les apprenants découvrent les techniques agricoles par la pratique
-                directe sur notre ferme de 14 hectares. Cette méthode permet d'acquérir
-                des compétences concrètes et durables.
+                {t('activities.training.description')}
               </p>
             </motion.div>
 
@@ -116,12 +116,11 @@ const Activities = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h4 className="text-xl font-bold text-ink mb-3">Formation Longue (18 mois)</h4>
+                <h4 className="text-xl font-bold text-ink mb-3">{t('activities.training.longTitle')}</h4>
                 <ul className="space-y-2 text-ink-soft">
-                  <li>• Public : jeunes défavorisés</li>
-                  <li>• Recrutement via les communes locales</li>
-                  <li>• Financement : vente des productions agricoles</li>
-                  <li>• Suivi post-formation inclus</li>
+                  {t('activities.training.longDetails', { returnObjects: true }).map((detail: string, i: number) => (
+                    <li key={i}>&bull; {detail}</li>
+                  ))}
                 </ul>
               </motion.div>
 
@@ -132,12 +131,11 @@ const Activities = () => {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 viewport={{ once: true }}
               >
-                <h4 className="text-xl font-bold text-ink mb-3">Formations Courtes</h4>
+                <h4 className="text-xl font-bold text-ink mb-3">{t('activities.training.shortTitle')}</h4>
                 <ul className="space-y-2 text-ink-soft">
-                  <li>• Durée : quelques jours à plusieurs semaines</li>
-                  <li>• Thèmes : techniques agricoles, leadership</li>
-                  <li>• Public : PCM, Colibri, organisations</li>
-                  <li>• Suivi individuel sur parcelle</li>
+                  {t('activities.training.shortDetails', { returnObjects: true }).map((detail: string, i: number) => (
+                    <li key={i}>&bull; {detail}</li>
+                  ))}
                 </ul>
               </motion.div>
             </div>
@@ -149,9 +147,9 @@ const Activities = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-              eyebrow="Recherche-action"
-              title="Recherche-Action"
-              subtitle="Développement de stratégies agricoles innovantes et durables"
+              eyebrow={t('activities.research.eyebrow')}
+              title={t('activities.research.title')}
+              subtitle={t('activities.research.subtitle')}
               className="mb-12"
             />
 
@@ -163,26 +161,23 @@ const Activities = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-4">
-              Objectifs de Recherche
+              {t('activities.research.goalsTitle')}
             </h3>
             <p className="text-lg leading-relaxed mb-6">
-              La ferme SAIN se consacre à la mise au point de stratégies agricoles
-              innovantes et durables. Notre équipe de recherche travaille pour proposer
-              des techniques respectueuses de l'environnement tout en augmentant la
-              productivité et la résilience face aux changements climatiques.
+              {t('activities.research.description')}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white/10 p-4 rounded-xl flex items-center gap-3">
                 <Sprout className="w-7 h-7 text-sun-200 flex-shrink-0" aria-hidden="true" />
-                <p className="font-medium">Techniques agricoles innovantes</p>
+                <p className="font-medium">{t('activities.research.point1')}</p>
               </div>
               <div className="bg-white/10 p-4 rounded-xl flex items-center gap-3">
                 <FlaskConical className="w-7 h-7 text-sun-200 flex-shrink-0" aria-hidden="true" />
-                <p className="font-medium">Adaptation au climat</p>
+                <p className="font-medium">{t('activities.research.point2')}</p>
               </div>
               <div className="bg-white/10 p-4 rounded-xl flex items-center gap-3">
                 <BookOpen className="w-7 h-7 text-sun-200 flex-shrink-0" aria-hidden="true" />
-                <p className="font-medium">Partage de connaissances</p>
+                <p className="font-medium">{t('activities.research.point3')}</p>
               </div>
             </div>
           </motion.div>
@@ -193,9 +188,9 @@ const Activities = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-              eyebrow="Agritourisme"
-              title="Agritourisme"
-              subtitle="Découvrez un cadre paisible pour des séjours familiaux, des séminaires ou des retraites"
+              eyebrow={t('activities.agritourism.eyebrow')}
+              title={t('activities.agritourism.title')}
+              subtitle={t('activities.agritourism.subtitle')}
               className="mb-12"
             />
 
@@ -208,15 +203,12 @@ const Activities = () => {
           >
             <img
               src={photos['agritourisme']?.url || '/images/Fruits-Sain-1024x717.jpg'}
-              alt={photos['agritourisme']?.alt || 'Agritourisme'}
+              alt={photos['agritourisme']?.alt || t('activities.agritourism.title')}
               className="w-full h-64 object-cover"
             />
             <div className="p-8">
               <p className="text-ink-soft leading-relaxed">
-                Située au cœur du village de Kakanitchoé, notre ferme offre un environnement
-                magnifique et propice à la détente. Que vous soyez en famille, avec des amis
-                ou en entreprise, vous pourrez profiter de nos espaces verdoyants, de nos
-                sentiers de randonnée et de nos activités éducatives.
+                {t('activities.agritourism.description')}
               </p>
             </div>
           </motion.div>
@@ -226,8 +218,8 @@ const Activities = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Venez vivre la ferme autrement"
-        subtitle="Une visite, une formation ou un séjour : tout commence par un échange."
+        title={t('activities.ctaTitle')}
+        subtitle={t('activities.ctaText')}
       />
     </>
   )

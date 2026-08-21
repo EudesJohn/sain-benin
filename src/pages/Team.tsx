@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { teamData } from '../data/sainData'
 import TeamMember from '../components/TeamMember'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
@@ -8,23 +8,24 @@ import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const Team = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('equipe-sain')
   return (
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg'}
-        eyebrow="Notre équipe"
-        title="Notre Équipe"
-        subtitle="Rencontrez les personnes passionnées qui font vivre le projet SAIN"
+        eyebrow={t('team.eyebrow')}
+        title={t('team.title')}
+        subtitle={t('team.subtitle')}
       />
 
       {/* Team Members */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Les acteurs de la ferme"
-            title="L'Équipe Permanente"
-            subtitle="Des personnes dévouées à la promotion de l'agriculture durable et à l'intégration des jeunes"
+            eyebrow={t('team.members.eyebrow')}
+            title={t('team.members.title')}
+            subtitle={t('team.members.subtitle')}
             className="mb-16"
           />
 
@@ -48,9 +49,9 @@ const Team = () => {
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <SectionHeading
-              eyebrow="Nos valeurs"
-              title="Engagés pour un Avenir Durable"
-              subtitle="Notre équipe est unie par une passion commune pour l'agriculture durable, l'éducation des jeunes et le développement communautaire. Ensemble, nous construisons un avenir où l'homme, la nature et la communauté vivent en harmonie."
+              eyebrow={t('team.values.eyebrow')}
+              title={t('team.values.title')}
+              subtitle={t('team.values.subtitle')}
             />
           </div>
         </div>
@@ -59,8 +60,8 @@ const Team = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Une équipe à votre écoute"
-        subtitle="Posez vos questions ou planifiez une visite : l'équipe SAIN vous accueille avec plaisir à la ferme."
+        title={t('team.ctaTitle')}
+        subtitle={t('team.ctaText')}
       />
     </>
   )

@@ -1,4 +1,5 @@
 import { Map, Users, BedDouble, Home, UserRound, ShowerHead, Plus, Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import { useSectionPrices } from '../hooks/useSectionPrices'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
@@ -9,8 +10,8 @@ import { IconTile } from '../components/ui/IconTile'
 import { CTASection } from '../components/ui/CTASection'
 
 const Accommodation = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('hebergement-ferme')
-  // Tarifs chargés depuis Supabase (gérés dans l'admin — plus rien en dur dans le code)
   const { prices, loading } = useSectionPrices('hebergement-ferme')
 
   const byCategory = (category: string) =>
@@ -18,42 +19,41 @@ const Accommodation = () => {
   const rooms = byCategory('room')
   const boardRates = byCategory('board')
 
-  // Icônes attribuées aux chambres selon leur ordre d'affichage
   const roomIcons = [BedDouble, BedDouble, Home, UserRound, ShowerHead, Plus]
+
+  const localize = (p: { title: string; subtitle: string; description: string; price: string }) => {
+    return p
+  }
 
   return (
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Jardin3-Sain-1024x768.jpg'}
-        eyebrow="Éco-tourisme"
-        title="Hébergement à la Ferme"
-        subtitle="Venez à SAIN pour vous ressourcer, découvrir les paysages magnifiques du Bénin."
+        eyebrow={t('accommodation.eyebrow')}
+        title={t('accommodation.title')}
+        subtitle={t('accommodation.subtitle')}
       />
 
-      {/* Un Séjour dans la Nature */}
+      {/* Un Sejour dans la Nature */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal>
-              <SectionHeading align="left" eyebrow="À la ferme" title="Un Séjour dans la Nature" className="mb-6" />
+              <SectionHeading align="left" eyebrow={t('accommodation.stayEyebrow')} title={t('accommodation.stayTitle')} className="mb-6" />
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Notre établissement est idéal pour des séjours familiaux,
-                des séminaires ou des retraites. Profitez d'un cadre paisible
-                entouré de belles paysages béninois.
+                {t('accommodation.stayText1')}
               </p>
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Situé au cœur du village de Kakanitchoé, notre ferme offre
-                un environnement calme et propice à la détente, loin de la
-                pollution et du stress de la vie citadine.
+                {t('accommodation.stayText2')}
               </p>
               <div className="flex flex-wrap gap-6">
                 <div className="flex items-center gap-2 text-ink">
                   <Map className="w-5 h-5 text-sun-600" aria-hidden="true" />
-                  <span>12 km d'Adjohoun</span>
+                  <span>{t('accommodation.distance')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-ink">
                   <Users className="w-5 h-5 text-sun-600" aria-hidden="true" />
-                  <span>Capacité : 40 personnes</span>
+                  <span>{t('accommodation.capacity')}</span>
                 </div>
               </div>
             </Reveal>
@@ -72,7 +72,7 @@ const Accommodation = () => {
                     <div key={key} className="group aspect-square rounded-card overflow-hidden shadow-card cursor-pointer">
                       <img
                         src={photo?.url || fallbacks[i]}
-                        alt={photo?.alt || `Hébergement ${i + 1}`}
+                        alt={photo?.alt || t('accommodation.previewAlt', { index: i + 1 })}
                         className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                       />
                     </div>
@@ -88,16 +88,16 @@ const Accommodation = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Hébergement"
-            title="Types de Chambres"
-            subtitle="Des options adaptées à tous les besoins"
+            eyebrow={t('accommodation.roomsEyebrow')}
+            title={t('accommodation.roomsTitle')}
+            subtitle={t('accommodation.roomsSubtitle')}
             className="mb-12"
           />
 
           {loading ? (
             <div className="flex items-center justify-center py-12 text-ink-soft">
               <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-              Chargement des tarifs…
+              {t('common.loading')}
             </div>
           ) : rooms.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -113,18 +113,18 @@ const Accommodation = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-ink-soft">Aucun tarif pour le moment.</p>
+            <p className="text-center text-ink-soft">{t('common.noPrices')}</p>
           )}
         </div>
       </section>
 
-      {/* Tarifs Pension Complète */}
+      {/* Tarifs Pension Complete */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Pension complète"
-            title="Tarifs Pension Complète"
-            subtitle="Repas inclus avec produits frais de notre ferme"
+            eyebrow={t('accommodation.boardEyebrow')}
+            title={t('accommodation.boardTitle')}
+            subtitle={t('accommodation.boardSubtitle')}
             className="mb-12"
           />
 
@@ -132,7 +132,7 @@ const Accommodation = () => {
             {loading ? (
               <div className="flex items-center justify-center py-12 text-ink-soft">
                 <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-                Chargement…
+                {t('common.loading')}
               </div>
             ) : boardRates.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -146,29 +146,29 @@ const Accommodation = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-ink-soft">Aucun tarif pour le moment.</p>
+              <p className="text-center text-ink-soft">{t('common.noPrices')}</p>
             )}
             <Reveal delay={0.15}>
               <p className="text-center text-sm text-ink-faint mt-6">
-                * Tous les repas sont préparés avec nos produits agricoles biologiques
+                * {t('accommodation.organicNote')}
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Découvrez Nos Espaces */}
+      {/* Decouvrez Nos Espaces */}
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
-          <SectionHeading eyebrow="Galerie" title="Découvrez Nos Espaces" className="mb-12" />
+          <SectionHeading eyebrow={t('accommodation.spacesEyebrow')} title={t('accommodation.spacesTitle')} className="mb-12" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {['espace-1', 'espace-2', 'espace-3'].map((key, i) => {
               const photo = photos[key]
               const fallbacks = [
-                { src: '/images/Hebergement-9-ppv80k18zqzr9fenf1dj1cdlvqjcdnyq13mq21ey10.jpg', title: 'Chambres' },
-                { src: '/images/Palme-Sain-150x150.jpg', title: 'Jardin' },
-                { src: '/images/Fleur-150x150.jpg', title: 'Espaces verts' },
+                { src: '/images/Hebergement-9-ppv80k18zqzr9fenf1dj1cdlvqjcdnyq13mq21ey10.jpg', title: t('accommodation.spaces.rooms') },
+                { src: '/images/Palme-Sain-150x150.jpg', title: t('accommodation.spaces.garden') },
+                { src: '/images/Fleur-150x150.jpg', title: t('accommodation.spaces.greenAreas') },
               ]
               return (
                 <Reveal key={key} delay={i * 0.1}>
@@ -189,9 +189,9 @@ const Accommodation = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Réservez Votre Séjour"
-        subtitle="Contactez-nous pour plus d'informations et vérifier la disponibilité."
-        label="Contactez-nous"
+        title={t('accommodation.ctaTitle')}
+        subtitle={t('accommodation.ctaText')}
+        label={t('common.learnMore')}
       />
     </>
   )

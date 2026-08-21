@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { School, GraduationCap, Sprout } from 'lucide-react'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
@@ -7,38 +8,31 @@ import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const SocialResponsibility = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('responsabilite-sociale')
+
   const initiatives = [
     {
       icon: School,
-      title: 'École Primaire de Kakanitchoé Xwhenusu',
-      description: 'École établie en 2000. Les premiers élèves ont obtenu leur master en 2021, démontrant l\'impact durable de l\'éducation soutenue par SAIN.',
-      impact: 'Plus de 100 élèves formés',
+      title: t('socialResponsibility.initiatives.school.title'),
+      description: t('socialResponsibility.initiatives.school.description'),
+      impact: t('socialResponsibility.initiatives.school.impact'),
       color: 'from-sun-500 to-sun-700',
     },
     {
       icon: GraduationCap,
-      title: 'Bourses pour Jeunes Désavantagés',
-      description: 'Nous soutenons financièrement les jeunes défavorisés pour accéder à une formation professionnelle ou littéraire.',
-      details: [
-        'Fournitures scolaires fournies',
-        'Frais d\'inscription couverts',
-        'Besoins alimentaires assurés',
-      ],
-      impact: '45 bénéficiaires annuels',
+      title: t('socialResponsibility.initiatives.scholarships.title'),
+      description: t('socialResponsibility.initiatives.scholarships.description'),
+      details: t('socialResponsibility.initiatives.scholarships.details', { returnObjects: true }) as string[],
+      impact: t('socialResponsibility.initiatives.scholarships.impact'),
       color: 'from-earth-500 to-earth-700',
     },
     {
       icon: Sprout,
-      title: 'Formation Agricole Professionnelle',
-      description: 'Notre ferme-école offre une formation professionnelle en agriculture durable avec une approche "apprendre en faisant".',
-      details: [
-        'Programme de 18 mois',
-        '15-20 jeunes recrutés annuellement',
-        'Financement via les ventes agricoles',
-        'Parrainage pour compléter le financement',
-      ],
-      impact: '130+ jeunes formés depuis 2002',
+      title: t('socialResponsibility.initiatives.training.title'),
+      description: t('socialResponsibility.initiatives.training.description'),
+      details: t('socialResponsibility.initiatives.training.details', { returnObjects: true }) as string[],
+      impact: t('socialResponsibility.initiatives.training.impact'),
       color: 'from-leaf-500 to-leaf-700',
     },
   ]
@@ -47,18 +41,18 @@ const SocialResponsibility = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Engagement-Social-Sain-1024x768.jpg'}
-        eyebrow="Responsabilité sociale"
-        title="Notre Responsabilité Sociale"
-        subtitle="Engagés pour le développement durable et l'intégration des jeunes — « Améliorer les conditions de vie locales à travers l'agriculture »."
+        eyebrow={t('socialResponsibility.eyebrow')}
+        title={t('socialResponsibility.title')}
+        subtitle={t('socialResponsibility.subtitle')}
       />
 
       {/* Introduction */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Notre engagement"
-            title="Notre Engagement"
-            subtitle="SAIN promeut la confiance, l'ouverture et des valeurs environnementales. Nos initiatives s'étendent à l'éducation, le soutien aux jeunes, la formation professionnelle et le développement rural."
+            eyebrow={t('socialResponsibility.engagement.eyebrow')}
+            title={t('socialResponsibility.engagement.title')}
+            subtitle={t('socialResponsibility.engagement.subtitle')}
             className="mb-12"
           />
         </div>
@@ -68,8 +62,8 @@ const SocialResponsibility = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Nos initiatives"
-            title="Des actions concrètes pour la communauté"
+            eyebrow={t('socialResponsibility.actions.eyebrow')}
+            title={t('socialResponsibility.actions.title')}
             className="mb-12"
           />
           <div className="max-w-6xl mx-auto space-y-8">
@@ -100,9 +94,9 @@ const SocialResponsibility = () => {
                     </p>
                     {'details' in initiative && initiative.details && (
                       <ul className="space-y-2 text-ink-soft">
-                        {initiative.details.map((detail, j) => (
+                        {initiative.details.map((detail: string, j: number) => (
                           <li key={j} className="flex items-start">
-                            <span className="mr-2 text-leaf-600">•</span>
+                            <span className="mr-2 text-leaf-600">&bull;</span>
                             {detail}
                           </li>
                         ))}
@@ -127,15 +121,13 @@ const SocialResponsibility = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl font-display font-bold mb-6">
-              Notre Mission
+              {t('socialResponsibility.mission.title')}
             </h2>
             <blockquote className="text-2xl italic mb-6">
-              {`"Contrire à un monde meilleur où les humains vivent avec dignité dans un environnement sain"`}
+              {t('socialResponsibility.mission.quote')}
             </blockquote>
             <p className="text-lg leading-relaxed opacity-90">
-              Nous promouvons des systèmes agricoles et alimentaires durables,
-              en valorisant les connaissances endogènes et en mettant l'accent
-              sur l'humain, la nature et la communauté.
+              {t('socialResponsibility.mission.description')}
             </p>
           </motion.div>
         </div>
@@ -144,8 +136,8 @@ const SocialResponsibility = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Soutenez nos actions sociales"
-        subtitle="Votre engagement multiplie l'impact de nos initiatives auprès des jeunes."
+        title={t('socialResponsibility.ctaTitle')}
+        subtitle={t('socialResponsibility.ctaText')}
       />
     </>
   )

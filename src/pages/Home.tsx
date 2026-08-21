@@ -9,6 +9,7 @@ import {
   UtensilsCrossed,
   Trees,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import HeroSection from '../components/HeroSection'
 import { serviceCards, testimonials } from '../data/sainData'
 import TestimonialCard from '../components/TestimonialCard'
@@ -32,6 +33,7 @@ const serviceIcons: Record<string, typeof Sprout> = {
 
 const Home = () => {
   const { photos, freePhotos } = useSectionPhotos('accueil')
+  const { t } = useTranslation()
   const previewImages = ['apercu-1', 'apercu-2', 'apercu-3', 'apercu-4', 'apercu-5', 'apercu-6']
   return (
     <div className="overflow-hidden">
@@ -41,9 +43,9 @@ const Home = () => {
       <section className="py-24">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Nos pôles d'activité"
-            title="Six façons de découvrir SAIN"
-            subtitle="Agriculture durable, éducation et tourisme écologique : sur la ferme, tout est lié."
+            eyebrow={t('activities.eyebrow')}
+            title={t('activities.title')}
+            subtitle={t('home.activitiesSubtitle')}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-14">
             {serviceCards.map((card, index) => {
@@ -58,15 +60,15 @@ const Home = () => {
                       <Icon className="w-8 h-8 text-white" aria-hidden="true" />
                     </div>
                     <h3 className="text-2xl font-display font-semibold text-ink mb-3 group-hover:text-leaf-700 transition-colors duration-200">
-                      {card.title}
+                      {t(`home.services.${card.id}.title`)}
                     </h3>
-                    <p className="text-ink-soft mb-6 flex-1">{card.description}</p>
+                    <p className="text-ink-soft mb-6 flex-1">{t(`home.services.${card.id}.description`)}</p>
                     <motion.span
                       className="inline-flex items-center gap-2 text-sun-700 font-semibold"
                       whileHover={{ x: 4 }}
                       transition={{ duration: 0.2, ease: easeOut }}
                     >
-                      En savoir plus
+                      {t('common.learnMore')}
                       <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </motion.span>
                   </Link>
@@ -84,16 +86,16 @@ const Home = () => {
             <div>
               <SectionHeading
                 align="left"
-                eyebrow="Qui sommes-nous ?"
-                title="Une ferme-école au cœur du Bénin"
-                subtitle="SAIN (Solidarités Agricoles Intégrées) est une ferme-école située au village de Kakanitchoé, à 12 km d'Adjohoun. Depuis 1991, nous promouvons l'agroécologie, la formation agricole professionnelle et le tourisme rural durable."
+                eyebrow={t('home.aboutTitle')}
+                title={t('home.aboutFarmTitle')}
+                subtitle={t('home.aboutText')}
               />
               <blockquote className="text-xl italic text-earth-800 border-l-4 border-sun-500 pl-4 mb-8 mt-6">
-                « Communion entre l'Homme, la Nature et la Communauté »
+                {t('hero.quote')}
               </blockquote>
               <Reveal delay={0.1}>
                 <Button to="/projet-global" icon={<ArrowRight className="w-4 h-4" />}>
-                  En savoir plus sur notre projet
+                  {t('common.learnMore')}
                 </Button>
               </Reveal>
             </div>
@@ -109,7 +111,7 @@ const Home = () => {
                 <div className="absolute -bottom-6 -left-4 sm:-left-6 bg-white p-6 rounded-2xl shadow-float max-w-xs">
                   <div className="text-center">
                     <div className="text-3xl font-display font-bold text-sun-700 mb-1">+30</div>
-                    <p className="text-sm text-ink-soft">Années d'expérience</p>
+                    <p className="text-sm text-ink-soft">{t('home.yearsExperience')}</p>
                   </div>
                 </div>
               </div>
@@ -122,9 +124,9 @@ const Home = () => {
       <section className="py-24">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="En images"
-            title="La vie à la ferme"
-            subtitle="Un aperçu de notre quotidien entre serres, étangs, champs et tables d'hôtes."
+            eyebrow={t('home.galleryEyebrow')}
+            title={t('home.galleryTitle')}
+            subtitle={t('home.gallerySubtitle')}
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-14">
             {previewImages.map((key, i) => {
@@ -146,7 +148,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Reveal delay={0.1}>
               <Button to="/galerie" variant="outline" icon={<ArrowRight className="w-4 h-4" />}>
-                Voir toute la galerie
+                {t('home.seeAll')}
               </Button>
             </Reveal>
           </div>
@@ -155,13 +157,12 @@ const Home = () => {
 
       {/* ── Témoignages ──────────────────────────────────────── */}
       <section className="py-24 bg-gradient-to-br from-earth-900 to-earth-950 text-white">
-        <div className="container mx-auto px-4 lg:px-6">
-          <SectionHeading
-            onDark
-            eyebrow="Témoignages"
-            title="Ce que disent nos partenaires"
-            subtitle="Leur expérience parle d'eux-mêmes."
-          />
+        <div className="container mx-auto px-4 lg:px-6">              <SectionHeading
+                onDark
+                eyebrow={t('home.testimonialsTitle')}
+                title={t('home.testimonialsSubtitle')}
+                subtitle={t('home.testimonialsDescription')}
+              />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard

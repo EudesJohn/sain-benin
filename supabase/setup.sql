@@ -39,10 +39,13 @@ create table if not exists public.photos (
 
 -- Autorisation admin : seul cet email peut écrire.
 -- ⚠️ L'email doit correspondre au compte créé dans Authentication.
+-- `set search_path = ''` fige le search_path (recommandation Supabase) :
+-- la fonction ne dépend plus de la valeur courante du search_path du rôle.
 create or replace function public.is_admin()
 returns boolean
 language sql
 stable
+set search_path = ''
 as $$
   select auth.email() = 'sainbenin@yahoo.fr';
 $$;
@@ -73,9 +76,10 @@ insert into storage.buckets (id, name, public)
 values ('photos', 'photos', true)
 on conflict (id) do nothing;
 
+-- Le bucket est public : les objets sont accessibles par URL sans politique SELECT.
+-- On ne crée donc AUCUNE politique de lecture sur storage.objects (cela éviterait
+-- aussi d'autoriser la liste complète des fichiers du bucket — lint 0025).
 drop policy if exists "Photos : lecture publique" on storage.objects;
-create policy "Photos : lecture publique" on storage.objects
-  for select using (bucket_id = 'photos');
 drop policy if exists "Photos : upload admin" on storage.objects;
 create policy "Photos : upload admin" on storage.objects
   for insert with check (bucket_id = 'photos' and public.is_admin());
@@ -173,11 +177,25 @@ from (values
   ('production', 'produit-fresh-item-coco', '/images/Palme-Sain-150x150.jpg', 'Coco', '', 0),
   ('production', 'produit-fresh-item-ananas', '/images/Ananas-2-150x150.jpg', 'Ananas', '', 0),
   ('production', 'produit-fresh-item-bananes-plantains', '/images/banaan-1024x768.jpg', 'Bananes plantains', '', 0),
+  ('production', 'produit-fresh-item-oranges', '', 'Oranges', '', 0),
+  ('production', 'produit-fresh-item-pasteques', '/images/Pasteque-Sain-pqky602ny2xct9rmyljwsss2by0rfg6icodxf4zgl4.jpg', 'Pastèques', '', 0),
   ('production', 'produit-fresh-legumes', '/images/Maraichage-4-150x150.jpg', 'Légumes', '', 0),
+  ('production', 'produit-fresh-item-piments', '', 'Piments', '', 0),
+  ('production', 'produit-fresh-item-oignons', '', 'Oignons', '', 0),
+  ('production', 'produit-fresh-item-haricots-verts', '', 'Haricots verts', '', 0),
   ('production', 'produit-fresh-oeufs', '/images/Elevage-Poules-Sain-150x150.jpg', 'Œufs', '', 0),
+  ('production', 'produit-fresh-item-oeufs-de-poule', '/images/Oeufs-Sain-pqky5wbb6qs7itx3kjxeitq7yejaknrl05rzi151a0.jpg', 'Œufs de poule', '', 0),
+  ('production', 'produit-fresh-item-oeufs-de-cailles', '', 'Œufs de cailles', '', 0),
   ('production', 'produit-fresh-viandes', '/images/Lapins-Elevage-150x150.jpg', 'Viandes', '', 0),
+  ('production', 'produit-fresh-item-lapin', '/images/Lapin-Sain-pqky63u0pf2i3pm6cn6f2rtwphi8a8lfp6zvc8tvw8.jpg', 'Lapin', '', 0),
+  ('production', 'produit-fresh-item-caille', '', 'Caille', '', 0),
+  ('production', 'produit-fresh-item-pigeon', '', 'Pigeon', '', 0),
+  ('production', 'produit-fresh-item-canard', '', 'Canard', '', 0),
   ('production', 'produit-fresh-poissons', '/images/Pirogue-150x114.jpg', 'Poissons', '', 0),
+  ('production', 'produit-fresh-item-poisson-frais', '/images/Poisson-Sain-pql0e2xo6yjrxbg4cpooq3as8pbi7539p184as90hk.jpg', 'Poisson frais', '', 0),
   ('production', 'produit-fresh-autres', '/images/Apiculture-Formation-150x150.jpg', 'Autres produits', '', 0),
+  ('production', 'produit-fresh-item-champignons', '/images/Champignons-Sain-pqky6bcq83csolb94qffmpxlgkh5ztfae87r6giqig.jpg', 'Champignons', '', 0),
+  ('production', 'produit-fresh-item-miel', '', 'Miel', '', 0),
   ('production', 'produit-processed-jus-de-papaye', '/images/Papaye-Sain-150x150.jpg', 'Jus de papaye', '', 0),
   ('production', 'produit-processed-huile-de-coco', '/images/Palme-Sain-150x150.jpg', 'Huile de coco', '', 0),
   ('production', 'produit-processed-huile-de-palme', '/images/Curcuma-Sain-150x150.jpg', 'Huile de palme', '', 0),
@@ -395,3 +413,82 @@ Suivi éducatif personnalisé', 2)
 ) as v(slug, key, category, title, subtitle, description, price, duration, details, position)
 join public.sections s on s.slug = v.slug
 on conflict (section_id, key) do nothing;
+
+-- ─────────────────────────────────────────────
+-- 9. Menus du restaurant
+--    Une catégorie par ligne (ex. « Entrées »), un plat par ligne rattaché
+--    à sa catégorie. L'admin peut ajouter, modifier, supprimer et réordonner
+--    les catégories et les plats depuis la zone d'administration.
+-- ─────────────────────────────────────────────
+
+create table if not exists public.menu_categories (
+  id uuid primary key default gen_random_uuid(),
+  section_id uuid not null references public.sections(id) on delete cascade,
+  name text not null default '',
+  position integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.menu_items (
+  id uuid primary key default gen_random_uuid(),
+  category_id uuid not null references public.menu_categories(id) on delete cascade,
+  name text not null default '',
+  position integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table public.menu_categories enable row level security;
+alter table public.menu_items enable row level security;
+
+drop policy if exists "Menus : lecture publique" on public.menu_categories;
+create policy "Menus : lecture publique" on public.menu_categories for select using (true);
+drop policy if exists "Menus : ajout admin" on public.menu_categories;
+create policy "Menus : ajout admin" on public.menu_categories for insert with check (public.is_admin());
+drop policy if exists "Menus : modification admin" on public.menu_categories;
+create policy "Menus : modification admin" on public.menu_categories for update using (public.is_admin());
+drop policy if exists "Menus : suppression admin" on public.menu_categories;
+create policy "Menus : suppression admin" on public.menu_categories for delete using (public.is_admin());
+
+drop policy if exists "Plats : lecture publique" on public.menu_items;
+create policy "Plats : lecture publique" on public.menu_items for select using (true);
+drop policy if exists "Plats : ajout admin" on public.menu_items;
+create policy "Plats : ajout admin" on public.menu_items for insert with check (public.is_admin());
+drop policy if exists "Plats : modification admin" on public.menu_items;
+create policy "Plats : modification admin" on public.menu_items for update using (public.is_admin());
+drop policy if exists "Plats : suppression admin" on public.menu_items;
+create policy "Plats : suppression admin" on public.menu_items for delete using (public.is_admin());
+
+-- Seed : reproduit le menu actuellement affiché sur la page Restaurant.
+-- Idempotent : n'insère les catégories que si la section n'en a encore aucune,
+-- et les plats que si la catégorie n'en a encore aucun (ré-exécution sans doublon).
+
+insert into public.menu_categories (section_id, name, position)
+select s.id, v.name, v.position
+from (values
+  ('restaurant', 'Entrées', 0),
+  ('restaurant', 'Plats Principaux', 1),
+  ('restaurant', 'Accompagnements', 2),
+  ('restaurant', 'Desserts', 3)
+) as v(slug, name, position)
+join public.sections s on s.slug = v.slug
+where not exists (select 1 from public.menu_categories mc where mc.section_id = s.id);
+
+insert into public.menu_items (category_id, name, position)
+select c.id, v.name, v.position
+from (values
+  ('Entrées', 'Salade verte', 0),
+  ('Entrées', 'Soupe du jour', 1),
+  ('Entrées', 'Salade de papaye verte', 2),
+  ('Plats Principaux', 'Riz SAIN (riz de la ferme)', 0),
+  ('Plats Principaux', 'Poulet rôti', 1),
+  ('Plats Principaux', 'Poisson grillé', 2),
+  ('Plats Principaux', 'Lapin braisé', 3),
+  ('Accompagnements', 'Légumes de saison', 0),
+  ('Accompagnements', 'Purée de manioc', 1),
+  ('Accompagnements', 'Gari', 2),
+  ('Desserts', 'Confiture maison', 0),
+  ('Desserts', 'Jus de papaye', 1),
+  ('Desserts', 'Fromage de coco', 2)
+) as v(category, name, position)
+join public.menu_categories c on c.name = v.category
+where not exists (select 1 from public.menu_items mi where mi.category_id = c.id);

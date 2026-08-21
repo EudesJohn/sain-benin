@@ -1,0 +1,639 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "aboutProject": "Le projet global",
+    "responsability": "Responsabilité sociale",
+    "activities": "Nos activités",
+    "team": "Notre équipe",
+    "ecoTourism": "Éco-tourisme",
+    "accommodation": "Hébergement",
+    "restaurant": "Restaurant",
+    "circuits": "Circuits découverte",
+    "formations": "Formations",
+    "production": "Nos produits",
+    "support": "Nous soutenir",
+    "gallery": "Galerie",
+    "contact": "Contact",
+    "legal": "Mentions légales"
+  },
+  "hero": {
+    "eyebrow": "Ferme École \u2022 Agroécologie \u2022 Éco-tourisme",
+    "title": "Solidarités Agricoles Intégrées",
+    "quote": "\u00ab Communion entre l'Homme, la Nature et la Communauté \u00bb",
+    "location": "Village Kakanitchoé, 12 km d'Adjohoun, Bénin",
+    "discoverFormations": "Découvrir nos formations",
+    "bookVisit": "Réserver une visite"
+  },
+  "home": {
+    "aboutTitle": "À propos de SAIN",
+    "aboutText": "Depuis 1991, la Ferme École SAIN forme les jeunes à l'agriculture durable et à l'entrepreneuriat agricole au Bénin.",
+    "activitiesSubtitle": "Agriculture durable, éducation et tourisme écologique : sur la ferme, tout est lié.",
+    "aboutFarmTitle": "Une ferme-école au cœur du Bénin",
+    "yearsExperience": "Années d'expérience",
+    "galleryEyebrow": "En images",
+    "galleryTitle": "La vie à la ferme",
+    "gallerySubtitle": "Un aperçu de notre quotidien entre serres, étangs, champs et tables d'hôtes.",
+    "testimonialsSubtitle": "Ce que disent nos partenaires",
+    "testimonialsDescription": "Leur expérience parle d'eux-mêmes.",
+    "servicesTitle": "Nos services",
+    "services": {
+      "agroecology": { "title": "Agroécologie", "description": "Production agricole durable respectueuse de l'environnement" },
+      "school": { "title": "Ferme École", "description": "Formation professionnelle en agriculture durable" },
+      "products": { "title": "Produits frais et transformés", "description": "Vente de produits bio cultivés sur place" },
+      "accommodation": { "title": "Hébergement à la Ferme", "description": "Séjournez dans un cadre rural et paisible" },
+      "restaurant": { "title": "Restauration", "description": "Cuisine bio, du champ à l'assiette" },
+      "nature": { "title": "Séjours Nature", "description": "Découvrez les circuits de découverte" }
+    },
+    "testimonialsTitle": "Ils témoignent",
+    "galleryPreview": "Aperçu de la galerie",
+    "seeAll": "Voir toute la galerie",
+    "cta": "Envie de découvrir SAIN ?",
+    "ctaText": "Rejoignez-nous pour une expérience unique au cœur de l'agroécologie béninoise."
+  },
+  "about": {
+    "eyebrow": "Le projet global",
+    "title": "À Propos de SAIN",
+    "history": "Notre Histoire",
+    "historyText1": "Créée en 1991, SAIN (Solidarités Agricoles Intégrées) s'est installée au village de Kakanitchoé, à 12 km d'Adjohoun au Bénin, depuis 1998. La ferme s'étend sur 14 hectares, comprenant des terres hautes et des basse-cultures.",
+    "historyText2": "Notre ferme vit depuis plus de 30 ans grâce à une approche profondément ancrée dans les valeurs de solidarité, de respect de la nature et de développement communautaire.",
+    "hectares": "Hectares de ferme",
+    "years": "Années d'expérience",
+    "mission": "Notre Mission",
+    "missionText": "Promouvoir des systèmes agricoles et alimentaires durables pour nourrir et faire vivre dignement les populations, en particulier les jeunes et les femmes.",
+    "vision": "Notre Vision",
+    "visionText": "Un monde meilleur où les humains vivent avec dignité dans un environnement sain.",
+    "philosophy": "Notre Philosophie",
+    "philosophyText": "La communion entre l'Homme, la Nature et la Communauté.",
+    "valuesTitle": "Nos Valeurs Fondamentales",
+    "valuesSubtitle": "Les piliers sur lesquels repose notre engagement quotidien",
+    "values": {
+      "youth": { "title": "Soutien aux Jeunes", "description": "Nous formons les jeunes pour leur offrir des opportunités durables dans leur région d'origine." },
+      "environment": { "title": "Environnement Durable", "description": "Toutes nos pratiques agricoles reposent sur l'agroécologie, la permaculture et la biodiversité." },
+      "local": { "title": "Développement Local", "description": "Nous contribuons activement au développement socio-économique de notre communauté locale." }
+    },
+    "interventionsTitle": "Nos Domaines d'Intervention",
+    "interventions": {
+      "production": { "title": "Production Agricole", "description": "Mise en œuvre de techniques agricoles respectueuses de l'environnement avec trois sections : production végétale, élevage animal et aquaculture." },
+      "training": { "title": "Formation Professionnelle", "description": "Depuis 2002, SAIN est une ferme-école formant des jeunes à l'agriculture durable avec une approche « apprendre en faisant »." },
+      "research": { "title": "Recherche-Action", "description": "Développement de stratégies agricoles innovantes et durables, en collaboration avec la communauté scientifique." },
+      "tourism": { "title": "Agro-Tourisme", "description": "Hébergement, restauration et circuits de découverte dans un cadre rural préservé." }
+    },
+    "ctaTitle": "Envie de nous rencontrer ?",
+    "ctaText": "Visitez la ferme, rejoignez une formation ou soutenez notre projet."
+  },
+  "activities": {
+    "eyebrow": "Nos activités",
+    "title": "Nos Activités",
+    "subtitle": "Une ferme intégrée alliant production agricole, éducation, recherche et tourisme",
+    "poles": {
+      "vegetal": { "title": "Production Végétale", "description": "Cultures maraîchères, arrosage, engrais organiques et pesticides biologiques" },
+      "animal": { "title": "Production Animale", "description": "Élevage des lapins, poule, pigeonneaux, canards et cailles" },
+      "aquaculture": { "title": "Aquaculture", "description": "Élevage de poissons dans des bassins spécialement aménagés" }
+    },
+    "production": {
+      "eyebrow": "Production agricole",
+      "title": "Production Agricole",
+      "subtitle": "SAIN pratique une agriculture intégrée et durable avec trois sections principales"
+    },
+    "training": {
+      "eyebrow": "Formation agricole",
+      "title": "Formation Agricole",
+      "subtitle": "Depuis 2002, SAIN est une ferme-école offrant une formation professionnelle en agriculture durable",
+      "methodTitle": "Notre Méthode Pédagogique",
+      "quote": "« Apprendre en faire » - une approche pratique et immersive",
+      "description": "Les apprenants découvrent les techniques agricoles par la pratique directe sur notre ferme de 14 hectares. Cette méthode permet d'acquérir des compétences concrètes et durables.",
+      "longTitle": "Formation Longue (18 mois)",
+      "longDetails": [
+        "Public : jeunes défavorisés",
+        "Recrutement via les communes locales",
+        "Financement : vente des productions agricoles",
+        "Suivi post-formation inclus"
+      ],
+      "shortTitle": "Formations Courtes",
+      "shortDetails": [
+        "Durée : quelques jours à plusieurs semaines",
+        "Thèmes : techniques agricoles, leadership",
+        "Public : PCM, Colibri, organisations",
+        "Suivi individuel sur parcelle"
+      ]
+    },
+    "research": {
+      "eyebrow": "Recherche-action",
+      "title": "Recherche-Action",
+      "subtitle": "Développement de stratégies agricoles innovantes et durables",
+      "goalsTitle": "Objectifs de Recherche",
+      "description": "La ferme SAIN se consacre à la mise au point de stratégies agricoles innovantes et durables. Notre équipe de recherche travaille pour proposer des techniques respectueuses de l'environnement tout en augmentant la productivité et la résilience face aux changements climatiques.",
+      "point1": "Techniques agricoles innovantes",
+      "point2": "Adaptation au climat",
+      "point3": "Partage de connaissances"
+    },
+    "agritourism": {
+      "eyebrow": "Agritourisme",
+      "title": "Agritourisme",
+      "subtitle": "Découvrez un cadre paisible pour des séjours familiaux, des séminaires ou des retraites",
+      "description": "Située au cœur du village de Kakanitchoé, notre ferme offre un environnement magnifique et propice à la détente. Que vous soyez en famille, avec des amis ou en entreprise, vous pourrez profiter de nos espaces verdoyants, de nos sentiers de randonnée et de nos activités éducatives."
+    },
+    "ctaTitle": "Venez vivre la ferme autrement",
+    "ctaText": "Une visite, une formation ou un séjour : tout commence par un échange."
+  },
+  "formations": {
+    "eyebrow": "Ferme-école SAIN",
+    "title": "Formations",
+    "subtitle": "Une approche pédagogique innovante : apprendre par l'action",
+    "quote": "« Notre approche privilégiée est la recherche-action formative, autrement dit : ancrer la réflexion dans la pratique. »",
+    "method": {
+      "eyebrow": "Approche pédagogique",
+      "title": "Notre Méthode Pédagogique",
+      "subtitle": "Apprendre en faisant : une approche pratique et immersive qui permet d'acquérir des compétences concrètes et durables.",
+      "quote": "« Apprendre en faisant »",
+      "description": "Les apprenants découvrent les techniques agricoles par la pratique directe sur notre ferme de 14 hectares. Cette méthode permet d'acquérir des compétences concrètes et durables."
+    },
+    "long": {
+      "eyebrow": "Insertion professionnelle",
+      "heading": "Formations de Longue Durée",
+      "subtitle": "Programmes complets pour accompagner les jeunes vers l'insertion professionnelle",
+      "title": "Formation Professionnelle Complète (18 mois)",
+      "description": "Cycle complet de formation agricole professionnelle pour jeunes défavorisés",
+      "details": [
+        "Public cible : jeunes décrocheurs de familles défavorisées",
+        "Durée : 18 mois",
+        "Recrutement : 15 à 20 jeunes annuellement via les communes",
+        "Hébergement et repas inclus",
+        "Financement partiel par les ventes agricoles de la ferme",
+        "Parrainage pour compléter le financement"
+      ]
+    },
+    "short": {
+      "title": "Formation Courte (15-21 jours)",
+      "description": "Formation intensive à distance pour les bénéficiaires du Programme des Communautés Unies (PCM)",
+      "details": [
+        "Jeunes des PCM soutenus par le PNUD",
+        "Modules de base en agriculture",
+        "Accompagnement individualisé sur parcelle",
+        "Suivi post-formation intégré"
+      ]
+    },
+    "modules": {
+      "eyebrow": "Modules courts",
+      "title": "Modules Techniques & Thématiques",
+      "subtitle": "Découvrez les compétences enseignées lors de nos formations courtes",
+      "livestock": { "title": "Techniques d'Élevage", "items": ["Lapins", "Poules", "Cailles", "Escargots"] },
+      "production": { "title": "Techniques de Production", "items": ["Maraîchage biologique", "Compostage", "Riziculture (SRI)", "Techniques climato-intelligentes"] },
+      "leadership": { "title": "Leadership & Développement", "items": ["Élaboration de business plans", "Agroécologie & entrepreneurship", "Innovation rurale", "Communication non-violente"] },
+      "beekeeping": { "title": "Apiculture", "items": ["Technique d'apiculture traditionnelle", "Gestion des ruches", "Récolte du miel"] }
+    },
+    "retreats": {
+      "eyebrow": "Retraites & groupes",
+      "title": "Retraites en Familles ou en Groupes",
+      "subtitle": "Un lieu idéal pour réfléchir à l'agriculture et se ressourcer en pleine nature",
+      "cardTitle": "Découvrez notre cadre de travail",
+      "description1": "La ferme SAIN, étendue sur 14 hectares, offre des espaces verts pour des retrouilles, des ateliers et des moments de réflexion.",
+      "description2": "Plusieurs zones de repos et de méditation sont disponibles tout au long du domaine, avec des sentiers pédestres agréables.",
+      "cta": "Réserver une retraite"
+    },
+    "ctaTitle": "Prêt à rejoindre nos formations ?",
+    "ctaText": "Contactez-nous pour plus d'informations sur nos programmes de formation et nos disponibilités."
+  },
+  "accommodation": {
+    "eyebrow": "Hébergement rural",
+    "title": "Hébergement à la Ferme",
+    "subtitle": "Venez à SAIN pour vous ressourcer, découvrir les paysages magnifiques du Bénin.",
+    "rooms": "Chambres",
+    "board": "Pension complète",
+    "comfort": "Un confort simple et authentique",
+    "comfortText": "Profitez d'un séjour paisible au cœur de la nature, dans des chambres propres et fonctionnelles.",
+    "stayEyebrow": "À la ferme",
+    "stayTitle": "Un Séjour dans la Nature",
+    "stayText1": "Notre établissement est idéal pour des séjours familiaux, des séminaires ou des retraites. Profitez d'un cadre paisible entouré de beaux paysages béninois.",
+    "stayText2": "Situé au cœur du village de Kakanitchoé, notre ferme offre un environnement calme et propice à la détente, loin de la pollution et du stress de la vie citadine.",
+    "distance": "12 km d'Adjohoun",
+    "capacity": "Capacité : 40 personnes",
+    "previewAlt": "Hébergement {{index}}",
+    "roomsEyebrow": "Hébergement",
+    "roomsTitle": "Types de Chambres",
+    "roomsSubtitle": "Des options adaptées à tous les besoins",
+    "noPrices": "Aucun tarif pour le moment.",
+    "boardEyebrow": "Pension complète",
+    "boardTitle": "Tarifs Pension Complète",
+    "boardSubtitle": "Repas inclus avec produits frais de notre ferme",
+    "organicNote": "Tous les repas sont préparés avec nos produits agricoles biologiques",
+    "spacesEyebrow": "Galerie",
+    "spacesTitle": "Découvrez Nos Espaces",
+    "spaces": {
+      "rooms": "Chambres",
+      "garden": "Jardin",
+      "greenAreas": "Espaces verts"
+    },
+    "ctaTitle": "Réservez Votre Séjour",
+    "ctaText": "Contactez-nous pour plus d'informations et vérifier la disponibilité."
+  },
+  "restaurant": {
+    "eyebrow": "Restaurant",
+    "title": "Restaurant SAIN",
+    "subtitle": "Du champ à l'assiette - Découvrez la cuisine bio de notre ferme",
+    "concept": {
+      "eyebrow": "Agroécologie",
+      "title": "Notre Concept",
+      "description1": "Du champ à l'assiette : nos menus sont élaborés avec les produits frais cultivés sur notre propre ferme en agroécologie.",
+      "description2": "Notre cuisine allie tradition béninoise et créativité, en valorisant les produits locaux et de saison, garantissant fraîcheur et saveurs authentiques.",
+      "badge": "100% Bio & Local"
+    },
+    "hours": {
+      "eyebrow": "Horaires",
+      "title": "Horaires de Service",
+      "breakfast": "Petit-déjeuner",
+      "breakfastTime": "07h00 - 10h00",
+      "dinner": "Dîner",
+      "dinnerTime": "18h30 - 21h00",
+      "location": "Restaurant SAIN - Village Kakanitchoé, 12 km d'Adjohoun",
+      "groupNote": "Pour les groupes, réservation obligatoire 24h à l'avance"
+    },
+    "menu": {
+      "eyebrow": "Menu",
+      "title": "Notre Menu",
+      "subtitle": "Des plats préparés avec nos produits agricoles"
+    },
+    "ctaTitle": "Réservez Votre Repas",
+    "ctaText": "Découvrez les saveurs de notre cuisine bio durant votre séjour à la ferme."
+  },
+  "circuits": {
+    "eyebrow": "Éco-tourisme",
+    "title": "Circuits Découverte",
+    "subtitle": "Découvrez les trésors naturels et culturels de notre région",
+    "quote": "« Tous les circuits incluent un guide local passionné. Le transport n'est pas inclus. »",
+    "loading": "Chargement des circuits…",
+    "empty": "Aucun circuit pour le moment.",
+    "list": {
+      "eyebrow": "Nos circuits",
+      "title": "Découvrez nos 6 Circuits",
+      "subtitle": "Chaque circuit vous immerge dans un aspect unique de la culture et de la nature béninoise"
+    },
+    "details": {
+      "eyebrow": "Comment ça se passe ?",
+      "title": "Détails des Circuits",
+      "subtitle": "Toutes nos découvertes vous attendent en petits groupes pour une expérience immersive et authentique."
+    },
+    "gallery": {
+      "eyebrow": "Galerie",
+      "title": "En Images",
+      "item": "Circuit {{number}}"
+    },
+    "ctaTitle": "Réservez Votre Découverte",
+    "ctaText": "Contactez-nous pour réserver votre circuit préféré et vivez une expérience unique au cœur de la nature béninoise.",
+    "ctaLabel": "Réserver maintenant"
+  },
+  "production": {
+    "eyebrow": "Nos produits",
+    "title": "Nos Produits",
+    "subtitle": "Des produits frais et transformés cultivés avec amour",
+    "quote": "Production équilibrée entre trois secteurs : plantes, animaux et agro-transformation",
+    "intro": {
+      "eyebrow": "Notre production",
+      "title": "Production Agricole Durable",
+      "subtitle": "Notre ferme pratique une agriculture 100% biologique avec des techniques respectueuses de l'environnement.",
+      "crops": "Cultures",
+      "cropsDescription": "Fruits, légumes et céréales",
+      "livestock": "Élevage",
+      "livestockDescription": "Lapins, poules, poissons",
+      "processing": "Transformation",
+      "processingDescription": "Jus, huiles, confitures"
+    },
+    "fresh": {
+      "eyebrow": "De la ferme au panier",
+      "title": "Produits Frais",
+      "subtitle": "Des produits de saison, cultivés avec soin"
+    },
+    "processed": {
+      "eyebrow": "Valorisation sur place",
+      "title": "Produits Transformés",
+      "subtitle": "Nos produits transformés avec les ingrédients de notre ferme"
+    },
+    "services": {
+      "eyebrow": "Nos services",
+      "title": "Services de Distribution",
+      "subtitle": "Plusieurs façons de commander nos produits frais",
+      "directSales": "Vente Directe",
+      "directSalesDescription": "Achetez nos produits directement sur la ferme",
+      "monthlyBasket": "Panier Mensuel",
+      "monthlyBasketDescription": "Abonnement mensuel de livraison de produits frais",
+      "monthlyEvent": "Événement Mensuel",
+      "monthlyEventDescription": "Barbecue mensuel avec nos viandes d'élevage"
+    },
+    "ctaTitle": "Commandez nos produits",
+    "ctaText": "Contactez-nous pour passer votre commande ou découvrir notre gamme complète de produits agricoles.",
+    "ctaLabel": "Commander maintenant"
+  },
+  "support": {
+    "eyebrow": "Faire un don",
+    "title": "Nous Soutenir",
+    "subtitle": "Ensemble, construisons un avenir durable pour les jeunes et la communauté",
+    "quote": "« SAIN est une petite structure d'économie sociale. Son modèle repose sur des formations payantes et des subventions diverses. »",
+    "programs": {
+      "eyebrow": "Trois façons d'agir",
+      "title": "Programmes de Soutien",
+      "subtitle": "Rejoignez-nous dans notre mission de promouvoir l'agroécologie et l'émancipation des jeunes",
+      "empty": "Aucun programme pour le moment."
+    },
+    "projects": {
+      "eyebrow": "En cours",
+      "title": "Projets Spécifiques",
+      "subtitle": "Découvrez nos initiatives actuelles et suivez leur avancement",
+      "completed": "complété",
+      "latrine": { "title": "Une Famille une Latrine", "description": "Améliorer l'hygiène sanitaire dans les foyers locaux" },
+      "water": { "title": "Accès à l'Eau Potable", "description": "Installation de puits et forages dans les villages" },
+      "scholarship": { "title": "Programme de Bourses", "description": "Soutien financier pour les étudiants défavorisés" }
+    },
+    "students": {
+      "eyebrow": "Éducation",
+      "title": "Soutien aux Étudiants",
+      "description1": "Notre programme de soutien éducatif couvre l'ensemble des besoins des élèves défavorisés : fournitures scolaires, frais d'inscription, et besoins alimentaires.",
+      "description2": "Chaque don participe directement à l'intégration réussie de nos jeunes dans un avenir prometteur à travers l'agriculture durable.",
+      "cta": "Devenir parrain",
+      "photo1": "Étudiant",
+      "photo2": "Formation",
+      "photo3": "Arrosage",
+      "photo4": "Étudiants"
+    },
+    "ctaTitle": "Soutenez notre mission",
+    "ctaText": "Votre soutien nous permet de continuer à former les jeunes, de protéger l'environnement et de développer notre communauté.",
+    "ctaLabel": "Contactez-nous pour soutenir"
+  },
+  "team": {
+    "eyebrow": "Notre équipe",
+    "title": "Notre Équipe",
+    "subtitle": "Rencontrez les personnes passionnées qui font vivre le projet SAIN",
+    "members": {
+      "eyebrow": "Les acteurs de la ferme",
+      "title": "L'Équipe Permanente",
+      "subtitle": "Des personnes dévouées à la promotion de l'agriculture durable et à l'intégration des jeunes"
+    },
+    "values": {
+      "eyebrow": "Nos valeurs",
+      "title": "Engagés pour un Avenir Durable",
+      "subtitle": "Notre équipe est unie par une passion commune pour l'agriculture durable, l'éducation des jeunes et le développement communautaire. Ensemble, nous construisons un avenir où l'homme, la nature et la communauté vivent en harmonie."
+    },
+    "ctaTitle": "Une équipe à votre écoute",
+    "ctaText": "Posez vos questions ou planifiez une visite : l'équipe SAIN vous accueille avec plaisir à la ferme."
+  },
+  "socialResponsibility": {
+    "eyebrow": "Responsabilité sociale",
+    "title": "Notre Responsabilité Sociale",
+    "subtitle": "Engagés pour le développement durable et l'intégration des jeunes \u2014 « Améliorer les conditions de vie locales à travers l'agriculture ».",
+    "engagement": {
+      "eyebrow": "Notre engagement",
+      "title": "Notre Engagement",
+      "subtitle": "SAIN promeut la confiance, l'ouverture et des valeurs environnementales. Nos initiatives s'étendent à l'éducation, le soutien aux jeunes, la formation professionnelle et le développement rural."
+    },
+    "actions": {
+      "eyebrow": "Nos initiatives",
+      "title": "Des actions concrètes pour la communauté"
+    },
+    "mission": {
+      "title": "Notre Mission",
+      "quote": "« Contribuer à un monde meilleur où les humains vivent avec dignité dans un environnement sain »",
+      "description": "Nous promouvons des systèmes agricoles et alimentaires durables, en valorisant les connaissances endogènes et en mettant l'accent sur l'humain, la nature et la communauté."
+    },
+    "initiatives": {
+      "school": {
+        "title": "École Primaire de Kakanitchoé Xwhenusu",
+        "description": "École établie en 2000. Les premiers élèves ont obtenu leur master en 2021, démontrant l'impact durable de l'éducation soutenue par SAIN.",
+        "impact": "Plus de 100 élèves formés"
+      },
+      "scholarships": {
+        "title": "Bourses pour Jeunes Désavantagés",
+        "description": "Nous soutenons financièrement les jeunes défavorisés pour accéder à une formation professionnelle ou littéraire.",
+        "details": ["Fournitures scolaires fournies", "Frais d'inscription couverts", "Besoins alimentaires assurés"],
+        "impact": "45 bénéficiaires annuels"
+      },
+      "training": {
+        "title": "Formation Agricole Professionnelle",
+        "description": "Notre ferme-école offre une formation professionnelle en agriculture durable avec une approche « apprendre en faisant ».",
+        "details": ["Programme de 18 mois", "15-20 jeunes recrutés annuellement", "Financement via les ventes agricoles", "Parrainage pour compléter le financement"],
+        "impact": "130+ jeunes formés depuis 2002"
+      }
+    },
+    "ctaTitle": "Soutenez nos actions sociales",
+    "ctaText": "Votre engagement multiplie l'impact de nos initiatives auprès des jeunes."
+  },
+  "gallery": {
+    "eyebrow": "Galerie",
+    "title": "Galerie Photo",
+    "subtitle": "Toute la vie de la ferme en images",
+    "loading": "Chargement des photos…",
+    "photosReady": "photos prêtes",
+    "grid": {
+      "eyebrow": "Notre quotidien",
+      "title": "La Vie à la Ferme en Images",
+      "subtitle": "Découvrez les moments forts de notre communauté agricole"
+    },
+    "viewImage": "Voir l'image : {{alt}}",
+    "videos": {
+      "eyebrow": "Vidéos",
+      "title": "La Ferme en Vidéos",
+      "subtitle": "Retrouvez la vie de la ferme en mouvement sur notre chaîne YouTube",
+      "seeAll": "Voir toutes nos vidéos sur YouTube"
+    },
+    "modal": {
+      "label": "Image : {{alt}}"
+    },
+    "images": {
+      "farmWorks": "Travaux à la ferme",
+      "watering": "Arrosage des cultures",
+      "studentWatering": "Un étudiant arrose le jardin",
+      "garden": "Le jardin de la ferme",
+      "garden2": "Jardin de la ferme",
+      "compost": "Compostage",
+      "marketGardening": "Maraîchage",
+      "marketGardening2": "Culture maraîchère",
+      "marketGardening3": "Maraîchage",
+      "marketGardening4": "Culture maraîchère",
+      "wetland": "Le marécage de la ferme",
+      "farmWorks2": "Travaux de la ferme",
+      "transplanting": "Repiquage des plants",
+      "transplanting2": "Repiquage des plants",
+      "riceField": "Champ de riz",
+      "riceHarvest": "Récolte du riz",
+      "palmTrees": "Palmeraie",
+      "flowers": "Fleurs de la ferme",
+      "rabbitFarming": "Élevage de lapins",
+      "rabbits": "Lapins de la ferme",
+      "chickenFarming": "Élevage de poules",
+      "beekeepingTraining": "Formation en apiculture",
+      "beekeeping": "Apiculture",
+      "fruits": "Fruits de la ferme",
+      "freshFruits": "Fruits frais",
+      "papaya": "Papayes",
+      "turmeric": "Curcuma",
+      "pineapple": "Ananas de la ferme",
+      "plantains": "Bananes plantains",
+      "cucumberJuice": "Jus de concombre",
+      "students": "Étudiants de la ferme école",
+      "student": "Un étudiant à la ferme",
+      "studentTraining": "Étudiant en formation",
+      "practicalTraining": "Formation pratique",
+      "students2": "Étudiants de la ferme",
+      "studentGroup": "Groupe d'étudiants de la ferme",
+      "sainTeam": "L'équipe SAIN",
+      "smilingYouth": "Jeunes souriants",
+      "socialEngagement": "Engagement social",
+      "solidarity": "Engagement solidaire",
+      "accommodation": "Hébergement à la ferme",
+      "rooms": "Chambres SAIN",
+      "accommodation2": "Hébergement à la ferme",
+      "accommodation3": "Hébergement de la ferme",
+      "guesthouseKitchen": "Cuisine du gîte",
+      "farmKitchen": "Cuisine de la ferme",
+      "welcome": "Accueil à la ferme",
+      "farmWelcome": "Accueil de la ferme",
+      "farmView": "Vue de la ferme",
+      "farmVisit": "Visite de la ferme",
+      "guidedTour": "Visite guidée",
+      "canoeTrip": "Tour en pirogue",
+      "plasticSorting": "Tri du plastique",
+      "actionResearch": "Recherche-action",
+      "labResearch": "Recherche en laboratoire",
+      "research": "Recherche",
+      "sainFarm": "La ferme SAIN",
+      "gaze": "Regard",
+      "farmRestaurant": "Le restaurant de la ferme",
+      "farmLife": "Vie à la ferme"
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Contactez-nous",
+    "subtitle": "Nous sommes à votre écoute pour toute question ou collaboration",
+    "coordinates": "Nos coordonnées",
+    "address": "Adresse",
+    "addressText": "SAIN \u2014 Village Kakanitchoé\n12 km de Adjohoun, Bénin\n44 km de Porto-Novo (\u00b1 1h)\n84 km de Cotonou (\u00b1 2h)",
+    "phones": "Téléphones",
+    "email": "Email",
+    "hours": "Horaires",
+    "hoursText": "Du lundi au vendredi\n8h00 - 17h00 (heure du Bénin)",
+    "formTitle": "Formulaire de Contact",
+    "formName": "Nom & Prénom",
+    "formEmail": "Email",
+    "formPhone": "Téléphone",
+    "formSubject": "Motif du contact",
+    "formMessage": "Message",
+    "formNamePlaceholder": "Votre nom complet",
+    "formEmailPlaceholder": "votre@email.com",
+    "formPhonePlaceholder": "+229 97 00 00 00",
+    "formSubjectPlaceholder": "Réservation, stage, visite, question...",
+    "formMessagePlaceholder": "Votre message...",
+    "sendWhatsApp": "Envoyer par WhatsApp",
+    "sendEmail": "Envoyer par Email",
+    "socialTitle": "Suivez-nous sur les réseaux sociaux",
+    "legalInfo": "Informations Légales",
+    "legalText": "Société S.A.R.L (immatriculée au RCCM: RB/PNO/21 3196)\nDirecteur de Publication: Pascal Gbenou\nHébergeur: STARTLOGIC'S, Jacksonville, FL, USA"
+  },
+  "legal": {
+    "eyebrow": "Informations légales",
+    "title": "Mentions Légales",
+    "editor": "Éditeur du Site",
+    "rccm": "S.A.R.L enregistrée au Registre du Commerce et du Crédit Mobilier RCCM: RB/PNO/21 3196",
+    "ifu": "N° d'Identification Fiscale Unique (IFU): 3 2021 12 62 37 34",
+    "director": "Directeur de Publication",
+    "website": "Site web",
+    "address": "Adresse",
+    "addressDetail": "Maison GBENOU, Kakanitchoé, Kodé, Adjohoun à 04 Km de la voie Porto-Novo – Bohicon",
+    "postalBox": "BP: 21 ADJHOUN, BÉNIN (West Africa)",
+    "hosting": "Hébergement",
+    "hostingProvider": "STARTLOGIC'S – Jacksonville, FL 32256 – U.S.A.",
+    "cookies": "Cookies",
+    "cookiesText": "Ce site utilise des cookies pour des raisons statistiques et d'affichage. En poursuivant votre navigation sur ce site, vous en acceptez l'utilisation. Vous pouvez paramétrer vos choix via votre navigateur.",
+    "links": "Liens Hypertextes",
+    "linksText": "Le présent site peut contenir des liens hypertextes vers d'autres sites internet. SAIN ne peut être tenu responsable du contenu de ces sites externes. Toute création de lien vers ce site nécessite une autorisation préalable.",
+    "data": "Données Personnelles",
+    "dataText": "Conformément à la loi \"Informatique et Libertés\" (Loi 78-17), vous disposez d'un droit d'accès, de rectification et d'opposition sur les données personnelles que vous communquez via le formulaire de contact.",
+    "dataRetention": "Les données collectées ne sont jamais cédées à des tiers. Elles sont conservées pour une durée maximale de 3 ans. Pour exercer vos droits,",
+    "dataContact": "contactez-nous à",
+    "lastUpdate": "Dernière mise à jour"
+  },
+  "footer": {
+    "about": "À propos",
+    "services": "Services",
+    "usefulLinks": "Liens utiles",
+    "description": "Productions en agroécologie \u2022 Ferme École \u2022 Hébergement \u2022 Restauration \u2022 Séjours Nature",
+    "copyright": "Tous droits réservés",
+    "village": "Village Kakanitchoé",
+    "distance": "12 km de Adjohoun, Bénin"
+  },
+  "common": {
+    "learnMore": "En savoir plus",
+    "seeMore": "Voir plus",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "close": "Fermer",
+    "noPrices": "Aucun tarif pour le moment."
+  },
+  "admin": {
+    "photos": "Photos & vidéos",
+    "prices": "Prix & tarifs",
+    "menus": "Menus",
+    "contacts": "Contacts",
+    "manageSite": "Gestion du site",
+    "adminZone": "Zone d'administration SAIN",
+    "viewSite": "Voir le site",
+    "logout": "Déconnexion",
+    "sections": "Sections du site",
+    "missingPhotos": "photo(s) manquante(s)",
+    "addPhoto": "Ajouter une photo",
+    "replace": "Remplacer",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "saving": "Enregistrement...",
+    "delete": "Supprimer",
+    "custom": "Personnalisée",
+    "default": "Photo par défaut",
+    "missing": "À ajouter",
+    "photoMissing": "Photo manquante",
+    "altFr": "Texte alternatif (FR)",
+    "altEn": "Texte alternatif (EN)",
+    "captionFr": "Légende (FR)",
+    "captionEn": "Légende (EN)",
+    "noPrices": "Cette section ne gère pas de prix/tarifs.",
+    "noMenus": "Cette section ne gère pas de menus.",
+    "addCategory": "Ajouter une catégorie",
+    "addDish": "Ajouter un plat",
+    "categoryName": "Nom de la catégorie",
+    "dishName": "Nom du plat",
+    "newDish": "Nouveau plat",
+    "contactInfo": "Informations de contact",
+    "contactDesc": "Modifiez les numéros, email et réseaux sociaux.",
+    "titleFr": "Titre (FR)",
+    "titleEn": "Titre (EN)",
+    "priceFr": "Prix (FR)",
+    "priceEn": "Prix (EN)",
+    "descFr": "Description (FR)",
+    "descEn": "Description (EN)",
+    "detailsFr": "Détails (FR, une puce par ligne)",
+    "detailsEn": "Détails (EN, one bullet per line)",
+    "priceRequired": "Le titre et le prix sont obligatoires pour ajouter un article.",
+    "pricesDescription": "ajoutez, modifiez ou supprimez les tarifs. Les changements sont visibles immédiatement sur le site.",
+    "newPriceTitle": "Titre (ex. Chambre Triple)",
+    "newPriceValue": "Prix (ex. 22,000 FCFA)",
+    "addPrice": "Ajouter",
+    "noPricesYet": "Aucun tarif pour le moment — ajoutez-en un ci-dessus.",
+    "dragReorder": "Glissez-déposez les articles pour les réordonner — l'ordre est enregistré automatiquement.",
+    "menusDescription": "ajoutez, modifiez ou supprimez les catégories et les plats. Les changements sont visibles immédiatement sur le site.",
+    "categoryRequired": "Le nom de la catégorie ne peut pas être vide.",
+    "categoryNameFr": "Nom de la catégorie (FR)",
+    "categoryNameEn": "Nom de la catégorie (EN)",
+    "newCategoryFr": "Nouvelle catégorie (FR)",
+    "newCategoryEn": "Nouvelle catégorie (EN)",
+    "dishNameFr": "Nom du plat (FR)",
+    "dishNameEn": "Nom du plat (EN)",
+    "newDishFr": "Nouveau plat (FR)",
+    "newDishEn": "Nouveau plat (EN)",
+    "noDishes": "Aucun plat dans cette catégorie — ajoutez-en un ci-dessus.",
+    "noCategoriesYet": "Aucune catégorie pour le moment — ajoutez-en une ci-dessus.",
+    "bilingualHint": "Champs en bleu : version anglaise. Remplissez les deux colonnes pour le site bilingue.",
+    "addPhotoMissing": "Ajoutez une photo pour chaque emplacement affiché en rouge.",
+    "backToSite": "Retour au site"
+  }
+}

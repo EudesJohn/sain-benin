@@ -20,6 +20,7 @@ Un ADR (Architecture Decision Record) est un document qui capture une décision 
 | 009 | [Images → stockage local](009-images-externes-vers-locales.md) | 📝 Proposé | Performance |
 | 010 | [Formulaire contact mailto → backend](010-formulaire-contact.md) | 📝 Proposé | Fonctionnalités |
 | 011 | [SEO sitemap/robots/meta](011-seo-sitemap-robots.md) | 📝 Proposé | SEO |
+| 012 | [Menus restaurant gérés en admin](012-menus-restaurant-admin.md) | ✅ Accepté | Fonctionnalités |
 
 ## Légende des statuts
 

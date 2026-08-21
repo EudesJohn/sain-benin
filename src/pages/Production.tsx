@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { ShoppingCart, Package, Calendar, Leaf, Wheat, PawPrint, Droplet } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
 import { products } from '../data/sainData'
@@ -8,12 +9,12 @@ import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
-// Clés photos pour les produits (doivent correspondre au registre des sections)
 const slugify = (s: string) =>
   s
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
+    .replace(/œ/g, 'oe')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 const freshCategoryKey = (name: string) => `produit-fresh-${slugify(name)}`
@@ -21,17 +22,18 @@ const freshItemKey = (name: string) => `produit-fresh-item-${slugify(name)}`
 const processedKey = (name: string) => `produit-processed-${slugify(name)}`
 
 const Production = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('production')
   return (
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Jardin-Sain-1024x768.jpg'}
-        eyebrow="Nos produits"
-        title="Nos Produits"
-        subtitle="Des produits frais et transformés cultivés avec amour"
+        eyebrow={t('production.eyebrow')}
+        title={t('production.title')}
+        subtitle={t('production.subtitle')}
       >
         <blockquote className="text-lg italic text-earth-100 border-l-2 border-sun-400 pl-4">
-          Production équilibrée entre trois secteurs : plantes, animaux et agro-transformation
+          {t('production.quote')}
         </blockquote>
       </PageHero>
 
@@ -39,9 +41,9 @@ const Production = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Notre production"
-            title="Production Agricole Durable"
-            subtitle="Notre ferme pratique une agriculture 100% biologique avec des techniques respectueuses de l'environnement."
+            eyebrow={t('production.intro.eyebrow')}
+            title={t('production.intro.title')}
+            subtitle={t('production.intro.subtitle')}
             className="mb-16"
           />
 
@@ -57,8 +59,8 @@ const Production = () => {
                 <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-leaf-600/10 flex items-center justify-center">
                   <Wheat className="w-8 h-8 text-leaf-700" aria-hidden="true" />
                 </div>
-                <h3 className="font-bold text-ink mb-2">Cultures</h3>
-                <p className="text-sm text-ink-soft">Fruits, légumes et céréales</p>
+                <h3 className="font-bold text-ink mb-2">{t('production.intro.crops')}</h3>
+                <p className="text-sm text-ink-soft">{t('production.intro.cropsDescription')}</p>
               </motion.div>
               <motion.div
                 className="bg-white p-6 rounded-xl shadow-card"
@@ -70,8 +72,8 @@ const Production = () => {
                 <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-sun-600/10 flex items-center justify-center">
                   <PawPrint className="w-8 h-8 text-sun-700" aria-hidden="true" />
                 </div>
-                <h3 className="font-bold text-ink mb-2">Élevage</h3>
-                <p className="text-sm text-ink-soft">Rabbit, poules, poissons</p>
+                <h3 className="font-bold text-ink mb-2">{t('production.intro.livestock')}</h3>
+                <p className="text-sm text-ink-soft">{t('production.intro.livestockDescription')}</p>
               </motion.div>
               <motion.div
                 className="bg-white p-6 rounded-xl shadow-card"
@@ -83,8 +85,8 @@ const Production = () => {
                 <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-earth-500/10 flex items-center justify-center">
                   <Droplet className="w-8 h-8 text-earth-700" aria-hidden="true" />
                 </div>
-                <h3 className="font-bold text-ink mb-2">Transformation</h3>
-                <p className="text-sm text-ink-soft">Jus, huiles, confitures</p>
+                <h3 className="font-bold text-ink mb-2">{t('production.intro.processing')}</h3>
+                <p className="text-sm text-ink-soft">{t('production.intro.processingDescription')}</p>
               </motion.div>
             </div>
           </div>
@@ -95,9 +97,9 @@ const Production = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="De la ferme au panier"
-            title="Produits Frais"
-            subtitle="Des produits de saison, cultivés avec soin"
+            eyebrow={t('production.fresh.eyebrow')}
+            title={t('production.fresh.title')}
+            subtitle={t('production.fresh.subtitle')}
             className="mb-16"
           />
 
@@ -114,13 +116,13 @@ const Production = () => {
                 <h3 className="text-2xl font-bold text-ink mb-6">{category.name}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {category.items.map((item, j) => {
+                    const itemName = typeof item === 'string' ? item : item.name
                     const categoryUrl = photos[freshCategoryKey(category.name)]?.url || ''
-                    const itemUrl =
-                      typeof item === 'object' ? photos[freshItemKey(item.name)]?.url || '' : ''
+                    const itemUrl = photos[freshItemKey(itemName)]?.url || ''
                     return (
                       <ProductCard
                         key={j}
-                        name={typeof item === 'string' ? item : item.name}
+                        name={itemName}
                         image={itemUrl || categoryUrl || undefined}
                         category={category.name}
                         index={j}
@@ -138,9 +140,9 @@ const Production = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Valorisation sur place"
-            title={products.processed.title}
-            subtitle="Nos produits transformés avec les ingrédients de notre ferme"
+            eyebrow={t('production.processed.eyebrow')}
+            title={t('production.processed.title')}
+            subtitle={t('production.processed.subtitle')}
             className="mb-16"
           />
 
@@ -186,9 +188,9 @@ const Production = () => {
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
             onDark
-            eyebrow="Nos services"
-            title="Services de Distribution"
-            subtitle="Plusieurs façons de commander nos produits frais"
+            eyebrow={t('production.services.eyebrow')}
+            title={t('production.services.title')}
+            subtitle={t('production.services.subtitle')}
             className="mb-16"
           />
 
@@ -201,9 +203,9 @@ const Production = () => {
               viewport={{ once: true }}
             >
               <ShoppingCart className="w-12 h-12 mx-auto mb-4 text-sun-200" />
-              <h3 className="text-xl font-bold mb-3">Vente Directe</h3>
+              <h3 className="text-xl font-bold mb-3">{t('production.services.directSales')}</h3>
               <p className="text-earth-100 text-sm">
-                Achetez nos produits directement sur la ferme
+                {t('production.services.directSalesDescription')}
               </p>
             </motion.div>
 
@@ -215,9 +217,9 @@ const Production = () => {
               viewport={{ once: true }}
             >
               <Calendar className="w-12 h-12 mx-auto mb-4 text-sun-200" />
-              <h3 className="text-xl font-bold mb-3">Panier Mensuel</h3>
+              <h3 className="text-xl font-bold mb-3">{t('production.services.monthlyBasket')}</h3>
               <p className="text-earth-100 text-sm">
-                Abonnement mensuel de livraison de produits frais
+                {t('production.services.monthlyBasketDescription')}
               </p>
             </motion.div>
 
@@ -229,9 +231,9 @@ const Production = () => {
               viewport={{ once: true }}
             >
               <Leaf className="w-12 h-12 mx-auto mb-4 text-sun-200" />
-              <h3 className="text-xl font-bold mb-3">Événement Mensuel</h3>
+              <h3 className="text-xl font-bold mb-3">{t('production.services.monthlyEvent')}</h3>
               <p className="text-earth-100 text-sm">
-                Barbecue mensuel avec nos viandes d'élevage
+                {t('production.services.monthlyEventDescription')}
               </p>
             </motion.div>
           </div>
@@ -241,9 +243,9 @@ const Production = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Commandez nos produits"
-        subtitle="Contactez-nous pour passer votre commande ou découvrir notre gamme complète de produits agricoles."
-        label="Commander maintenant"
+        title={t('production.ctaTitle')}
+        subtitle={t('production.ctaText')}
+        label={t('production.ctaLabel')}
       />
     </>
   )

@@ -85,9 +85,12 @@ vercel --prod
 ## 🖼️ Administration des photos
 
 Une zone d'administration est disponible sur `/admin` (lien discret dans le pied de page).
-L'admin peut **ajouter, modifier, remplacer et supprimer** les photos de chaque section du site,
-ainsi que **gérer les prix et tarifs** (hébergement, circuits découverte, programmes de soutien) —
-les tarifs ne sont plus codés en dur dans le site : ils sont lus depuis la table `prices`.
+L'admin peut **ajouter, modifier, remplacer et supprimer** les photos de chaque section du site
+(accueil, hébergement, restaurant, « Nos produits », galerie…), **gérer les prix et tarifs**
+(hébergement — types de chambres et pension complète —, circuits découverte, programmes de
+soutien) et **modifier les menus du restaurant** (catégories et plats).
+Les photos sont lues depuis la table `photos`, les tarifs depuis `prices`, les menus depuis
+`menu_categories` et `menu_items` : plus rien n'est codé en dur dans le site.
 Les données sont stockées dans **Supabase** (Postgres + Storage + Auth).
 
 ### Mise en place (une seule fois)

@@ -2,18 +2,21 @@ import { motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { Send, MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { SiFacebook, SiYoutube, SiInstagram, SiWhatsapp } from '@icons-pack/react-simple-icons'
+import { useTranslation } from 'react-i18next'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import { useContactInfo } from '../hooks/useContactInfo'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
 import { Button } from '../components/ui/Button'
 
 const MAPS_LINK = 'https://maps.app.goo.gl/NHMjjrNEsWapCCnW7'
-const WHATSAPP_NUMBER = '22962444744' // +229 62 44 47 44 (sans le +)
-const CONTACT_EMAIL = 'sainbenin@yahoo.fr'
 
 const Contact = () => {
   const { photos, freePhotos } = useSectionPhotos('contact')
+  const contact = useContactInfo()
+  const { t } = useTranslation()
+  const WHATSAPP_NUMBER = contact.whatsapp.replace(/[^0-9]/g, '')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -63,9 +66,9 @@ const Contact = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Etudiant-4-1024x683.jpg'}
-        eyebrow="Contact"
-        title="Contactez-nous"
-        subtitle="Nous sommes à votre écoute pour toute question ou collaboration"
+        eyebrow={t('contact.eyebrow')}
+        title={t('contact.title')}
+        subtitle={t('contact.subtitle')}
       />
 
       {/* Contact Info */}
@@ -81,8 +84,8 @@ const Contact = () => {
             >
               <SectionHeading
                 align="left"
-                eyebrow="Nous trouver"
-                title="Nos Coordonnées"
+                eyebrow={t('contact.coordinates')}
+                title="Nos Coordonnees"
                 className="mb-8"
               />
 
@@ -98,17 +101,16 @@ const Contact = () => {
                     <MapPin className="w-6 h-6 text-sun-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-ink mb-1">Adresse</h3>
+                    <h3 className="font-bold text-ink mb-1">{t('contact.address')}</h3>
                     <a
                       href={MAPS_LINK}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-ink-soft hover:text-sun-600 transition-colors duration-200"
                     >
-                      SAIN – Village Kakanitchoé<br />
-                      12 km de Adjohoun, Bénin<br />
-                      44 km de Porto-Novo (± 1h)<br />
-                      84 km de Cotonou (± 2h)
+                      {t('contact.addressText').split('\n').map((line, i) => (
+                        <span key={i}>{line}<br /></span>
+                      ))}
                     </a>
                   </div>
                 </motion.div>
@@ -124,10 +126,10 @@ const Contact = () => {
                     <Phone className="w-6 h-6 text-sun-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-ink mb-1">Téléphones</h3>
+                    <h3 className="font-bold text-ink mb-1">{t('contact.phones')}</h3>
                     <p className="text-ink-soft">
-                      +229 62 44 47 44 (WhatsApp)<br />
-                      +229 97 65 56 28
+                      {contact.whatsapp} (WhatsApp)<br />
+                      {contact.mobile}
                     </p>
                   </div>
                 </motion.div>
@@ -143,13 +145,13 @@ const Contact = () => {
                     <Mail className="w-6 h-6 text-sun-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-ink mb-1">Email</h3>
+                    <h3 className="font-bold text-ink mb-1">{t('contact.email')}</h3>
                     <p className="text-ink-soft">
                       <a
-                        href="mailto:sainbenin@yahoo.fr"
+                        href={`mailto:${contact.email}`}
                         className="text-sun-600 hover:underline"
                       >
-                        sainbenin@yahoo.fr
+                        {contact.email}
                       </a>
                     </p>
                   </div>
@@ -166,10 +168,11 @@ const Contact = () => {
                     <Clock className="w-6 h-6 text-sun-600" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-ink mb-1">Horaires</h3>
+                    <h3 className="font-bold text-ink mb-1">{t('contact.hours')}</h3>
                     <p className="text-ink-soft">
-                      Du lundi au vendredi<br />
-                      8h00 - 17h00 (heure du Bénin)
+                      {t('contact.hoursText').split('\n').map((line, i) => (
+                        <span key={i}>{line}<br /></span>
+                      ))}
                     </p>
                   </div>
                 </motion.div>
@@ -203,11 +206,12 @@ const Contact = () => {
                 transition={{ delay: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h3 className="font-bold text-ink mb-2">Informations Légales</h3>
+                <h3 className="font-bold text-ink mb-2">{t('contact.legalInfo')}</h3>
                 <p className="text-sm text-ink-soft">
-                  Société S.A.R.L (immatriculée au RCCM: RB/PNO/21 3196)<br />
-                  Directeur de Publication: Pascal Gbenou<br />
-                  Hébergeur: STARTLOGIC'S, Jacksonville, FL, USA
+                  {t('contact.legalText').split('\n').map((line, i) => (
+                    <span key={i}>{line}<br />
+                    </span>
+                  ))}
                 </p>
               </motion.div>
             </motion.div>
@@ -221,8 +225,8 @@ const Contact = () => {
             >
               <SectionHeading
                 align="left"
-                eyebrow="Écrivez-nous"
-                title="Formulaire de Contact"
+                eyebrow={t('contact.eyebrow')}
+                title={t('contact.formTitle')}
                 className="mb-6"
               />
 
@@ -230,7 +234,7 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="contact-name" className="block text-sm font-medium text-ink-soft mb-2">
-                      Nom & Prénom
+                      {t('contact.formName')}
                     </label>
                     <input
                       id="contact-name"
@@ -240,12 +244,12 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-                      placeholder="Votre nom complet"
+                      placeholder={t('contact.formNamePlaceholder')}
                     />
                   </div>
                   <div>
                     <label htmlFor="contact-email" className="block text-sm font-medium text-ink-soft mb-2">
-                      Email
+                      {t('contact.formEmail')}
                     </label>
                     <input
                       id="contact-email"
@@ -255,30 +259,27 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-                      placeholder="votre@email.com"
+                      placeholder={t('contact.formEmailPlaceholder')}
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="contact-phone" className="block text-sm font-medium text-ink-soft mb-2">
-                    Téléphone
-                  </label>
+                <div>                    <label htmlFor="contact-phone" className="block text-sm font-medium text-ink-soft mb-2">
+                      {t('contact.formPhone')}
+                    </label>
                   <input
                     id="contact-phone"
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-                    placeholder="+229 97 00 00 00"
+                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"                      placeholder={t('contact.formPhonePlaceholder')}
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="contact-subject" className="block text-sm font-medium text-ink-soft mb-2">
-                    Motif du contact
-                  </label>
+                <div>                    <label htmlFor="contact-subject" className="block text-sm font-medium text-ink-soft mb-2">
+                      {t('contact.formSubject')}
+                    </label>
                   <input
                     id="contact-subject"
                     type="text"
@@ -286,15 +287,13 @@ const Contact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-                    placeholder="Réservation, stage, visite, question…"
+                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"                      placeholder={t('contact.formSubjectPlaceholder')}
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="contact-message" className="block text-sm font-medium text-ink-soft mb-2">
-                    Message
-                  </label>
+                <div>                    <label htmlFor="contact-message" className="block text-sm font-medium text-ink-soft mb-2">
+                      {t('contact.formMessage')}
+                    </label>
                   <textarea
                     id="contact-message"
                     name="message"
@@ -302,8 +301,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200 resize-none"
-                    placeholder="Votre message..."
+                    className="w-full px-4 py-3 border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200 resize-none"                      placeholder={t('contact.formMessagePlaceholder')}
                   />
                 </div>
 
@@ -315,7 +313,7 @@ const Contact = () => {
                     icon={<SiWhatsapp className="w-5 h-5" />}
                     onClick={() => { sendMethod.current = 'whatsapp' }}
                   >
-                    Envoyer par WhatsApp
+                    {t('contact.sendWhatsApp')}
                   </Button>
                   <Button
                     type="submit"
@@ -324,7 +322,7 @@ const Contact = () => {
                     icon={<Send className="w-5 h-5" />}
                     onClick={() => { sendMethod.current = 'email' }}
                   >
-                    Envoyer par Email
+                    {t('contact.sendEmail')}
                   </Button>
                 </div>
               </form>
@@ -337,8 +335,8 @@ const Contact = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6 text-center">
           <SectionHeading
-            eyebrow="Réseaux sociaux"
-            title="Suivez-nous sur les réseaux sociaux"
+            eyebrow="Social"
+            title={t('contact.socialTitle')}
             className="mb-12"
           />
 
@@ -353,19 +351,19 @@ const Contact = () => {
               {
                 name: 'Facebook',
                 icon: SiFacebook,
-                url: 'https://www.facebook.com/Ferme-Ecole-SAIN-108352284147580/',
+                url: contact.facebook,
                 color: 'hover:bg-[#1877F2]',
               },
               {
                 name: 'YouTube',
                 icon: SiYoutube,
-                url: 'https://www.youtube.com/channel/UCN982W_xV7nRHt6aW1mAIwA',
+                url: contact.youtube,
                 color: 'hover:bg-[#FF0000]',
               },
               {
                 name: 'Instagram',
                 icon: SiInstagram,
-                url: 'https://www.instagram.com/fermeecolesain/',
+                url: contact.instagram,
                 color: 'hover:bg-[#E4405F]',
               },
             ].map((social, i) => {

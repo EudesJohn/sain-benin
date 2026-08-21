@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { Clock, Euro, ShoppingBag, Building2, Leaf, Footprints, Waves, Sprout, Loader2 } from 'lucide-react'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import { useSectionPrices } from '../hooks/useSectionPrices'
@@ -8,24 +9,23 @@ import { SectionHeading } from '../components/ui/SectionHeading'
 import { CTASection } from '../components/ui/CTASection'
 
 const Circuits = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('circuits-decouverte')
-  // Circuits chargés depuis Supabase (gérés dans l'admin — plus rien en dur dans le code)
   const { prices, loading } = useSectionPrices('circuits-decouverte')
   const circuits = [...prices].sort((a, b) => a.position - b.position)
 
-  // Icônes attribuées aux circuits selon leur ordre d'affichage
   const circuitIcons = [ShoppingBag, Building2, Leaf, Footprints, Waves, Sprout]
 
   return (
     <>
       <PageHero
         image={photos['hero']?.url || '/images/A-PROPOS-SAIN-1024x715.jpg'}
-        eyebrow="Éco-tourisme"
-        title="Circuits Découverte"
-        subtitle="Découvrez les trésors naturels et culturels de notre région"
+        eyebrow={t('circuits.eyebrow')}
+        title={t('circuits.title')}
+        subtitle={t('circuits.subtitle')}
       >
         <blockquote className="text-lg italic text-earth-100 border-l-2 border-sun-400 pl-4">
-          « Tous les circuits incluent un guide local passionné. Le transport n'est pas inclus. »
+          {t('circuits.quote')}
         </blockquote>
       </PageHero>
 
@@ -33,16 +33,16 @@ const Circuits = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Nos circuits"
-            title="Découvrez nos 6 Circuits"
-            subtitle="Chaque circuit vous immerge dans un aspect unique de la culture et de la nature béninoise"
+            eyebrow={t('circuits.list.eyebrow')}
+            title={t('circuits.list.title')}
+            subtitle={t('circuits.list.subtitle')}
             className="mb-16"
           />
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-ink-soft">
               <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-              Chargement des circuits…
+              {t('circuits.loading')}
             </div>
           ) : circuits.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -83,7 +83,7 @@ const Circuits = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-ink-soft">Aucun circuit pour le moment.</p>
+            <p className="text-center text-ink-soft">{t('circuits.empty')}</p>
           )}
         </div>
       </section>
@@ -92,16 +92,16 @@ const Circuits = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Comment ça se passe ?"
-            title="Détails des Circuits"
-            subtitle="Toutes nos découvertes vous attendent en petits groupes pour une expérience immersive et authentique."
+            eyebrow={t('circuits.details.eyebrow')}
+            title={t('circuits.details.title')}
+            subtitle={t('circuits.details.subtitle')}
             className="mb-12"
           />
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-ink-soft">
               <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-              Chargement…
+              {t('circuits.loading')}
             </div>
           ) : circuits.length > 0 ? (
             <div className="max-w-4xl mx-auto space-y-8">
@@ -149,7 +149,7 @@ const Circuits = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-ink-soft">Aucun circuit pour le moment.</p>
+            <p className="text-center text-ink-soft">{t('circuits.empty')}</p>
           )}
         </div>
       </section>
@@ -157,7 +157,7 @@ const Circuits = () => {
       {/* Gallery */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
-          <SectionHeading eyebrow="Galerie" title="En Images" className="mb-16" />
+          <SectionHeading eyebrow={t('circuits.gallery.eyebrow')} title={t('circuits.gallery.title')} className="mb-16" />
 
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto"
@@ -186,7 +186,7 @@ const Circuits = () => {
                 >
                   <img
                     src={photo?.url || fallbacks[i]}
-                    alt={photo?.alt || `Circuit ${i + 1}`}
+                    alt={photo?.alt || t('circuits.gallery.item', { number: i + 1 })}
                     className="w-full h-full object-cover"
                   />
                 </motion.div>
@@ -199,9 +199,9 @@ const Circuits = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Réservez Votre Découverte"
-        subtitle="Contactez-nous pour réserver votre circuit préféré et vivez une expérience unique au cœur de la nature béninoise."
-        label="Réserver maintenant"
+        title={t('circuits.ctaTitle')}
+        subtitle={t('circuits.ctaText')}
+        label={t('circuits.ctaLabel')}
       />
     </>
   )

@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Manuel d'Administration — Site Web SAIN</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 11pt;
+    line-height: 1.65;
+    color: #1a1a1a;
+    background: #fff;
+  }
+
+  @page {
+    size: A4;
+    margin: 20mm 18mm 25mm 18mm;
+  }
+
+  .cover {
+    page-break-after: always;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    color: #fff;
+    padding: 60px 40px;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(160deg, #1a3a2a 0%, #0d2818 40%, #1a2e1c 100%);
+    z-index: -2;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -50%; right: -30%;
+    width: 80%; height: 200%;
+    background: radial-gradient(ellipse, rgba(232,168,56,0.08) 0%, transparent 70%);
+    z-index: -1;
+  }
+  .cover-top-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #e8a838 0%, #f0c060 50%, #e8a838 100%);
+  }
+  .cover-bottom-deco {
+    position: absolute;
+    bottom: 40px; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 2px;
+    background: rgba(255,255,255,0.3);
+  }
+  .cover-badge {
+    width: 80px; height: 80px;
+    border: 3px solid rgba(232,168,56,0.6);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 32px;
+    background: rgba(232,168,56,0.1);
+    backdrop-filter: blur(4px);
+  }
+  .cover-badge-inner {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #e8a838 0%, #d4922e 100%);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 800; color: #1a2e1c;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 20px rgba(232,168,56,0.4);
+  }
+  .cover-type {
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #e8a838;
+    margin-bottom: 20px;
+  }
+  .cover h1 {
+    font-size: 36pt;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .cover h2 {
+    font-size: 14pt;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 0;
+    font-style: italic;
+  }
+  .cover-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #e8a838, transparent);
+    margin: 32px auto;
+  }
+  .cover-info {
+    font-size: 10pt;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+  }
+  .cover-info strong {
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+  }
+  .cover-version {
+    position: absolute;
+    bottom: 60px;
+    right: 40px;
+    font-size: 8pt;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+  }
+
+  .toc {
+    page-break-after: always;
+    padding: 40px 0;
+  }
+  .toc h2 { font-size: 20pt; color: #2d3a2e; margin-bottom: 20px; border-bottom: 3px solid #e8a838; padding-bottom: 8px; }
+  .toc ul { list-style: none; }
+  .toc li { padding: 5px 0; border-bottom: 1px dotted #ddd; font-size: 10.5pt; }
+  .toc li a { color: #2d3a2e; text-decoration: none; }
+  .toc li.section { font-weight: 700; font-size: 11.5pt; margin-top: 10px; border-bottom: none; }
+
+  h1 { font-size: 20pt; color: #2d3a2e; margin: 28px 0 10px 0; page-break-after: avoid; }
+  h2 { font-size: 14pt; color: #2d3a2e; margin: 22px 0 8px 0; border-left: 4px solid #e8a838; padding-left: 12px; page-break-after: avoid; }
+  h3 { font-size: 12pt; color: #3a4a3c; margin: 16px 0 6px 0; page-break-after: avoid; }
+  h4 { font-size: 11pt; color: #555; margin: 12px 0 4px 0; }
+
+  p { margin: 6px 0; text-align: justify; }
+  ul, ol { margin: 6px 0 6px 22px; }
+  li { margin: 3px 0; }
+
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 9.5pt; }
+  th { background: #2d3a2e; color: #fff; padding: 7px 8px; text-align: left; font-weight: 600; }
+  td { padding: 6px 8px; border-bottom: 1px solid #e0e0e0; }
+  tr:nth-child(even) td { background: #f7f9f7; }
+
+  code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #f0f2f0;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 9pt;
+    color: #c0392b;
+  }
+
+  .callout {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  .callout-tip { background: #e8f5e9; border-left: 4px solid #4caf50; }
+  .callout-warning { background: #fff3e0; border-left: 4px solid #ff9800; }
+  .callout-danger { background: #fce4ec; border-left: 4px solid #e53935; }
+  .callout-info { background: #e3f2fd; border-left: 4px solid #2196f3; }
+  .callout strong { display: block; margin-bottom: 3px; }
+
+  .step {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+    page-break-inside: avoid;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: #e8a838;
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 12pt;
+  }
+  .step-content { flex: 1; }
+  .step-content strong { color: #2d3a2e; }
+
+  .section-break { page-break-before: always; }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 8pt;
+    font-weight: 600;
+  }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-orange { background: #fff3e0; color: #e65100; }
+
+  hr { border: none; border-top: 1px solid #e0e0e0; margin: 18px 0; }
+
+  /* Schema visuel pour les prix */
+  .price-diagram {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px 0;
+    font-size: 9.5pt;
+    page-break-inside: avoid;
+  }
+  .price-diagram .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+  }
+  .price-diagram .label {
+    font-weight: 600;
+    min-width: 120px;
+    color: #2d3a2e;
+  }
+  .price-diagram .arrow {
+    color: #e8a838;
+    font-weight: 800;
+  }
+  .price-diagram .value {
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- PAGE DE GARDE                                                  -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-top-line"></div>
+  
+  <div class="cover-badge">
+    <div class="cover-badge-inner">SAIN</div>
+  </div>
+  
+  <p class="cover-type">Document interne</p>
+  
+  <h1>Manuel d'Administration</h1>
+  <h2>Gestion du site web sain-benin.org</h2>
+  
+  <div class="cover-divider"></div>
+  
+  <div class="cover-info">
+    <strong>Solidarites Agricoles Integreees</strong><br>
+    Ferme Ecole Bio — Agroecologie &amp; Eco-Tourisme<br>
+    Kakanitchoe, Adjohoun, Benin<br><br>
+    <strong>www.sain-benin.org</strong>
+  </div>
+  
+  <div class="cover-bottom-deco"></div>
+  <div class="cover-version">Version 1.1 — Aout 2026</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- TABLE DES MATIERES                                             -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="toc">
+  <h2>Table des matieres</h2>
+  <ul>
+    <li class="section">Chapitre 1 — Acces et connexion</li>
+    <li><a href="#ch1-1">1.1 Adresse du panneau d'administration</a></li>
+    <li><a href="#ch1-2">1.2 Page de connexion</a></li>
+    <li><a href="#ch1-3">1.3 Presentation de l'interface</a></li>
+    <li><a href="#ch1-4">1.4 Les quatre onglets</a></li>
+
+    <li class="section">Chapitre 2 — Gestion des photos</li>
+    <li><a href="#ch2-1">2.1 Types de photos</a></li>
+    <li><a href="#ch2-2">2.2 Tailles requerises par emplacement</a></li>
+    <li><a href="#ch2-3">2.3 Remplacer une photo existante</a></li>
+    <li><a href="#ch2-4">2.4 Ajouter une photo a la galerie</a></li>
+    <li><a href="#ch2-5">2.5 Modifier le texte alternatif et la legende</a></li>
+    <li><a href="#ch2-6">2.6 Supprimer une photo</a></li>
+    <li><a href="#ch2-7">2.7 Reordonner les photos (glisser-deposer)</a></li>
+    <li><a href="#ch2-8">2.8 Liste complete des emplacements par section</a></li>
+
+    <li class="section">Chapitre 3 — Gestion des videos</li>
+    <li><a href="#ch3-1">3.1 Ajouter une video YouTube</a></li>
+    <li><a href="#ch3-2">3.2 Modifier une video</a></li>
+    <li><a href="#ch3-3">3.3 Supprimer une video</a></li>
+    <li><a href="#ch3-4">3.4 Reordonner les videos</a></li>
+
+    <li class="section">Chapitre 4 — Gestion des prix et tarifs</li>
+    <li><a href="#ch4-1">4.1 Principe de fonctionnement</a></li>
+    <li><a href="#ch4-2">4.2 Les sections qui garent des prix</a></li>
+    <li><a href="#ch4-3">4.3 Ajouter un nouveau tarif</a></li>
+    <li><a href="#ch4-4">4.4 Les champs d'un tarif (detail)</a></li>
+    <li><a href="#ch4-5">4.5 Modifier un tarif existant</a></li>
+    <li><a href="#ch4-6">4.6 Supprimer un tarif</a></li>
+    <li><a href="#ch4-7">4.7 Reordonner les tarifs</a></li>
+    <li><a href="#ch4-8">4.8 Exemples concrets — Hebergement</a></li>
+    <li><a href="#ch4-9">4.9 Exemples concrets — Circuits</a></li>
+    <li><a href="#ch4-10">4.10 Exemples concrets — Soutien</a></li>
+
+    <li class="section">Chapitre 5 — Gestion des menus du restaurant</li>
+    <li><a href="#ch5-1">5.1 Principe de fonctionnement</a></li>
+    <li><a href="#ch5-2">5.2 Ajouter une categorie</a></li>
+    <li><a href="#ch5-3">5.3 Ajouter un plat dans une categorie</a></li>
+    <li><a href="#ch5-4">5.4 Modifier une categorie ou un plat</a></li>
+    <li><a href="#ch5-5">5.5 Supprimer une categorie ou un plat</a></li>
+    <li><a href="#ch5-6">5.6 Reordonner</a></li>
+
+    <li class="section">Chapitre 6 — Gestion des informations de contact</li>
+    <li><a href="#ch6-1">6.1 Acceder a la gestion des contacts</a></li>
+    <li><a href="#ch6-2">6.2 Modifier un numero de telephone</a></li>
+    <li><a href="#ch6-3">6.3 Modifier l'adresse email</a></li>
+    <li><a href="#ch6-4">6.4 Modifier les liens reseaux sociaux</a></li>
+    <li><a href="#ch6-5">6.5 Liste des champs de contact</a></li>
+
+    <li class="section">Chapitre 7 — Depannage</li>
+    <li><a href="#ch7-1">7.1 Problemes de connexion</a></li>
+    <li><a href="#ch7-2">7.2 Les modifications ne s'affichent pas</a></li>
+    <li><a href="#ch7-3">7.3 Erreur lors de l'upload d'une photo</a></li>
+    <li><a href="#ch7-4">7.4 Contacter le support technique</a></li>
+
+    <li class="section">Annexe A — URLs et raccourcis</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 1 — ACCES ET CONNEXION                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 1 — Acces et connexion</h1>
+
+<h2 id="ch1-1">1.1 Adresse du panneau d'administration</h2>
+<p>Ouvrez votre navigateur et allez a l'adresse suivante :</p>
+<p style="text-align:center; margin: 14px 0;">
+  <code style="font-size: 11pt; padding: 5px 14px;">https://sain-benin.org/admin</code>
+</p>
+<p>Vous pouvez aussi y acceder depuis n'importe quelle page du site en ajoutant <code>/admin</code> a la fin de l'URL.</p>
+
+<h2 id="ch1-2">1.2 Page de connexion</h2>
+<p>La page de connexion s'affiche avec un formulaire contenant deux champs :</p>
+<table>
+  <tr><th>Champ</th><th>Description</th><th>Exemple</th></tr>
+  <tr><td><strong>Email</strong></td><td>L'adresse email du compte administrateur</td><td>admin@sain-benin.org</td></tr>
+  <tr><td><strong>Mot de passe</strong></td><td>Le mot de passe personnel</td><td>********</td></tr>
+</table>
+<p>Saisissez vos identifiants et cliquez sur <strong>« Se connecter »</strong>.</p>
+
+<div class="callout callout-warning">
+  <strong>En cas d'erreur</strong>
+  Si vous voyez « Email ou mot de passe incorrect », verifiez l'orthographe de votre email
+  et desactivez la touche Majuscule (Caps Lock). En cas d'oubli de mot de passe,
+  contactez le support technique.
+</div>
+
+<h2 id="ch1-3">1.3 Presentation de l'interface</h2>
+<p>Apres connexion, le tableau de bord s'affiche avec quatre zones principales :</p>
+
+<table>
+  <tr><th>Zone</th><th>Position</th><th>Role</th></tr>
+  <tr><td><strong>En-tete</strong></td><td>En haut de l'ecran</td><td>Logo SAIN, bouton « Voir le site », bouton « Deconnexion »</td></tr>
+  <tr><td><strong>Barre d'onglets</strong></td><td>Sous l'en-tete</td><td>Navigation entre les differentes fonctions de gestion</td></tr>
+  <tr><td><strong>Barre laterale</strong></td><td>A gauche</td><td>Liste de toutes les sections (pages) du site</td></tr>
+  <tr><td><strong>Zone de contenu</strong></td><td>Au centre / droite</td><td>Formulaire de gestion de la section selectionnee</td></tr>
+</table>
+
+<h2 id="ch1-4">1.4 Les quatre onglets</h2>
+<p>La barre d'onglets propose quatre fonctions de gestion :</p>
+
+<table>
+  <tr><th>Onglet</th><th>Icone</th><th>Role</th><th>Sections concernees</th></tr>
+  <tr><td><strong>Photos &amp; videos</strong></td><td>Images</td><td>Ajouter, remplacer, supprimer, reordonner les photos et videos</td><td>Toutes les sections</td></tr>
+  <tr><td><strong>Prix &amp; tarifs</strong></td><td>Etiquette</td><td>Gerer les tarifs affiches sur le site</td><td>Hebergement, Circuits, Soutien</td></tr>
+  <tr><td><strong>Menus</strong></td><td>Couverts</td><td>Gerer les categories et plats du restaurant</td><td>Restaurant uniquement</td></tr>
+  <tr><td><strong>Contacts</strong></td><td>Telephone</td><td>Modifier les numeros, email et reseaux sociaux</td><td>Toutes les sections</td></tr>
+</table>
+
+<div class="callout callout-info">
+  <strong>Notes importantes</strong>
+  <ul>
+    <li>L'onglet « Menus » n'apparait que lorsque vous selectionnez la section <strong>Restaurant</strong></li>
+    <li>L'onglet « Prix &amp; tarifs » affiche un message d'information si la section selectionnee ne gere pas de prix</li>
+    <li>L'onglet « Contacts » est disponible depuis toutes les sections</li>
+  </ul>
+</div>
+
+<p><strong>Comment naviguer :</strong></p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <strong>Selectionnez une section</strong> dans la barre laterale en cliquant sur son nom.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <strong>Choisissez l'onglet</strong> correspondant a l'action souhaitee (photos, prix, menus ou contacts).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    <strong>Effectuez vos modifications</strong> puis cliquez sur « Enregistrer » pour chaque changement.
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 2 — GESTION DES PHOTOS                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 2 — Gestion des photos</h1>
+
+<h2 id="ch2-1">2.1 Types de photos</h2>
+<p>Le site utilise deux categories de photos :</p>
+
+<h3>Photos d'emplacement (slots)</h3>
+<p>
+Chaque section contient des <strong>emplacements fixes</strong> associes a un contenu precis :
+banniere de page, photo de membre d'equipe, photo de produit, etc.
+Chaque emplacement a un nom unique (ex. « Banniere d'accueil », « Pascal Gbenou »).
+</p>
+<p>
+Un emplacement peut afficher soit une <strong>photo personnalisee</strong> (uploadee par l'admin),
+soit une <strong>photo par defaut</strong> (fournie avec le site). L'admin peut remplacer la photo
+par defaut a tout moment.
+</p>
+
+<h3>Photos de galerie (libres)</h3>
+<p>
+Ce sont des photos <strong>ajoutees librement par l'admin</strong>, sans emplacement predetermine.
+Elles sont affichees dans le bandeau de la section et dans la page Galerie.
+</p>
+
+<h2 id="ch2-2">2.2 Tailles requerises par emplacement</h2>
+<p>
+Pour un meilleur rendu, chaque emplacement attend une taille et un ratio d'image specifiques.
+L'admin affiche ces informations directement sur chaque carte de photo.
+</p>
+
+<table>
+  <tr><th>Type</th><th>Taille</th><th>Ratio</th><th>Utilisation</th></tr>
+  <tr><td><strong>Banniere (hero)</strong></td><td>1920 x 1080 px</td><td>16:9 (paysage)</td><td>Bandeau de toutes les pages</td></tr>
+  <tr><td><strong>Paysage 4:3</strong></td><td>800 x 600 px</td><td>4:3 (paysage)</td><td>Apercus, activites, hebergement, circuits, soutien</td></tr>
+  <tr><td><strong>Paysage 3:2</strong></td><td>1200 x 800 px</td><td>3:2 (paysage)</td><td>Section A propos (accueil), photo produits restaurant</td></tr>
+  <tr><td><strong>Portrait 2:3</strong></td><td>800 x 1200 px</td><td>2:3 (portrait)</td><td>Photo principale restaurant</td></tr>
+  <tr><td><strong>Carre</strong></td><td>400 x 400 px</td><td>1:1 (carre)</td><td>Equipe, temoignages, miniatures galerie</td></tr>
+</table>
+
+<div class="callout callout-warning">
+  <strong>Important : verification du ratio</strong>
+  Lorsque vous uploadez une photo, le systeme verifie automatiquement le ratio
+  largeur/hauteur. Si le ratio depasse 15% de tolerance par rapport a la taille
+  attendue, un <strong>avertissement jaune</strong> s'affiche indiquant que l'image
+  risque d'etre deformee sur le site.
+</div>
+
+<div class="callout callout-tip">
+  <strong>Recommandations</strong>
+  <ul>
+    <li>Format : <strong>JPG</strong> ou <strong>PNG</strong></li>
+    <li>Taille maximale du fichier : <strong>2 Mo</strong></li>
+    <li>Utilisez un outil comme <strong>Tinypng.com</strong> ou <strong>Squoosh.app</strong> pour reduire la taille</li>
+    <li>Respectez les dimensions indiquees pour eviter les deformations</li>
+  </ul>
+</div>
+
+<h2 id="ch2-3">2.3 Remplacer une photo existante</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <strong>Selectionnez la section</strong> dans la barre laterale gauche (ex. « Accueil », « Equipe »).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <strong>Trouvez l'emplacement</strong> souhaite dans la liste des photos. Reperez le badge de taille
+    affiche en haut a droite de chaque carte (ex. « 400x400 (Carre) »).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez sur le bouton <strong>« Remplacer »</strong> (bouton orange). Selectionnez le fichier
+    image sur votre ordinateur. La taille recommandee est affichee sur la carte.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    Un indicateur de chargement s'affiche pendant l'upload. La nouvelle photo apparait
+    immediatement sur le site.
+  </div>
+</div>
+
+<h2 id="ch2-4">2.4 Ajouter une photo a la galerie</h2>
+<p>Cette fonctionnalite est disponible uniquement pour les sections qui acceptent des photos libres.</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez la section souhaitee dans la barre laterale.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur le bouton <strong>« Ajouter une photo »</strong> en haut a droite de la zone de contenu.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Selectionnez le fichier image. La photo est ajoutee en fin de liste.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    Modifiez le texte alternatif (alt) et la legende si necessaire, puis cliquez « Enregistrer ».
+  </div>
+</div>
+
+<h2 id="ch2-5">2.5 Modifier le texte alternatif et la legende</h2>
+<p>Chaque photo possede deux champs de texte modifiables :</p>
+<table>
+  <tr><th>Champ</th><th>Obligatoire ?</th><th>Usage</th></tr>
+  <tr><td><strong>Texte alternatif (alt)</strong></td><td>Oui</td><td>Decrit la photo pour les moteurs de recherche et les personnes malvoyantes</td></tr>
+  <tr><td><strong>Legende</strong></td><td>Non</td><td>Texte optionnel affiche sous la photo sur le site</td></tr>
+</table>
+<p>Modifiez les champs, puis cliquez sur <strong>« Enregistrer »</strong> (bouton vert).</p>
+
+<h2 id="ch2-6">2.6 Supprimer une photo</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Cliquez sur le bouton <strong>« Supprimer »</strong> (bouton rouge) a cote de la photo.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    La photo est supprimee immediatement. Si c'etait une photo d'emplacement (slot),
+    la photo par defaut reapparait.
+  </div>
+</div>
+<div class="callout callout-danger">
+  <strong>Attention : suppression irreversible</strong>
+  Assurez-vous de disposer d'une copie de sauvegarde avant de supprimer une photo.
+</div>
+
+<h2 id="ch2-7">2.7 Reordonner les photos (glisser-deposer)</h2>
+<p>Pour les photos de galerie (libres) et les videos, vous pouvez changer l'ordre d'affichage :</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez la <strong>poignee de glisser-deposer</strong> (icone a gauche de chaque photo).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez et maintenez sur la poignee, puis <strong>glissez la photo</strong> vers la position souhaitee.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    L'ordre est <strong>enregistre automatiquement</strong> des que vous relachez.
+  </div>
+</div>
+
+<h2 id="ch2-8">2.8 Liste complete des emplacements par section</h2>
+
+<table>
+  <tr><th>Section</th><th>Emplacements</th><th>Taille photo</th><th>Photos libres</th></tr>
+  <tr><td>Accueil</td><td>hero, a propos, 6 apercus, 3 temoignages</td><td>1920x1080 / 1200x800 / 400x400</td><td>Oui</td></tr>
+  <tr><td>A propos</td><td>hero</td><td>1920x1080</td><td>Oui</td></tr>
+  <tr><td>RSE</td><td>hero</td><td>1920x1080</td><td>Oui</td></tr>
+  <tr><td>Activites</td><td>hero, 3 poles, agritourisme</td><td>1920x1080 / 800x600</td><td>Oui</td></tr>
+  <tr><td>Equipe</td><td>hero, 7 membres</td><td>1920x1080 / 400x400</td><td>Oui</td></tr>
+  <tr><td>Formations</td><td>hero, etudiant</td><td>1920x1080 / 800x600</td><td>Oui</td></tr>
+  <tr><td>Hebergement</td><td>hero, 4 apercus, 3 espaces</td><td>1920x1080 / 800x600</td><td>Oui</td></tr>
+  <tr><td>Restaurant</td><td>hero, photo-1, photo-2</td><td>1920x1080 / 800x1200 / 1200x800</td><td>Oui</td></tr>
+  <tr><td>Circuits</td><td>hero, 4 galeries</td><td>1920x1080 / 800x600</td><td>Oui</td></tr>
+  <tr><td>Production</td><td>hero, +30 produits</td><td>1920x1080 / 400x400</td><td>Oui</td></tr>
+  <tr><td>Soutien</td><td>hero, 4 photos</td><td>1920x1080 / 800x600</td><td>Oui</td></tr>
+  <tr><td>Galerie</td><td>hero</td><td>1920x1080</td><td>Oui</td></tr>
+  <tr><td>Contact</td><td>hero</td><td>1920x1080</td><td>Oui</td></tr>
+  <tr><td>Mentions legales</td><td>hero</td><td>1920x1080</td><td>Oui</td></tr>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 3 — GESTION DES VIDEOS                                -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 3 — Gestion des videos</h1>
+
+<p>
+La gestion des videos est disponible uniquement pour la section <strong>Galerie</strong>.
+Les videos proviennent de <strong>YouTube</strong> et sont integrees sous forme de miniature
+cliquable sur le site.
+</p>
+
+<h2 id="ch3-1">3.1 Ajouter une video YouTube</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez la section <strong>Galerie</strong> dans la barre laterale.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Verifiez que vous etes sur l'onglet <strong>« Photos &amp; videos »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Faites defiler vers le bas jusqu'a la section <strong>« Videos de la galerie »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    Dans le formulaire d'ajout, saisissez :
+    <ul>
+      <li><strong>Titre de la video</strong> (optionnel — si vide, l'ID YouTube sera utilise)</li>
+      <li><strong>URL YouTube ou ID</strong> — formats acceptes :
+        <ul>
+          <li><code>https://www.youtube.com/watch?v=ID</code></li>
+          <li><code>https://youtu.be/ID</code></li>
+          <li><code>https://www.youtube.com/shorts/ID</code></li>
+          <li>Ou simplement l'ID de la video (11 caracteres)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">5</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Ajouter »</strong> (ou appuyez sur <strong>Entree</strong>).
+    La video est ajoutee en fin de liste avec une miniature YouTube.
+  </div>
+</div>
+
+<h2 id="ch3-2">3.2 Modifier une video</h2>
+<p>Pour modifier le titre ou l'URL :</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Modifiez le champ <strong>« Titre de la video »</strong> ou <strong>« URL YouTube ou ID »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Enregistrer »</strong>. La miniature se met a jour automatiquement.
+  </div>
+</div>
+
+<h2 id="ch3-3">3.3 Supprimer une video</h2>
+<p>Cliquez sur le bouton <strong>« Supprimer »</strong> (rouge) a cote de la video souhaitee.</p>
+
+<h2 id="ch3-4">3.4 Reordonner les videos</h2>
+<p>Utilisez la <strong>poignee de glisser-deposer</strong> pour changer l'ordre des videos.
+L'ordre est enregistre automatiquement et applique sur le site public.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 4 — GESTION DES PRIX ET TARIFS                       -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 4 — Gestion des prix et tarifs</h1>
+
+<h2 id="ch4-1">4.1 Principe de fonctionnement</h2>
+<p>
+L'onglet <strong>« Prix &amp; tarifs »</strong> permet de gerer les articles tarifes
+affiches sur certaines pages du site. Chaque tarif est compose de plusieurs champs
+(titre, prix, description, duree, details) qui sont directement modifiables depuis l'admin.
+</p>
+
+<div class="price-diagram">
+  <div class="row">
+    <span class="label">Onglet :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value">Photos &amp; videos | <strong>Prix &amp; tarifs</strong> | Menus | Contacts</span>
+  </div>
+  <div class="row">
+    <span class="label">Navigation :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value">Selectionnez une section dans la barre laterale, puis cliquez « Prix &amp; tarifs »</span>
+  </div>
+  <div class="row">
+    <span class="label">Enregistrement :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value">Chaque modification est enregistree individuellement via le bouton « Enregistrer »</span>
+  </div>
+</div>
+
+<h2 id="ch4-2">4.2 Les sections qui gerent des prix</h2>
+<p>Seules <strong>trois sections</strong> du site disposent de la gestion des prix :</p>
+
+<table>
+  <tr><th>Section</th><th>URL publique</th><th>Contenu</th><th>Categories disponibles</th></tr>
+  <tr><td><strong>Hebergement</strong></td><td>/hebergement-ferme</td><td>Tarifs des chambres et de la pension complete</td><td>Chambre, Pension complete</td></tr>
+  <tr><td><strong>Circuits</strong></td><td>/circuits-decouverte</td><td>Tarifs des circuits de decouverte</td><td>Aucune</td></tr>
+  <tr><td><strong>Soutien</strong></td><td>/nous-soutenir</td><td>Programmes de parrainage et de soutien</td><td>Aucune</td></tr>
+</table>
+
+<div class="callout callout-info">
+  <strong>Que se passe-t-il si je selectionne une autre section ?</strong>
+  Si vous selectionnez une section qui ne gere pas de prix (ex. Accueil, Equipe, Galerie...),
+  un message s'affiche : « Cette section ne gere pas de prix/tarifs. »
+  L'onglet « Prix &amp; tarifs » reste accessible mais n'affiche aucun formulaire.
+</div>
+
+<h2 id="ch4-3">4.3 Ajouter un nouveau tarif</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    <strong>Selectionnez la section</strong> souhaitee dans la barre laterale
+    (Hebergement, Circuits ou Soutien).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <strong>Cliquez sur l'onglet</strong> « Prix &amp; tarifs » dans la barre d'onglets.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    <strong>Remplissez le formulaire d'ajout</strong> en haut de la page. Deux champs sont obligatoires :
+    <ul>
+      <li><strong>Titre</strong> — Le nom de l'article (ex. « Chambre Triple », « Circuit Nature »)</li>
+      <li><strong>Prix</strong> — Le tarif affiche (ex. « 22,000 FCFA », « Sur mesure »)</li>
+    </ul>
+    Si la section a des categories (comme l'hebergement), selectionnez la categorie correspondante.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    <strong>Cliquez sur « Ajouter »</strong> (ou appuyez sur Entree).
+    Le nouveau tarif apparait en bas de la liste.
+  </div>
+</div>
+
+<h2 id="ch4-4">4.4 Les champs d'un tarif (detail)</h2>
+<p>Chaque tarif est compose de plusieurs champs. Voici le detail de chacun :</p>
+
+<table>
+  <tr><th>Champ</th><th>Obligatoire ?</th><th>Description</th><th>Exemple</th></tr>
+  <tr><td><strong>Titre</strong></td><td>Oui</td><td>Nom de l'article ou du service</td><td>Chambre Simple, Circuit Nature, Parrainage Mensuel</td></tr>
+  <tr><td><strong>Prix</strong></td><td>Oui</td><td>Le tarif affiche sur le site</td><td>10,000 FCFA, 20,000 FCFA, Sur mesure</td></tr>
+  <tr><td><strong>Sous-titre</strong></td><td>Non</td><td>Precision ou localisation</td><td>Marche d'Akpadanou, Kakanitchoe</td></tr>
+  <tr><td><strong>Duree</strong></td><td>Non</td><td>Duree du service ou de l'activite</td><td>1-3 heures, 1 journee</td></tr>
+  <tr><td><strong>Description</strong></td><td>Non</td><td>Description courte du service</td><td>Immersive local market experience...</td></tr>
+  <tr><td><strong>Details</strong></td><td>Non</td><td>Liste de points — <strong>une puce par ligne</strong></td><td>Couvre les fournitures<br>Acces a la formation</td></tr>
+  <tr><td><strong>Categorie</strong></td><td>Non</td><td>Filtre de categorie (si disponible)</td><td>Chambre, Pension complete</td></tr>
+</table>
+
+<div class="callout callout-tip">
+  <strong>Conseil pour le champ « Details »</strong>
+  Le champ « Details » accepte une <strong>liste a puces</strong>. Pour chaque point,
+  ecrivez une ligne distincte. Le site affichera automatiquement chaque ligne
+  comme un point de liste.
+</div>
+
+<h2 id="ch4-5">4.5 Modifier un tarif existant</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez le tarif a modifier dans la liste. Utilisez la <strong>poignee de glisser-deposer</strong>
+    si vous souhaitez le deplacer dans la liste.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Modifiez directement les champs souhaites (titre, prix, sous-titre, duree, description, details, categorie).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez sur le bouton <strong>« Enregistrer »</strong> (bouton vert) correspondant a ce tarif.
+    Le bouton affiche une coche quand l'enregistrement est termine.
+  </div>
+</div>
+
+<h2 id="ch4-6">4.6 Supprimer un tarif</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez le tarif a supprimer.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur le bouton <strong>« Supprimer »</strong> (bouton rouge) correspondant.
+  </div>
+</div>
+<div class="callout callout-danger">
+  <strong>Attention : la suppression est irreversible</strong>
+  Le tarif est supprime immediatement du site. Aucune annulation n'est possible.
+</div>
+
+<h2 id="ch4-7">4.7 Reordonner les tarifs</h2>
+<p>L'ordre d'affichage des tarifs sur le site correspond a l'ordre de la liste dans l'admin.</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez la <strong>poignee de glisser-deposer</strong> (icone a gauche de chaque tarif).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez et maintenez, puis <strong>glissez le tarif</strong> vers la position souhaitee.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    L'ordre est <strong>enregistre automatiquement</strong> des que vous relachez.
+  </div>
+</div>
+
+<h2 id="ch4-8">4.8 Exemples concrets — Hebergement</h2>
+<p>
+La section Hebergement gere deux categories de tarifs : <strong>Chambre</strong> (hebergement seul)
+et <strong>Pension complete</strong> (hebergement + repas).
+</p>
+
+<h3>Exemple : ajouter une Chambre Simple</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez <strong>Hebergement</strong> dans la barre laterale, puis l'onglet <strong>Prix &amp; tarifs</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Dans le formulaire d'ajout :
+    <ul>
+      <li>Titre : <code>Chambre Simple</code></li>
+      <li>Prix : <code>10,000 FCFA</code></li>
+      <li>Categorie : selectionnez <strong>Chambre</strong></li>
+    </ul>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez <strong>« Ajouter »</strong>. Le tarif apparait dans la section « Chambres » de la page publique.
+  </div>
+</div>
+
+<h3>Exemple : ajouter une Pension complete</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Meme procedure, mais avec la categorie <strong>Pension complete</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    <ul>
+      <li>Titre : <code>Chambre simple + Pension</code></li>
+      <li>Prix : <code>17,000 FCFA</code></li>
+      <li>Categorie : selectionnez <strong>Pension complete</strong></li>
+    </ul>
+  </div>
+</div>
+
+<div class="callout callout-info">
+  <strong>Visualisation sur le site</strong>
+  Sur la page publique <code>/hebergement-ferme</code>, les tarifs sont affiches
+  en deux onglets : « Chambres » et « Pension complete ».
+  L'ordre d'affichage correspond a l'ordre defini dans l'admin.
+</div>
+
+<h2 id="ch4-9">4.9 Exemples concrets — Circuits</h2>
+<p>
+La section Circuits n'a pas de categories. Tous les tarifs sont affiches dans une seule liste.
+</p>
+
+<h3>Exemple : ajouter un Circuit Nature</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez <strong>Circuits</strong> dans la barre laterale, puis l'onglet <strong>Prix &amp; tarifs</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Remplissez le formulaire :
+    <ul>
+      <li>Titre : <code>Circuit Nature</code></li>
+      <li>Sous-titre : <code>Faune et flore</code></li>
+      <li>Prix : <code>20 000 FCFA jusqu'a 5 pers, +2 000 FCFA/personne</code></li>
+      <li>Duree : <code>1-3 heures</code></li>
+      <li>Description : <code>Educational nature center offering programs about local flora/fauna.</code></li>
+    </ul>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez <strong>« Ajouter »</strong>. Le circuit apparait sur la page <code>/circuits-decouverte</code>.
+  </div>
+</div>
+
+<h2 id="ch4-10">4.10 Exemples concrets — Soutien</h2>
+<p>
+La section Soutien affiche les programmes de parrainage et de soutien.
+</p>
+
+<h3>Exemple : ajouter un Programme de Parrainage</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez <strong>Soutien</strong> dans la barre laterale, puis l'onglet <strong>Prix &amp; tarifs</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Remplissez le formulaire :
+    <ul>
+      <li>Titre : <code>Parrainage Mensuel</code></li>
+      <li>Prix : <code>3 EUR/jour (90 EUR/mois)</code></li>
+      <li>Description : <code>Soutenir un jeune dans sa formation agricole</code></li>
+      <li>Details (une puce par ligne) :
+        <ul>
+          <li>Couvre les besoins en fournitures et en alimentation</li>
+          <li>Permet l'acces a la formation professionnelle</li>
+          <li>Suivi personnalise tout au long de la formation</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez <strong>« Ajouter »</strong>. Le programme apparait sur la page <code>/nous-soutenir</code>.
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 5 — GESTION DES MENUS                                 -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 5 — Gestion des menus du restaurant</h1>
+
+<h2 id="ch5-1">5.1 Principe de fonctionnement</h2>
+<p>
+L'onglet <strong>« Menus »</strong> est disponible uniquement pour la section <strong>Restaurant</strong>.
+Il permet de gerer les <strong>categories de plats</strong> (Entrées, Plats Principaux...)
+et les <strong>plats individuels</strong> au sein de chaque categorie.
+</p>
+
+<div class="price-diagram">
+  <div class="row">
+    <span class="label">Structure :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value"><strong>Categorie</strong> (ex. Entrées) contient des <strong>Plats</strong> (ex. Salade verte)</span>
+  </div>
+  <div class="row">
+    <span class="label">Navigation :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value">Selectionnez Restaurant, puis onglet Menus</span>
+  </div>
+  <div class="row">
+    <span class="label">Ordre :</span>
+    <span class="arrow">&rarr;</span>
+    <span class="value">Les categories et les plats sont reordonnables par glisser-deposer</span>
+  </div>
+</div>
+
+<h2 id="ch5-2">5.2 Ajouter une categorie</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Selectionnez la section <strong>Restaurant</strong> dans la barre laterale.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur l'onglet <strong>« Menus »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Dans le formulaire en haut, saisissez le nom de la categorie
+    (ex. « Boissons », « Accompagnements »).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Ajouter une categorie »</strong> (ou appuyez sur Entree).
+    La categorie apparait en bas de la liste.
+  </div>
+</div>
+
+<h2 id="ch5-3">5.3 Ajouter un plat dans une categorie</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez la categorie souhaitee (ex. « Plats Principaux »).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Dans le champ <strong>« Nouveau plat »</strong> de cette categorie, saisissez le nom du plat
+    (ex. « Ragoût de légumes »).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Ajouter un plat »</strong> (ou appuyez sur Entree).
+    Le plat apparait dans la liste de la categorie.
+  </div>
+</div>
+
+<h2 id="ch5-4">5.4 Modifier une categorie ou un plat</h2>
+<h3>Modifier le nom d'une categorie</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Changez le texte dans le champ <strong>« Nom de la categorie »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Enregistrer »</strong>.
+  </div>
+</div>
+
+<h3>Modifier le nom d'un plat</h3>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Changez le texte dans le champ <strong>« Nom du plat »</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Enregistrer »</strong>.
+  </div>
+</div>
+
+<h2 id="ch5-5">5.5 Supprimer une categorie ou un plat</h2>
+<h3>Supprimer une categorie</h3>
+<p>Cliquez sur <strong>« Supprimer »</strong> (rouge) a cote de la categorie.
+<strong>Tous les plats associes seront aussi supprimes.</strong></p>
+
+<h3>Supprimer un plat</h3>
+<p>Cliquez sur <strong>« Supprimer »</strong> (rouge) a cote du plat souhaite.</p>
+
+<h2 id="ch5-6">5.6 Reordonner</h2>
+<h3>Reordonner les categories</h3>
+<p>Utilisez la <strong>poignee de glisser-deposer</strong> (icone a gauche) pour changer l'ordre des categories.</p>
+
+<h3>Reordonner les plats au sein d'une categorie</h3>
+<p>Utilisez la <strong>poignee de glisser-deposer</strong> de chaque plat pour changer l'ordre dans la categorie.</p>
+
+<p>L'ordre est enregistre automatiquement et applique sur le site public.</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 6 — GESTION DES CONTACTS                              -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 6 — Gestion des informations de contact</h1>
+
+<h2 id="ch6-1">6.1 Acceder a la gestion des contacts</h2>
+<p>
+L'onglet <strong>« Contacts »</strong> est disponible depuis toutes les sections.
+Il permet de modifier les numeros de telephone, l'adresse email et les liens reseaux sociaux
+affiches sur l'ensemble du site.
+</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Cliquez sur l'onglet <strong>« Contacts »</strong> (dernier onglet a droite).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    La page affiche tous les champs de contact enregistres dans la base de donnees.
+  </div>
+</div>
+
+<h2 id="ch6-2">6.2 Modifier un numero de telephone</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez le champ <strong>whatsapp</strong> ou <strong>mobile</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Modifiez la valeur dans le champ de saisie.
+    Saisissez le numero complet avec l'indicatif (ex. <code>+229 01 95 40 54 33</code>).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez sur <strong>« Enregistrer »</strong>. Le changement est applique immediatement
+    sur toutes les pages du site.
+  </div>
+</div>
+
+<h2 id="ch6-3">6.3 Modifier l'adresse email</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez le champ <strong>email</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Modifiez la valeur et cliquez <strong>« Enregistrer »</strong>.
+  </div>
+</div>
+
+<h2 id="ch6-4">6.4 Modifier les liens reseaux sociaux</h2>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-content">
+    Reperez les champs <strong>facebook</strong>, <strong>youtube</strong> et <strong>instagram</strong>.
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-content">
+    Saisissez l'URL complete du profil (ex. <code>https://www.facebook.com/...</code>).
+  </div>
+</div>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-content">
+    Cliquez <strong>« Enregistrer »</strong> pour chaque champ modifie.
+  </div>
+</div>
+
+<h2 id="ch6-5">6.5 Liste des champs de contact</h2>
+<table>
+  <tr><th>Cle</th><th>Description</th><th>Exemple</th><th>Emplacements sur le site</th></tr>
+  <tr><td><strong>whatsapp</strong></td><td>Numero WhatsApp principal</td><td>+229 01 95 40 54 33</td><td>Navbar, Footer, Page Contact</td></tr>
+  <tr><td><strong>mobile</strong></td><td>Numero mobile secondaire</td><td>+229 97 65 56 28</td><td>Navbar, Footer, Page Contact, Hero</td></tr>
+  <tr><td><strong>email</strong></td><td>Adresse email de contact</td><td>sainbenin@yahoo.fr</td><td>Footer, Page Contact, Mentions legales</td></tr>
+  <tr><td><strong>facebook</strong></td><td>Lien vers la page Facebook</td><td>https://www.facebook.com/...</td><td>Footer, Page Contact</td></tr>
+  <tr><td><strong>youtube</strong></td><td>Lien vers la chaine YouTube</td><td>https://www.youtube.com/...</td><td>Footer, Page Contact</td></tr>
+  <tr><td><strong>instagram</strong></td><td>Lien vers le profil Instagram</td><td>https://www.instagram.com/...</td><td>Footer, Page Contact</td></tr>
+</table>
+
+<div class="callout callout-info">
+  <strong>Impact des modifications</strong>
+  Toute modification d'un contact est <strong>visible immediatement</strong> sur l'ensemble des pages du site.
+  Pas besoin de republier ou de vider le cache.
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- CHAPITRE 7 — DEPANNAGE                                         -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Chapitre 7 — Depannage</h1>
+
+<h2 id="ch7-1">7.1 Problemes de connexion</h2>
+<table>
+  <tr><th>Symptome</th><th>Cause probable</th><th>Solution</th></tr>
+  <tr>
+    <td>« Email ou mot de passe incorrect »</td>
+    <td>Credentials erronees</td>
+    <td>Verifiez l'orthographe. Desactivez Caps Lock. En cas d'oubli, contactez le support.</td>
+  </tr>
+  <tr>
+    <td>Page de connexion ne s'affiche pas</td>
+    <td>URL incorrecte</td>
+    <td>Verifiez : <code>https://sain-benin.org/admin</code></td>
+  </tr>
+  <tr>
+    <td>« Supabase n'est pas encore configure »</td>
+    <td>Variables d'environnement manquantes</td>
+    <td>Contactez le developpeur du site.</td>
+  </tr>
+</table>
+
+<h2 id="ch7-2">7.2 Les modifications ne s'affichent pas</h2>
+<ul>
+  <li><strong>Videz le cache du navigateur</strong> : Ctrl + Maj + Suppr, cochez « Images et fichiers en cache »</li>
+  <li><strong>Ouvrez le site en navigation privee</strong> pour verifier</li>
+  <li><strong>Attendez 1-2 minutes</strong> — le CDN peut avoir un leger delai</li>
+  <li><strong>Verifiez la confirmation</strong> — le bouton « Enregistrer » affiche une coche</li>
+</ul>
+
+<h2 id="ch7-3">7.3 Erreur lors de l'upload d'une photo</h2>
+<table>
+  <tr><th>Erreur</th><th>Solution</th></tr>
+  <tr><td>Fichier trop volumineux</td><td>Reduisez a moins de 2 Mo (Tinypng.com)</td></tr>
+  <tr><td>Format non supporte</td><td>Utilisez .jpg, .jpeg ou .png uniquement</td></tr>
+  <tr><td>Erreur reseau</td><td>Verifiez la connexion et reessayez</td></tr>
+  <tr><td>Warning de ratio</td><td>L'image est upload mais risque d'etre deformee. Recadrez-la avant re-upload.</td></tr>
+</table>
+
+<h2 id="ch7-4">7.4 Contacter le support technique</h2>
+<p>En cas de probleme non resolu :</p>
+<table>
+  <tr><th>Contact</th><th>Pour quoi</th></tr>
+  <tr><td><strong>Developpeur du site</strong></td><td>Problemes techniques, deploiement, configuration</td></tr>
+  <tr><td><strong>Administrateur Supabase</strong></td><td>Problemes de base de donnees, authentification</td></tr>
+</table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<!-- ANNEXE A                                                       -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div class="section-break">
+<h1>Annexe A — URLs et raccourcis</h1>
+
+<table>
+  <tr><th>Ressource</th><th>URL</th></tr>
+  <tr><td>Site public</td><td><code>https://sain-benin.org</code></td></tr>
+  <tr><td>Panneau d'administration</td><td><code>https://sain-benin.org/admin</code></td></tr>
+  <tr><td>Dashboard Vercel</td><td><code>https://vercel.com/dashboard</code></td></tr>
+  <tr><td>Supabase Dashboard</td><td><code>https://supabase.com/dashboard</code></td></tr>
+</table>
+
+<hr>
+
+<div class="callout callout-tip">
+  <strong>Fin du manuel</strong>
+  Ce manuel couvre l'ensemble des fonctionnalites du panneau d'administration du site SAIN.
+  Pour toute question, contactez le support technique.
+  <br><br>
+  <em>SAIN — Solidarites Agricoles Integreees</em><br>
+  <em>Ferme Ecole Bio — Kakanitchoe, Adjohoun, Benin</em><br>
+  <em>www.sain-benin.org</em>
+</div>
+</div>
+
+</body>
+</html>

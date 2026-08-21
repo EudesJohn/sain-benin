@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { GraduationCap, Droplet, HandHeart, Construction, BookOpen, Loader2 } from 'lucide-react'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import { useSectionPrices } from '../hooks/useSectionPrices'
@@ -9,31 +10,30 @@ import { Button } from '../components/ui/Button'
 import { CTASection } from '../components/ui/CTASection'
 
 const Support = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('nous-soutenir')
-  // Programmes chargés depuis Supabase (gérés dans l'admin — plus rien en dur dans le code)
   const { prices, loading } = useSectionPrices('nous-soutenir')
   const supportPrograms = [...prices].sort((a, b) => a.position - b.position)
 
-  // Icônes et couleurs attribuées aux programmes selon leur ordre d'affichage
   const programIcons = [GraduationCap, Construction, BookOpen]
   const programColors = ['from-sun-500 to-sun-700', 'from-leaf-500 to-leaf-700', 'from-earth-500 to-earth-700']
 
   const specificProjects = [
     {
-      title: 'Une Famille une Latrine',
-      description: 'Améliorer l\'hygiène sanitaire dans les foyers locaux',
+      title: t('support.projects.latrine.title'),
+      description: t('support.projects.latrine.description'),
       icon: HandHeart,
       progress: 75,
     },
     {
-      title: 'Accès à l\'Eau Potable',
-      description: 'Installation de puits et forages dans les villages',
+      title: t('support.projects.water.title'),
+      description: t('support.projects.water.description'),
       icon: Droplet,
       progress: 60,
     },
     {
-      title: 'Scholarship Program',
-      description: 'Soutien financier pour les étudiants défavorisés',
+      title: t('support.projects.scholarship.title'),
+      description: t('support.projects.scholarship.description'),
       icon: GraduationCap,
       progress: 90,
     },
@@ -43,12 +43,12 @@ const Support = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Ecole-Sain-Arrosage-1-1024x867.jpg'}
-        eyebrow="Faire un don"
-        title="Nous Soutenir"
-        subtitle="Ensemble, construisons un avenir durable pour les jeunes et la communauté"
+        eyebrow={t('support.eyebrow')}
+        title={t('support.title')}
+        subtitle={t('support.subtitle')}
       >
         <blockquote className="text-lg italic text-earth-100 border-l-2 border-sun-400 pl-4">
-          « SAIN est une petite structure d'économie sociale. Son modèle repose sur des formations payantes et des subventions diverses. »
+          {t('support.quote')}
         </blockquote>
       </PageHero>
 
@@ -56,16 +56,16 @@ const Support = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Trois façons d'agir"
-            title="Programmes de Soutien"
-            subtitle="Rejoignez-nous dans notre mission de promouvoir l'agroécologie et l'émancipation des jeunes"
+            eyebrow={t('support.programs.eyebrow')}
+            title={t('support.programs.title')}
+            subtitle={t('support.programs.subtitle')}
             className="mb-16"
           />
 
           {loading ? (
             <div className="flex items-center justify-center py-16 text-ink-soft">
               <Loader2 className="w-6 h-6 animate-spin mr-3" aria-hidden="true" />
-              Chargement des programmes…
+              {t('circuits.loading')}
             </div>
           ) : supportPrograms.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -93,7 +93,7 @@ const Support = () => {
                     <ul className="space-y-2 text-sm text-ink-soft">
                       {program.details.split('\n').filter(Boolean).map((detail, j) => (
                         <li key={j} className="flex items-start">
-                          <span>•</span>
+                          <span>&bull;</span>
                           <span className="ml-2">{detail}</span>
                         </li>
                       ))}
@@ -103,7 +103,7 @@ const Support = () => {
               ))}
             </div>
           ) : (
-            <p className="text-center text-ink-soft">Aucun programme pour le moment.</p>
+            <p className="text-center text-ink-soft">{t('support.programs.empty')}</p>
           )}
         </div>
       </section>
@@ -112,9 +112,9 @@ const Support = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="En cours"
-            title="Projets Spécifiques"
-            subtitle="Découvrez nos initiatives actuelles et suivez leur avancement"
+            eyebrow={t('support.projects.eyebrow')}
+            title={t('support.projects.title')}
+            subtitle={t('support.projects.subtitle')}
             className="mb-16"
           />
 
@@ -146,7 +146,7 @@ const Support = () => {
                         viewport={{ once: true }}
                       />
                     </div>
-                    <p className="text-sm text-ink-faint mt-2">{project.progress}% complété</p>
+                    <p className="text-sm text-ink-faint mt-2">{project.progress}% {t('support.projects.completed')}</p>
                   </div>
                 </div>
               </motion.div>
@@ -167,21 +167,18 @@ const Support = () => {
             >
               <SectionHeading
                 align="left"
-                eyebrow="Éducation"
-                title="Soutien aux Étudiants"
+                eyebrow={t('support.students.eyebrow')}
+                title={t('support.students.title')}
                 className="mb-6"
               />
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Notre programme de soutien éducatif couvre l'ensemble des besoins
-                des élèves défavorisés : fournitures scolaires, frais d'inscription,
-                et besoins alimentaires.
+                {t('support.students.description1')}
               </p>
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Chaque don participe directement à l'intégration réussie de nos
-                jeunes dans un avenir prometteur à travers l'agriculture durable.
+                {t('support.students.description2')}
               </p>
               <Button to="/contact" icon={<GraduationCap className="w-4 h-4" />}>
-                Devenir parrain
+                {t('support.students.cta')}
               </Button>
             </motion.div>
 
@@ -200,12 +197,12 @@ const Support = () => {
                   '/images/Ecole-Sain-Arrosage-1-1024x867.jpg',
                   '/images/Etudiants-2-150x150.jpg',
                 ]
-                const alts = ['Étudiant', 'Formation', 'Arrosage', 'Étudiants']
+                const altKeys = ['support.students.photo1', 'support.students.photo2', 'support.students.photo3', 'support.students.photo4']
                 return (
                   <img
                     key={key}
                     src={photo?.url || fallbacks[i]}
-                    alt={photo?.alt || alts[i]}
+                    alt={photo?.alt || t(altKeys[i])}
                     className="w-full h-48 object-cover rounded-xl shadow-card"
                   />
                 )
@@ -218,9 +215,9 @@ const Support = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Soutenez notre mission"
-        subtitle="Votre soutien nous permet de continuer à former les jeunes, de protéger l'environnement et de développer notre communauté."
-        label="Contactez-nous pour soutenir"
+        title={t('support.ctaTitle')}
+        subtitle={t('support.ctaText')}
+        label={t('support.ctaLabel')}
       />
     </>
   )

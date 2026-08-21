@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { useTranslation } from 'react-i18next'
 
 export interface Price {
   id?: string
@@ -14,9 +15,15 @@ export interface Price {
   /** Une puce par ligne (séparées par des retours à la ligne) */
   details: string
   position: number
+  // Champs bilingues
+  title_en: string
+  subtitle_en: string
+  price_en: string
+  description_en: string
+  details_en: string
 }
 
-const PRICE_COLUMNS = 'id, key, category, title, subtitle, description, price, duration, details, position'
+const PRICE_COLUMNS = 'id, key, category, title, subtitle, description, price, duration, details, position, title_en, subtitle_en, price_en, description_en, details_en'
 
 function toPrice(row: {
   id: string
@@ -29,6 +36,11 @@ function toPrice(row: {
   duration: string
   details: string
   position: number
+  title_en?: string
+  subtitle_en?: string
+  price_en?: string
+  description_en?: string
+  details_en?: string
 }): Price {
   return {
     id: row.id,
@@ -41,7 +53,27 @@ function toPrice(row: {
     duration: row.duration ?? '',
     details: row.details ?? '',
     position: row.position ?? 0,
+    title_en: row.title_en ?? '',
+    subtitle_en: row.subtitle_en ?? '',
+    price_en: row.price_en ?? '',
+    description_en: row.description_en ?? '',
+    details_en: row.details_en ?? '',
   }
+}
+
+/** Localise un prix selon la langue courante */
+export function localizePrice(price: Price, lang: string): Price {
+  if (lang === 'en') {
+    return {
+      ...price,
+      title: price.title_en || price.title,
+      subtitle: price.subtitle_en || price.subtitle,
+      price: price.price_en || price.price,
+      description: price.description_en || price.description,
+      details: price.details_en || price.details,
+    }
+  }
+  return price
 }
 
 /** Prix/tarifs d'une section, triés par position */
@@ -87,6 +119,11 @@ export async function upsertPrice(sectionSlug: string, price: Price): Promise<bo
     duration: price.duration,
     details: price.details,
     position: price.position,
+    title_en: price.title_en,
+    subtitle_en: price.subtitle_en,
+    price_en: price.price_en,
+    description_en: price.description_en,
+    details_en: price.details_en,
   }
 
   if (price.id) {

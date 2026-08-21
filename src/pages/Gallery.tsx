@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { X, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
@@ -9,89 +10,77 @@ import { useSectionVideos } from '../hooks/useSectionVideos'
 const easeOut = [0.23, 1, 0.32, 1]
 
 const Gallery = () => {
+  const { t } = useTranslation()
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const { photos, freePhotos, loading, preloadProgress, allReady } = useSectionPhotos('galerie')
   const { videos } = useSectionVideos('galerie')
-  // Écran de chargement tant que toutes les photos ne sont pas prêtes
   const showPhotoLoader = loading || !allReady
 
-  // Photos par défaut (repli si aucune photo gérée dans Supabase)
   const defaultGalleryImages = [
-    // ── La ferme & les travaux ──
-    { src: '/images/Travaux-Ferme-1024x768.jpg', alt: 'Travaux à la ferme' },
-    { src: '/images/Ecole-Sain-Arrosage-1-1024x867.jpg', alt: 'Arrosage des cultures' },
-    { src: '/images/Arrosage-Etudiant-150x150.jpg', alt: 'Un étudiant arrose le jardin' },
-    { src: '/images/Jardin-Sain-1024x768.jpg', alt: 'Le jardin de la ferme' },
-    { src: '/images/Jardin3-Sain-1024x768.jpg', alt: 'Jardin de la ferme' },
-    { src: '/images/Compost-Sain-150x150.jpg', alt: 'Compostage' },
-    { src: '/images/Maraichage-150x150.jpg', alt: 'Maraîchage' },
-    { src: '/images/Maraichage-5-150x150.jpg', alt: 'Culture maraîchère' },
-    { src: '/images/Maraichage-3-150x150.jpg', alt: 'Maraîchage' },
-    { src: '/images/Maraichage-4-150x150.jpg', alt: 'Culture maraîchère' },
-    { src: '/images/Marécage-150x150.jpg', alt: 'Le marécage de la ferme' },
-    { src: '/images/Travaux-2-150x150.jpg', alt: 'Travaux de la ferme' },
-    { src: '/images/Repiquage-Sain-1-150x150.jpg', alt: 'Repiquage des plants' },
-    { src: '/images/Repiquage-Sain-2-ppttfeo9obz73iq6nc47mek4fgqy114nz90vxbnfes.jpg', alt: 'Repiquage des plants' },
-    { src: '/images/Riz-Sain-1024x743.jpg', alt: 'Champ de riz' },
-    { src: '/images/Riz-Sain-1-1024x743.jpg', alt: 'Récolte du riz' },
-    { src: '/images/Palme-Sain-150x150.jpg', alt: 'Palmeraie' },
-    { src: '/images/Fleur-150x150.jpg', alt: 'Fleurs de la ferme' },
-
-    // ── Élevage & produits ──
-    { src: '/images/Elevage-lapin-Sain-1024x806.jpg', alt: 'Élevage de lapins' },
-    { src: '/images/Lapins-Elevage-150x150.jpg', alt: 'Lapins de la ferme' },
-    { src: '/images/Elevage-Poules-Sain-150x150.jpg', alt: 'Élevage de poules' },
-    { src: '/images/Formation-Apiculture-1024x768.jpg', alt: 'Formation en apiculture' },
-    { src: '/images/Apiculture-Formation-150x150.jpg', alt: 'Apiculture' },
-    { src: '/images/Fruits-Sain-1024x717.jpg', alt: 'Fruits de la ferme' },
-    { src: '/images/Fruits-Sain-150x150.jpg', alt: 'Fruits frais' },
-    { src: '/images/Papaye-Sain-150x150.jpg', alt: 'Papayes' },
-    { src: '/images/Curcuma-Sain-150x150.jpg', alt: 'Curcuma' },
-    { src: '/images/Ananas-2-150x150.jpg', alt: 'Ananas de la ferme' },
-    { src: '/images/banaan-scaled-e1649512167400.jpg', alt: 'Bananes plantains' },
-    { src: '/images/Jus-Concombre-Sain-150x150.jpg', alt: 'Jus de concombre' },
-
-    // ── Étudiants, formation & équipe ──
-    { src: '/images/Etudiants-Sain-150x150.jpg', alt: 'Étudiants de la ferme école' },
-    { src: '/images/Etudiant-4-1024x683.jpg', alt: 'Un étudiant à la ferme' },
-    { src: '/images/Etudiant-5-150x150.jpg', alt: 'Étudiant en formation' },
-    { src: '/images/Etudiant-7-1024x683.jpg', alt: 'Formation pratique' },
-    { src: '/images/Etudiants-2-150x150.jpg', alt: 'Étudiants de la ferme' },
-    { src: '/images/Etudiants-Sain-1024x768.jpg', alt: 'Groupe d\'étudiants de la ferme' },
-    { src: '/images/Equipe-Sain-150x150.jpg', alt: "L'équipe SAIN" },
-    { src: '/images/Sourire-Sain-150x150.jpg', alt: 'Jeunes souriants' },
-    { src: '/images/Engagement-Social-Sain-1024x768.jpg', alt: 'Engagement social' },
-    { src: '/images/Engagement-Social-Sain-150x150.jpg', alt: 'Engagement solidaire' },
-
-    // ── Hébergement & accueil ──
-    { src: '/images/Hebergement-9-ppv80k18zqzr9fenf1dj1cdlvqjcdnyq13mq21ey10.jpg', alt: 'Hébergement à la ferme' },
-    { src: '/images/Chambres-Sain-1024x768.jpg', alt: 'Chambres SAIN' },
-    { src: '/images/Hébergement-Sain-150x150.jpg', alt: 'Hébergement à la ferme' },
-    { src: '/images/Hébergement-3-Sain-150x150.jpg', alt: 'Hébergement de la ferme' },
-    { src: '/images/Cuisine-Gite-150x150.jpg', alt: 'Cuisine du gîte' },
-    { src: '/images/Cuisine-Sain-150x150.jpg', alt: 'Cuisine de la ferme' },
-    { src: '/images/Accueil-Sain-150x150.jpg', alt: 'Accueil à la ferme' },
-    { src: '/images/Ferme-Accueil-150x150.jpg', alt: 'Accueil de la ferme' },
-    { src: '/images/sain1-150x150.jpg', alt: 'Vue de la ferme' },
-
-    // ── Nature, recherche & découverte ──
-    { src: '/images/Visite-Ferme-ppttg268f6vd5rs1u49vuqmna3j4dgpyehc0x8ol38.jpg', alt: 'Visite de la ferme' },
-    { src: '/images/Visite-Ferme-150x150.jpg', alt: 'Visite guidée' },
-    { src: '/images/Pirogue-150x114.jpg', alt: 'Tour en pirogue' },
-    { src: '/images/Plastique-Sain-150x150.jpg', alt: 'Tri du plastique' },
-    { src: '/images/Recherche-Sain-1024x767.jpg', alt: 'Recherche-action' },
-    { src: '/images/Recherche-Sain-1-pptteyp0g5dbm5de8n7jy0labwxpe6d891xmrmb4ck.jpg', alt: 'Recherche en laboratoire' },
-    { src: '/images/Recherche-Sain-1-150x150.jpg', alt: 'Recherche' },
-    { src: '/images/A-PROPOS-SAIN-1024x715.jpg', alt: 'La ferme SAIN' },
-    { src: '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg', alt: 'Regard' },
-    { src: '/images/Restaurant-Sain-724x1024.png', alt: 'Le restaurant de la ferme' },
-    { src: '/images/sain5-150x150.jpg', alt: 'Vie à la ferme' },
+    { src: '/images/Travaux-Ferme-1024x768.jpg', alt: t('gallery.images.farmWorks') },
+    { src: '/images/Ecole-Sain-Arrosage-1-1024x867.jpg', alt: t('gallery.images.watering') },
+    { src: '/images/Arrosage-Etudiant-150x150.jpg', alt: t('gallery.images.studentWatering') },
+    { src: '/images/Jardin-Sain-1024x768.jpg', alt: t('gallery.images.garden') },
+    { src: '/images/Jardin3-Sain-1024x768.jpg', alt: t('gallery.images.garden2') },
+    { src: '/images/Compost-Sain-150x150.jpg', alt: t('gallery.images.compost') },
+    { src: '/images/Maraichage-150x150.jpg', alt: t('gallery.images.marketGardening') },
+    { src: '/images/Maraichage-5-150x150.jpg', alt: t('gallery.images.marketGardening2') },
+    { src: '/images/Maraichage-3-150x150.jpg', alt: t('gallery.images.marketGardening3') },
+    { src: '/images/Maraichage-4-150x150.jpg', alt: t('gallery.images.marketGardening4') },
+    { src: '/images/Marécage-150x150.jpg', alt: t('gallery.images.wetland') },
+    { src: '/images/Travaux-2-150x150.jpg', alt: t('gallery.images.farmWorks2') },
+    { src: '/images/Repiquage-Sain-1-150x150.jpg', alt: t('gallery.images.transplanting') },
+    { src: '/images/Repiquage-Sain-2-ppttfeo9obz73iq6nc47mek4fgqy114nz90vxbnfes.jpg', alt: t('gallery.images.transplanting2') },
+    { src: '/images/Riz-Sain-1024x743.jpg', alt: t('gallery.images.riceField') },
+    { src: '/images/Riz-Sain-1-1024x743.jpg', alt: t('gallery.images.riceHarvest') },
+    { src: '/images/Palme-Sain-150x150.jpg', alt: t('gallery.images.palmTrees') },
+    { src: '/images/Fleur-150x150.jpg', alt: t('gallery.images.flowers') },
+    { src: '/images/Elevage-lapin-Sain-1024x806.jpg', alt: t('gallery.images.rabbitFarming') },
+    { src: '/images/Lapins-Elevage-150x150.jpg', alt: t('gallery.images.rabbits') },
+    { src: '/images/Elevage-Poules-Sain-150x150.jpg', alt: t('gallery.images.chickenFarming') },
+    { src: '/images/Formation-Apiculture-1024x768.jpg', alt: t('gallery.images.beekeepingTraining') },
+    { src: '/images/Apiculture-Formation-150x150.jpg', alt: t('gallery.images.beekeeping') },
+    { src: '/images/Fruits-Sain-1024x717.jpg', alt: t('gallery.images.fruits') },
+    { src: '/images/Fruits-Sain-150x150.jpg', alt: t('gallery.images.freshFruits') },
+    { src: '/images/Papaye-Sain-150x150.jpg', alt: t('gallery.images.papaya') },
+    { src: '/images/Curcuma-Sain-150x150.jpg', alt: t('gallery.images.turmeric') },
+    { src: '/images/Ananas-2-150x150.jpg', alt: t('gallery.images.pineapple') },
+    { src: '/images/banaan-scaled-e1649512167400.jpg', alt: t('gallery.images.plantains') },
+    { src: '/images/Jus-Concombre-Sain-150x150.jpg', alt: t('gallery.images.cucumberJuice') },
+    { src: '/images/Etudiants-Sain-150x150.jpg', alt: t('gallery.images.students') },
+    { src: '/images/Etudiant-4-1024x683.jpg', alt: t('gallery.images.student') },
+    { src: '/images/Etudiant-5-150x150.jpg', alt: t('gallery.images.studentTraining') },
+    { src: '/images/Etudiant-7-1024x683.jpg', alt: t('gallery.images.practicalTraining') },
+    { src: '/images/Etudiants-2-150x150.jpg', alt: t('gallery.images.students2') },
+    { src: '/images/Etudiants-Sain-1024x768.jpg', alt: t('gallery.images.studentGroup') },
+    { src: '/images/Equipe-Sain-150x150.jpg', alt: t('gallery.images.sainTeam') },
+    { src: '/images/Sourire-Sain-150x150.jpg', alt: t('gallery.images.smilingYouth') },
+    { src: '/images/Engagement-Social-Sain-1024x768.jpg', alt: t('gallery.images.socialEngagement') },
+    { src: '/images/Engagement-Social-Sain-150x150.jpg', alt: t('gallery.images.solidarity') },
+    { src: '/images/Hebergement-9-ppv80k18zqzr9fenf1dj1cdlvqjcdnyq13mq21ey10.jpg', alt: t('gallery.images.accommodation') },
+    { src: '/images/Chambres-Sain-1024x768.jpg', alt: t('gallery.images.rooms') },
+    { src: '/images/Hébergement-Sain-150x150.jpg', alt: t('gallery.images.accommodation2') },
+    { src: '/images/Hébergement-3-Sain-150x150.jpg', alt: t('gallery.images.accommodation3') },
+    { src: '/images/Cuisine-Gite-150x150.jpg', alt: t('gallery.images.guesthouseKitchen') },
+    { src: '/images/Cuisine-Sain-150x150.jpg', alt: t('gallery.images.farmKitchen') },
+    { src: '/images/Accueil-Sain-150x150.jpg', alt: t('gallery.images.welcome') },
+    { src: '/images/Ferme-Accueil-150x150.jpg', alt: t('gallery.images.farmWelcome') },
+    { src: '/images/sain1-150x150.jpg', alt: t('gallery.images.farmView') },
+    { src: '/images/Visite-Ferme-ppttg268f6vd5rs1u49vuqmna3j4dgpyehc0x8ol38.jpg', alt: t('gallery.images.farmVisit') },
+    { src: '/images/Visite-Ferme-150x150.jpg', alt: t('gallery.images.guidedTour') },
+    { src: '/images/Pirogue-150x114.jpg', alt: t('gallery.images.canoeTrip') },
+    { src: '/images/Plastique-Sain-150x150.jpg', alt: t('gallery.images.plasticSorting') },
+    { src: '/images/Recherche-Sain-1024x767.jpg', alt: t('gallery.images.actionResearch') },
+    { src: '/images/Recherche-Sain-1-pptteyp0g5dbm5de8n7jy0labwxpe6d891xmrmb4ck.jpg', alt: t('gallery.images.labResearch') },
+    { src: '/images/Recherche-Sain-1-150x150.jpg', alt: t('gallery.images.research') },
+    { src: '/images/A-PROPOS-SAIN-1024x715.jpg', alt: t('gallery.images.sainFarm') },
+    { src: '/images/Reagard-ppttevvhvn9gnbhhp3zo8jawjrblr3218nz6bsfav8.jpg', alt: t('gallery.images.gaze') },
+    { src: '/images/Restaurant-Sain-724x1024.png', alt: t('gallery.images.farmRestaurant') },
+    { src: '/images/sain5-150x150.jpg', alt: t('gallery.images.farmLife') },
   ]
 
   const galleryImages = freePhotos.length > 0 ? freePhotos.map((photo) => ({ src: photo.url, alt: photo.alt })) : defaultGalleryImages
-
-  // Vidéos YouTube — celles gérées dans Supabase (ou les vidéos par défaut du site)
   const galleryVideos = videos.map((video) => ({ id: video.youtubeId, title: video.title }))
 
   const openModal = (index: number) => {
@@ -114,7 +103,6 @@ const Gallery = () => {
     }
   }
 
-  // Claviers : Échap ferme, ←/→ navigue. Verrouille le scroll du body quand la modale est ouverte.
   useEffect(() => {
     if (selectedImage === null) return
 
@@ -145,23 +133,22 @@ const Gallery = () => {
     <>
       <PageHero
         image={photos['hero']?.url || '/images/Travaux-Ferme-1024x768.jpg'}
-        eyebrow="Galerie"
-        title="Galerie Photo"
-        subtitle="Toute la vie de la ferme en images"
+        eyebrow={t('gallery.eyebrow')}
+        title={t('gallery.title')}
+        subtitle={t('gallery.subtitle')}
       />
 
-      {/* Gallery — masonry grid with column-count */}
+      {/* Gallery */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Notre quotidien"
-            title="La Vie à la Ferme en Images"
-            subtitle="Découvrez les moments forts de notre communauté agricole"
+            eyebrow={t('gallery.grid.eyebrow')}
+            title={t('gallery.grid.title')}
+            subtitle={t('gallery.grid.subtitle')}
             className="mb-16"
           />
 
           {showPhotoLoader ? (
-            /* Chargement complet des photos avant affichage */
             <motion.div
               className="flex flex-col items-center justify-center py-24"
               initial={{ opacity: 0 }}
@@ -171,10 +158,10 @@ const Gallery = () => {
               aria-live="polite"
             >
               <Loader2 className="w-10 h-10 text-sun-600 animate-spin mb-4" aria-hidden="true" />
-              <p className="text-ink font-semibold">Chargement des photos…</p>
+              <p className="text-ink font-semibold">{t('gallery.loading')}</p>
               {!loading && preloadProgress.total > 0 && (
                 <p className="text-sm text-ink-soft mt-1">
-                  {preloadProgress.ready}/{preloadProgress.total} photos prêtes
+                  {preloadProgress.ready}/{preloadProgress.total} {t('gallery.photosReady')}
                 </p>
               )}
             </motion.div>
@@ -198,7 +185,7 @@ const Gallery = () => {
                   onClick={() => openModal(i)}
                   role="button"
                   tabIndex={0}
-                  aria-label={`Voir l'image : ${image.alt}`}
+                  aria-label={t('gallery.viewImage', { alt: image.alt })}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault()
@@ -220,13 +207,13 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Videos — YouTube embeds (ancienne galerie + chaîne officielle) */}
+      {/* Videos */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Vidéos"
-            title="La Ferme en Vidéos"
-            subtitle="Retrouvez la vie de la ferme en mouvement sur notre chaîne YouTube"
+            eyebrow={t('gallery.videos.eyebrow')}
+            title={t('gallery.videos.title')}
+            subtitle={t('gallery.videos.subtitle')}
             className="mb-16"
           />
 
@@ -270,20 +257,20 @@ const Gallery = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-sun-600 hover:bg-earth-700 text-white rounded-full font-semibold transition-[background-color] duration-200"
             >
-              Voir toutes nos vidéos sur YouTube
+              {t('gallery.videos.seeAll')}
             </a>
           </motion.div>
         </div>
       </section>
 
-      {/* Modal — hardware-accelerated, fade + scale */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedImage !== null && (
           <motion.div
             className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center"
             role="dialog"
             aria-modal="true"
-            aria-label={`Image : ${galleryImages[selectedImage]?.alt}`}
+            aria-label={t('gallery.modal.label', { alt: galleryImages[selectedImage]?.alt })}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -307,14 +294,13 @@ const Gallery = () => {
                 exit={{ opacity: 0 }}
               />
 
-              {/* Navigation */}
               {selectedImage > 0 && (
                 <motion.button
                   onClick={prevImage}
                   className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/15 hover:bg-white/25 text-white rounded-full p-2 transition-[background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 cursor-pointer"
                   whileHover={{ x: -2 }}
                   transition={{ duration: 0.15, ease: easeOut }}
-                  aria-label="Image précédente"
+                  aria-label={t('common.previous')}
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </motion.button>
@@ -326,25 +312,23 @@ const Gallery = () => {
                   className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/15 hover:bg-white/25 text-white rounded-full p-2 transition-[background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 cursor-pointer"
                   whileHover={{ x: 2 }}
                   transition={{ duration: 0.15, ease: easeOut }}
-                  aria-label="Image suivante"
+                  aria-label={t('common.next')}
                 >
                   <ChevronRight className="w-6 h-6" />
                 </motion.button>
               )}
 
-              {/* Close */}
               <motion.button
                 ref={closeButtonRef}
                 onClick={closeModal}
                 className="absolute -top-10 right-0 text-white hover:text-earth-100 transition-[color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded cursor-pointer"
                 whileHover={{ scale: 1.08 }}
                 transition={{ duration: 0.15, ease: easeOut }}
-                aria-label="Fermer la galerie"
+                aria-label={t('common.close')}
               >
                 <X className="w-6 h-6" />
               </motion.button>
 
-              {/* Caption */}
               <p className="text-center text-white mt-4 text-sm opacity-80">
                 {galleryImages[selectedImage]?.alt}
               </p>

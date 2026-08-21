@@ -1,13 +1,17 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, MapPin, Phone } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Button } from './ui/Button'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
+import { useContactInfo } from '../hooks/useContactInfo'
 
 const easeOut = [0.23, 1, 0.32, 1] as const
 
 const HeroSection = () => {
   const { photos } = useSectionPhotos('accueil')
   const hero = photos['hero']
+  const contact = useContactInfo()
+  const { t } = useTranslation()
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Fond photo + voiles */}
@@ -28,7 +32,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: easeOut }}
           >
-            Ferme École • Agroécologie • Éco-tourisme
+            {t('hero.eyebrow')}
           </motion.p>
 
           {/* Titre */}
@@ -38,7 +42,7 @@ const HeroSection = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.4, ease: easeOut }}
           >
-            Solidarités Agricoles Intégrées
+            {t('hero.title')}
           </motion.h1>
 
           {/* Citation */}
@@ -48,7 +52,7 @@ const HeroSection = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.25, duration: 0.4, ease: easeOut }}
           >
-            « Communion entre l'Homme, la Nature et la Communauté »
+            {t('hero.quote')}
           </motion.p>
 
           {/* Localisation & contact */}
@@ -60,11 +64,11 @@ const HeroSection = () => {
           >
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5 text-sun-300" aria-hidden="true" />
-              <span>Village Kakanitchoé, 12 km d'Adjohoun, Bénin</span>
+              <span>{t('hero.location')}</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-5 h-5 text-sun-300" aria-hidden="true" />
-              <span>+229 62 44 47 44 • +229 97 65 56 28</span>
+              <span>{contact.whatsapp} / {contact.mobile}</span>
             </div>
           </motion.div>
 
@@ -76,10 +80,10 @@ const HeroSection = () => {
             transition={{ delay: 0.55, duration: 0.4, ease: easeOut }}
           >
             <Button to="/formations" variant="accent" size="lg" icon={<ArrowRight className="w-5 h-5" />}>
-              Découvrir nos formations
+              {t('hero.discoverFormations')}
             </Button>
             <Button to="/circuits-decouverte" variant="ghost-light" size="lg">
-              Réserver une visite
+              {t('hero.bookVisit')}
             </Button>
           </motion.div>
         </div>

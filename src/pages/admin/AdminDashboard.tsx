@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Reorder, useDragControls } from 'framer-motion'
 import {
@@ -16,9 +17,12 @@ import {
   Video as VideoIcon,
   Check,
   Tag,
+  Utensils,
+  Phone,
+  AlertTriangle,
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
-import { SECTIONS, type SectionDef, type PhotoSlot } from '../../lib/sections'
+import { SECTIONS, MENU_SECTIONS, type SectionDef, type PhotoSlot } from '../../lib/sections'
 import { defaultPhotos, type DefaultPhoto } from '../../lib/defaultPhotos'
 import {
   fetchSectionPhotos,
@@ -37,6 +41,8 @@ import {
   type Video,
 } from '../../lib/videoService'
 import PriceManager from './PriceManager'
+import MenuManager from './MenuManager'
+import ContactManager from './ContactManager'
 
 /* ─────────────────────────────────────────────
    Carte d'un emplacement fixe (slot)
@@ -53,11 +59,53 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
   const url = photo?.url || defaultValue?.url || ''
   const [alt, setAlt] = useState(photo?.alt ?? defaultValue?.alt ?? '')
   const [caption, setCaption] = useState(photo?.caption ?? defaultValue?.caption ?? '')
+  const [altEn, setAltEn] = useState(photo?.alt_en ?? defaultValue?.alt_en ?? '')
+  const [captionEn, setCaptionEn] = useState(photo?.caption_en ?? defaultValue?.caption_en ?? '')
   const [busy, setBusy] = useState<'upload' | 'save' | 'delete' | null>(null)
   const [saved, setSaved] = useState(false)
+  const [sizeError, setSizeError] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  const replace = async (file: File) => {
+  const hasPhoto = Boolean(photo?.url)
+  const isMissing = !hasPhoto && !defaultValue?.url
+
+  /** Parse la taille attendue (ex. "1920x1080") en w/h */
+  const parseSize = (s?: string) => {
+    if (!s) return null
+    const [w, h] = s.split('x').map(Number)
+    return w && h ? { w, h } : null
+  }
+
+  const expectedSize = parseSize(slot.size)
+
+  /** Valide les dimensions de l'image uploadpee */
+  const validateAndUpload = async (file: File) => {
+    setSizeError(null)
+    if (expectedSize) {
+      const img = new Image()
+      const objectUrl = URL.createObjectURL(file)
+      try {
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => {
+            const ratio = img.width / img.height
+            const expected = expectedSize.w / expectedSize.h
+            const tolerance = 0.15 // 15% de tolerance sur le ratio
+            if (Math.abs(ratio - expected) > expected * tolerance) {
+              setSizeError(
+                `Image ${img.width}x${img.height}px — ratio ${ratio.toFixed(2)}x1. ` +
+                `Taille attendue : ${slot.size} (${slot.sizeLabel}) — ratio ${(expected).toFixed(2)}x1. ` +
+                `L'image sera deformee sur le site.`
+              )
+            }
+            resolve()
+          }
+          img.onerror = () => { resolve() }
+          img.src = objectUrl
+        })
+      } finally {
+        URL.revokeObjectURL(objectUrl)
+      }
+    }
     setBusy('upload')
     const url = await uploadImage(file, sectionSlug)
     if (url) {
@@ -67,6 +115,8 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
         url,
         alt,
         caption,
+        alt_en: altEn,
+        caption_en: captionEn,
         position: photo?.position ?? 0,
       })
       onChanged()
@@ -82,6 +132,8 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
       url,
       alt,
       caption,
+      alt_en: altEn,
+      caption_en: captionEn,
       position: photo?.position ?? 0,
     })
     setBusy(null)
@@ -101,22 +153,22 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-card overflow-hidden">
+    <div className={`bg-white rounded-2xl shadow-card overflow-hidden ${isMissing ? 'ring-2 ring-red-300' : ''}`}>
       <div className="relative aspect-video bg-earth-50 overflow-hidden">
         {url ? (
           <img src={url} alt={alt} className="w-full h-full object-cover" />
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-earth-300">
-            <Images className="w-10 h-10 mb-2" aria-hidden="true" />
-            <span className="text-sm">Aucune photo</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-red-300">
+            <AlertTriangle className="w-10 h-10 mb-2" aria-hidden="true" />
+            <span className="text-sm font-semibold">Photo manquante</span>
           </div>
         )}
         <span
           className={`absolute top-2 left-2 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
-            photo ? 'bg-leaf-600 text-white' : 'bg-white/90 text-earth-600'
+            photo ? 'bg-leaf-600 text-white' : isMissing ? 'bg-red-500 text-white' : 'bg-white/90 text-earth-600'
           }`}
         >
-          {photo ? 'Personnalisée' : 'Photo par défaut'}
+          {photo ? 'Personnalisee' : isMissing ? 'A ajouter' : 'Photo par defaut'}
         </span>
         {busy === 'upload' && (
           <div className="absolute inset-0 bg-ink/50 flex items-center justify-center">
@@ -126,24 +178,54 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
       </div>
 
       <div className="p-4 space-y-3">
-        <p className="text-sm font-semibold text-ink">{slot.label}</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm font-semibold text-ink">{slot.label}</p>
+          {slot.size && (
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 text-sky-700">
+              {slot.size} ({slot.sizeLabel})
+            </span>
+          )}
+        </div>
 
-        <input
-          type="text"
-          value={alt}
-          onChange={(e) => setAlt(e.target.value)}
-          aria-label="Texte alternatif (alt)" placeholder="Texte alternatif (alt)"
-          className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-        />
-        <input
-          type="text"
-          value={caption}
-          onChange={(e) => setCaption(e.target.value)}
-          aria-label="Légende (optionnel)" placeholder="Légende (optionnel)"
-          className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            type="text"
+            value={alt}
+            onChange={(e) => setAlt(e.target.value)}
+            aria-label="Texte alternatif (FR)" placeholder="Texte alternatif (FR)"
+            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+          />
+          <input
+            type="text"
+            value={altEn}
+            onChange={(e) => setAltEn(e.target.value)}
+            aria-label="Texte alternatif (EN)" placeholder="Texte alternatif (EN)"
+            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            type="text"
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            aria-label="Legende (FR)" placeholder="Legende (FR)"
+            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+          />
+          <input
+            type="text"
+            value={captionEn}
+            onChange={(e) => setCaptionEn(e.target.value)}
+            aria-label="Legende (EN)" placeholder="Legende (EN)"
+            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+          />
+        </div>
 
         <div className="flex items-center gap-2">
+          {sizeError && (
+            <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              {sizeError}
+            </div>
+          )}
           <input
             ref={fileRef}
             type="file"
@@ -151,7 +233,7 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
             className="hidden"
             onChange={(e) => {
               const file = e.target.files?.[0]
-              if (file) replace(file)
+              if (file) validateAndUpload(file)
               e.target.value = ''
             }}
           />
@@ -177,7 +259,7 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
             ) : (
               <Save className="w-3.5 h-3.5" aria-hidden="true" />
             )}
-            {busy === 'save' ? 'Enregistrement…' : saved ? 'Enregistré' : 'Enregistrer'}
+            {busy === 'save' ? 'Enregistrement...' : saved ? 'Enregistre' : 'Enregistrer'}
           </button>
           {photo && (
             <button
@@ -197,7 +279,7 @@ const SlotCard = ({ sectionSlug, slot, photo, defaultValue, onChanged }: SlotCar
 }
 
 /* ─────────────────────────────────────────────
-   Photo libre de la galerie — ligne réordonnable par glisser-déposer
+   Photo libre de la galerie — ligne reordonnable par glisser-deposer
 ────────────────────────────────────────────── */
 interface FreePhotoCardProps {
   sectionSlug: string
@@ -210,6 +292,8 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
   const dragControls = useDragControls()
   const [alt, setAlt] = useState(photo.alt)
   const [caption, setCaption] = useState(photo.caption)
+  const [altEn, setAltEn] = useState(photo.alt_en)
+  const [captionEn, setCaptionEn] = useState(photo.caption_en)
   const [busy, setBusy] = useState<'upload' | 'save' | 'delete' | null>(null)
   const [saved, setSaved] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
@@ -218,7 +302,7 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
     setBusy('upload')
     const url = await uploadImage(file, sectionSlug)
     if (url) {
-      await upsertPhoto(sectionSlug, { ...photo, url, alt, caption })
+      await upsertPhoto(sectionSlug, { ...photo, url, alt, caption, alt_en: altEn, caption_en: captionEn })
       onChanged()
     }
     setBusy(null)
@@ -226,7 +310,7 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
 
   const save = async () => {
     setBusy('save')
-    const ok = await upsertPhoto(sectionSlug, { ...photo, alt, caption })
+    const ok = await upsertPhoto(sectionSlug, { ...photo, alt, caption, alt_en: altEn, caption_en: captionEn })
     setBusy(null)
     if (ok) {
       setSaved(true)
@@ -245,12 +329,12 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
   return (
     <Reorder.Item value={photo} dragListener={false} dragControls={dragControls} className="list-none">
       <div className="bg-white rounded-2xl shadow-card overflow-hidden flex flex-col sm:flex-row">
-        {/* Poignée de glisser-déposer */}
+        {/* Poignee de glisser-deposer */}
         <button
           type="button"
           onPointerDown={(e) => dragControls.start(e)}
-          aria-label="Réordonner cette photo (glisser-déposer)"
-          title="Glisser-déposer pour réordonner"
+          aria-label="Reordonner cette photo (glisser-deposer)"
+          title="Glisser-deposer pour reordonner"
           className="touch-none flex items-center justify-center min-w-10 min-h-10 px-2 py-2 sm:py-0 text-earth-300 hover:text-ink cursor-grab active:cursor-grabbing transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sun-500 focus-visible:ring-offset-2 rounded-lg"
         >
           <GripVertical className="w-5 h-5" aria-hidden="true" />
@@ -269,20 +353,38 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
         {/* Champs */}
         <div className="flex-1 min-w-0 p-4 space-y-3">
           <p className="text-xs font-semibold text-earth-700">Photo #{index + 1}</p>
-          <input
-            type="text"
-            value={alt}
-            onChange={(e) => setAlt(e.target.value)}
-            aria-label="Texte alternatif (alt)" placeholder="Texte alternatif (alt)"
-            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-          />
-          <input
-            type="text"
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            aria-label="Légende (optionnel)" placeholder="Légende (optionnel)"
-            className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input
+              type="text"
+              value={alt}
+              onChange={(e) => setAlt(e.target.value)}
+              aria-label="Texte alternatif (FR)" placeholder="Texte alternatif (FR)"
+              className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+            />
+            <input
+              type="text"
+              value={altEn}
+              onChange={(e) => setAltEn(e.target.value)}
+              aria-label="Texte alternatif (EN)" placeholder="Texte alternatif (EN)"
+              className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <input
+              type="text"
+              value={caption}
+              onChange={(e) => setCaption(e.target.value)}
+              aria-label="Legende (FR)" placeholder="Legende (FR)"
+              className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+            />
+            <input
+              type="text"
+              value={captionEn}
+              onChange={(e) => setCaptionEn(e.target.value)}
+              aria-label="Legende (EN)" placeholder="Legende (EN)"
+              className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
+            />
+          </div>
           <div className="flex items-center gap-2 flex-wrap">
             <input
               ref={fileRef}
@@ -317,7 +419,7 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
               ) : (
                 <Save className="w-3.5 h-3.5" aria-hidden="true" />
               )}
-              {busy === 'save' ? 'Enregistrement…' : saved ? 'Enregistré' : 'Enregistrer'}
+              {busy === 'save' ? 'Enregistrement...' : saved ? 'Enregistre' : 'Enregistrer'}
             </button>
             <button
               type="button"
@@ -336,7 +438,7 @@ const FreePhotoCard = ({ sectionSlug, photo, index, onChanged }: FreePhotoCardPr
 }
 
 /* ─────────────────────────────────────────────
-   Vidéo de la galerie — ligne réordonnable par glisser-déposer
+   Video de la galerie — ligne reordonnable par glisser-deposer
 ────────────────────────────────────────────── */
 interface VideoCardProps {
   sectionSlug: string
@@ -380,12 +482,12 @@ const VideoCard = ({ sectionSlug, video, index, onChanged }: VideoCardProps) => 
   return (
     <Reorder.Item value={video} dragListener={false} dragControls={dragControls} className="list-none">
       <div className="bg-white rounded-2xl shadow-card overflow-hidden flex flex-col sm:flex-row">
-        {/* Poignée de glisser-déposer */}
+        {/* Poignee de glisser-deposer */}
         <button
           type="button"
           onPointerDown={(e) => dragControls.start(e)}
-          aria-label="Réordonner cette vidéo (glisser-déposer)"
-          title="Glisser-déposer pour réordonner"
+          aria-label="Reordonner cette video (glisser-deposer)"
+          title="Glisser-deposer pour reordonner"
           className="touch-none flex items-center justify-center min-w-10 min-h-10 px-2 py-2 sm:py-0 text-earth-300 hover:text-ink cursor-grab active:cursor-grabbing transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sun-500 focus-visible:ring-offset-2 rounded-lg"
         >
           <GripVertical className="w-5 h-5" aria-hidden="true" />
@@ -403,20 +505,20 @@ const VideoCard = ({ sectionSlug, video, index, onChanged }: VideoCardProps) => 
 
         {/* Champs */}
         <div className="flex-1 min-w-0 p-4 space-y-3">
-          <p className="text-xs font-semibold text-earth-700">Vidéo #{index + 1}</p>
+          <p className="text-xs font-semibold text-earth-700">Video #{index + 1}</p>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            aria-label="Titre de la vidéo" placeholder="Titre de la vidéo"
+            aria-label="Titre de la video" placeholder="Titre de la video"
             className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
           />
           <input
             type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            aria-label="URL YouTube ou ID (ex. https://youtu.be/…)"
-            placeholder="URL YouTube ou ID (ex. https://youtu.be/…)"
+            aria-label="URL YouTube ou ID (ex. https://youtu.be/...)"
+            placeholder="URL YouTube ou ID (ex. https://youtu.be/...)"
             className="w-full px-3 py-2 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
           />
           {error && <p className="text-xs text-red-700">{error}</p>}
@@ -434,7 +536,7 @@ const VideoCard = ({ sectionSlug, video, index, onChanged }: VideoCardProps) => 
               ) : (
                 <Save className="w-3.5 h-3.5" aria-hidden="true" />
               )}
-              {busy === 'save' ? 'Enregistrement…' : saved ? 'Enregistré' : 'Enregistrer'}
+              {busy === 'save' ? 'Enregistrement...' : saved ? 'Enregistre' : 'Enregistrer'}
             </button>
             <button
               type="button"
@@ -456,12 +558,19 @@ const VideoCard = ({ sectionSlug, video, index, onChanged }: VideoCardProps) => 
    Tableau de bord
 ────────────────────────────────────────────── */
 const AdminDashboard = () => {
+  const { t } = useTranslation()
+
+  // Forcer l'interface admin en français (pays francophone)
+  useEffect(() => {
+    import('../../i18n').then((mod) => mod.default.changeLanguage('fr'))
+  }, [])
+
   const [sectionSlug, setSectionSlug] = useState<string>(SECTIONS[0].slug)
   const [rows, setRows] = useState<Photo[]>([])
   const [loading, setLoading] = useState(true)
   const addFileRef = useRef<HTMLInputElement>(null)
   const [adding, setAdding] = useState(false)
-  const [tab, setTab] = useState<'media' | 'prices'>('media')
+  const [tab, setTab] = useState<'media' | 'prices' | 'menus' | 'contacts'>('media')
 
   const section: SectionDef = SECTIONS.find((s) => s.slug === sectionSlug) ?? SECTIONS[0]
 
@@ -472,7 +581,31 @@ const AdminDashboard = () => {
     setLoading(false)
   }, [sectionSlug])
 
-  // Vidéos (galerie) — ajout, modification, suppression, réordonnancement
+  // Calcul du nombre de photos manquantes par section
+  const missingCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const s of SECTIONS) {
+      const defaults = defaultPhotos[s.slug] ?? {}
+      let missing = 0
+      for (const slot of s.slots) {
+        // Verifie si la section a une photo personnalisee OU une photo par defaut pour cet emplacement
+        const hasCustom = rows.some((p) => p.key === slot.key && p.url)
+        const hasDefault = Boolean(defaults[slot.key]?.url)
+        if (!hasCustom && !hasDefault) {
+          missing++
+        }
+      }
+      counts[s.slug] = missing
+    }
+    return counts
+  }, [rows])
+
+  // Total des photos manquantes
+  const totalMissing = useMemo(() => {
+    return Object.values(missingCounts).reduce((sum, c) => sum + c, 0)
+  }, [missingCounts])
+
+  // Vidéos (galerie) — ajout, modification, suppression, reordonnancement
   const [videos, setVideos] = useState<Video[]>([])
   const [videoOrder, setVideoOrder] = useState<Video[]>([])
   const [newVideoTitle, setNewVideoTitle] = useState('')
@@ -544,14 +677,14 @@ const AdminDashboard = () => {
 
   const defaults = defaultPhotos[sectionSlug] ?? {}
 
-  // Ordre des photos libres (galerie) — réordonnable par glisser-déposer
+  // Ordre des photos libres (galerie) — reordonnable par glisser-deposer
   const [freeOrder, setFreeOrder] = useState<Photo[]>([])
   useEffect(() => {
     setFreeOrder([...rows.filter((p) => !p.key)].sort((a, b) => a.position - b.position))
   }, [rows])
 
   const handleReorder = (next: Photo[]) => {
-    // Position mise à jour sur chaque photo pour rester cohérent avec la base
+    // Position mise a jour sur chaque photo pour rester coherent avec la base
     const updated = next.map((p, i) => ({ ...p, position: i }))
     setFreeOrder(updated)
     reorderPhotos(updated).then((ok) => {
@@ -573,8 +706,8 @@ const AdminDashboard = () => {
               <Images className="w-5 h-5" aria-hidden="true" />
             </div>
             <div>
-              <h1 className="font-display font-bold leading-tight">Gestion du site</h1>
-              <p className="text-xs text-earth-300">Zone d'administration SAIN</p>
+              <h1 className="font-display font-bold leading-tight">{t('admin.manageSite')}</h1>
+              <p className="text-xs text-earth-300">{t('admin.adminZone')}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -583,7 +716,7 @@ const AdminDashboard = () => {
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-earth-200 hover:text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sun-400 focus-visible:ring-offset-2 rounded-lg"
             >
               <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-              Voir le site
+              {t('admin.viewSite')}
             </Link>
             <button
               type="button"
@@ -591,7 +724,7 @@ const AdminDashboard = () => {
               className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-white/10 hover:bg-white/20 text-white rounded-lg transition-[background-color] duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2"
             >
               <LogOut className="w-3.5 h-3.5" aria-hidden="true" />
-              Déconnexion
+              {t('admin.logout')}
             </button>
           </div>
         </div>
@@ -608,7 +741,7 @@ const AdminDashboard = () => {
             }`}
           >
             <Images className="w-4 h-4" aria-hidden="true" />
-            Photos & vidéos
+            {t('admin.photos')}
           </button>
           <button
             type="button"
@@ -618,7 +751,29 @@ const AdminDashboard = () => {
             }`}
           >
             <Tag className="w-4 h-4" aria-hidden="true" />
-            Prix & tarifs
+            {t('admin.prices')}
+          </button>
+          {MENU_SECTIONS[sectionSlug] && (
+            <button
+              type="button"
+              onClick={() => setTab('menus')}
+              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2 ${
+                tab === 'menus' ? 'bg-leaf-600 text-white shadow-card' : 'text-ink-soft hover:bg-earth-50 hover:text-ink'
+              }`}
+            >
+              <Utensils className="w-4 h-4" aria-hidden="true" />
+              {t('admin.menus')}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setTab('contacts')}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2 ${
+              tab === 'contacts' ? 'bg-leaf-600 text-white shadow-card' : 'text-ink-soft hover:bg-earth-50 hover:text-ink'
+            }`}
+          >
+            <Phone className="w-4 h-4" aria-hidden="true" />
+            {t('admin.contacts')}
           </button>
         </div>
       </div>
@@ -627,24 +782,46 @@ const AdminDashboard = () => {
         {/* Sidebar : sections */}
         <aside>
           <p className="text-xs font-semibold uppercase tracking-wider text-earth-600 mb-3 px-3">
-            Sections du site
+            {t('admin.sections')}
           </p>
+          {totalMissing > 0 && (
+            <div className="mx-3 mb-3 p-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+              <div className="flex items-center gap-2 font-semibold mb-1">
+                <AlertTriangle className="w-4 h-4" />
+                {totalMissing} photo{totalMissing > 1 ? 's' : ''} manquante{totalMissing > 1 ? 's' : ''}
+              </div>
+              <p className="text-xs text-red-600">
+                {t('admin.addPhotoMissing')}
+              </p>
+            </div>
+          )}
           <nav className="space-y-1">
             {SECTIONS.map((s) => {
               const count = s.slug === sectionSlug ? rows.length : 0
               const active = s.slug === sectionSlug
+              const missing = missingCounts[s.slug] ?? 0
               return (
                 <button
                   key={s.slug}
                   type="button"
-                  onClick={() => setSectionSlug(s.slug)}
+                  onClick={() => {
+                    setSectionSlug(s.slug)
+                    if (tab === 'menus' && !MENU_SECTIONS[s.slug]) setTab('media')
+                  }}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 cursor-pointer ${
                     active
                       ? 'bg-leaf-600 text-white shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-600 focus-visible:ring-offset-2'
                       : 'text-ink-soft hover:bg-white hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2'
                   }`}
                 >
-                  <span>{s.name}</span>
+                  <span className="flex items-center gap-2">
+                    {s.name}
+                    {missing > 0 && !active && (
+                      <span className="text-[10px] font-bold bg-red-500 text-white rounded-full px-1.5 py-0.5 leading-none">
+                        {missing}
+                      </span>
+                    )}
+                  </span>
                   {active && count > 0 && (
                     <span className="text-xs bg-white/20 rounded-full px-2 py-0.5">{count}</span>
                   )}
@@ -658,6 +835,10 @@ const AdminDashboard = () => {
         <main>
           {tab === 'prices' ? (
             <PriceManager sectionSlug={sectionSlug} />
+          ) : tab === 'menus' ? (
+            <MenuManager sectionSlug={sectionSlug} />
+          ) : tab === 'contacts' ? (
+            <ContactManager />
           ) : (
             <>
           <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
@@ -669,6 +850,12 @@ const AdminDashboard = () => {
                 Remplacez, modifiez ou supprimez les photos de cette section. Les changements
                 sont visibles immédiatement sur le site.
               </p>
+              {missingCounts[sectionSlug] > 0 && (
+                <p className="text-sm text-red-600 font-semibold mt-1 flex items-center gap-1">
+                  <AlertTriangle className="w-4 h-4" />
+                  {missingCounts[sectionSlug]} emplacement{missingCounts[sectionSlug] > 1 ? 's' : ''} sans photo
+                </p>
+              )}
             </div>
             {section.freePhotos && (
               <>
@@ -757,7 +944,7 @@ const AdminDashboard = () => {
                 </div>
               )}
 
-              {/* Vidéos (galerie) */}
+              {/* Videos (galerie) */}
               {section.hasVideos && (
                 <div>
                   <h3 className="text-lg font-semibold text-ink mb-4 flex items-center gap-2">
@@ -765,7 +952,7 @@ const AdminDashboard = () => {
                     Vidéos de la galerie
                   </h3>
                   <p className="text-sm text-ink-soft mb-4">
-                    Collez une URL YouTube (watch, youtu.be, shorts…) ou un ID de vidéo.
+                    Collez une URL YouTube (watch, youtu.be, shorts...) ou un ID de vidéo.
                     Glissez-déposez pour réordonner — l'ordre est enregistré automatiquement
                     et s'applique sur la page Galerie.
                   </p>
@@ -776,7 +963,7 @@ const AdminDashboard = () => {
                       type="text"
                       value={newVideoTitle}
                       onChange={(e) => setNewVideoTitle(e.target.value)}
-                      aria-label="Titre de la vidéo" placeholder="Titre de la vidéo"
+                      aria-label="Titre de la video" placeholder="Titre de la video"
                       className="flex-1 px-3 py-2.5 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200"
                     />
                     <input
@@ -845,7 +1032,7 @@ const AdminDashboard = () => {
               className="inline-flex items-center gap-2 text-sm font-semibold text-earth-600 hover:text-leaf-700 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2 rounded-lg"
             >
               <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-              Retour au site
+              {t('admin.backToSite')}
             </Link>
           </div>
             </>

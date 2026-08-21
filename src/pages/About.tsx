@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion'
-import { sainData } from '../data/sainData'
+import { useTranslation } from 'react-i18next'
 import { useSectionPhotos } from '../hooks/useSectionPhotos'
 import SectionPhotoStrip from '../components/SectionPhotoStrip'
 import { PageHero } from '../components/ui/PageHero'
 import { SectionHeading } from '../components/ui/SectionHeading'
-import { Reveal } from '../components/ui/Reveal'
 import { CTASection } from '../components/ui/CTASection'
 import {
   Leaf,
@@ -20,14 +19,15 @@ import {
 } from 'lucide-react'
 
 const About = () => {
+  const { t } = useTranslation()
   const { photos, freePhotos } = useSectionPhotos('projet-global')
   return (
     <>
       <PageHero
         image={photos['hero']?.url || '/images/A-PROPOS-SAIN-1024x715.jpg'}
-        eyebrow="Le projet global"
-        title="À Propos de SAIN"
-        subtitle={sainData.philosophy}
+        eyebrow={t('about.eyebrow')}
+        title={t('about.title')}
+        subtitle={t('about.philosophyText')}
       />
 
       {/* History & Mission */}
@@ -41,18 +41,13 @@ const About = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl font-display font-bold text-ink mb-6">
-                Notre Histoire
+                {t('about.history')}
               </h2>
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Créée en 1991, <strong>SAIN</strong> (Solidarités Agricoles Intégrées)
-                s'est installée au village de Kakanitchoé, à 12 km d'Adjohoun au Bénin,
-                depuis 1998. La ferme s'étend sur <strong>14 hectares</strong>,
-                comprenant des terres hautes et des basse-cultures.
+                {t('about.historyText1')}
               </p>
               <p className="text-lg text-ink-soft mb-6 leading-relaxed">
-                Notre ferme vit depuis plus de 30 ans grâce à une approche profondément
-                ancrée dans les valeurs de solidarité, de respect de la nature et de
-                développement communautaire.
+                {t('about.historyText2')}
               </p>
 
               <div className="grid grid-cols-2 gap-6 mt-8">
@@ -61,14 +56,14 @@ const About = () => {
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="text-3xl font-bold text-sun-600 mb-1">14</div>
-                  <p className="text-sm text-ink-soft">Hectares de ferme</p>
+                  <p className="text-sm text-ink-soft">{t('about.hectares')}</p>
                 </motion.div>
                 <motion.div
                   className="text-center p-4 bg-earth-50 rounded-xl"
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="text-3xl font-bold text-sun-600 mb-1">+30</div>
-                  <p className="text-sm text-ink-soft">Années d'expérience</p>
+                  <p className="text-sm text-ink-soft">{t('about.years')}</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -83,30 +78,30 @@ const About = () => {
               <div className="bg-earth-50 p-8 rounded-card">
                 <h3 className="text-xl font-bold text-ink mb-3 flex items-center gap-3">
                   <Globe className="w-6 h-6 text-sun-600" />
-                  Notre Mission
+                  {t('about.mission')}
                 </h3>
                 <p className="text-ink-soft leading-relaxed">
-                  {sainData.mission}
+                  {t('about.missionText')}
                 </p>
               </div>
 
               <div className="bg-earth-50 p-8 rounded-card">
                 <h3 className="text-xl font-bold text-ink mb-3 flex items-center gap-3">
                   <Heart className="w-6 h-6 text-sun-600" />
-                  Notre Vision
+                  {t('about.vision')}
                 </h3>
                 <p className="text-ink-soft leading-relaxed">
-                  {sainData.vision}
+                  {t('about.visionText')}
                 </p>
               </div>
 
               <div className="bg-earth-50 p-8 rounded-card">
                 <h3 className="text-xl font-bold text-ink mb-3 flex items-center gap-3">
                   <Leaf className="w-6 h-6 text-sun-600" />
-                  Notre Philosophie
+                  {t('about.philosophy')}
                 </h3>
                 <p className="text-ink-soft leading-relaxed">
-                  {sainData.philosophy}
+                  {t('about.philosophyText')}
                 </p>
               </div>
             </motion.div>
@@ -118,29 +113,29 @@ const About = () => {
       <section className="py-20 bg-earth-50">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Nos valeurs"
-            title="Nos Valeurs Fondamentales"
-            subtitle="Les piliers sur lesquels repose notre engagement quotidien"
+            eyebrow={t('about.valuesSubtitle')}
+            title={t('about.valuesTitle')}
+            subtitle={t('about.valuesSubtitle')}
             className="mb-12"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
               {
-                title: 'Soutien aux Jeunes',
-                description: 'Nous formons les jeunes pour leur offrir des opportunités durables dans leur région d’origine.',
+                title: t('about.values.youth.title'),
+                description: t('about.values.youth.description'),
                 icon: GraduationCap,
                 color: 'from-leaf-500/20 to-leaf-500/5',
               },
               {
-                title: 'Environnement Durable',
-                description: 'Toutes nos pratiques agricoles reposent sur l\'agroécologie, la permaculture et la biodiversité.',
+                title: t('about.values.environment.title'),
+                description: t('about.values.environment.description'),
                 icon: Sprout,
                 color: 'from-sun-500/20 to-sun-500/5',
               },
               {
-                title: 'Développement Local',
-                description: 'Nous contribuons activement au développement socio-économique de notre communauté locale.',
+                title: t('about.values.local.title'),
+                description: t('about.values.local.description'),
                 icon: Building2,
                 color: 'from-earth-500/20 to-earth-500/5',
               },
@@ -169,31 +164,31 @@ const About = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 lg:px-6">
           <SectionHeading
-            eyebrow="Nos interventions"
-            title="Nos Domaines d'Intervention"
+            eyebrow={t('about.interventionsTitle')}
+            title={t('about.interventionsTitle')}
             className="mb-12"
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
-                title: 'Production Agricole',
-                description: 'Mise en œuvre de techniques agricoles respectueuses de l\'environnement avec trois sections : production végétale, élevage animal et aquaculture.',
+                title: t('about.interventions.production.title'),
+                description: t('about.interventions.production.description'),
                 icon: Wheat,
               },
               {
-                title: 'Formation Professionnelle',
-                description: 'Depuis 2002, SAIN est une ferme-école formant des jeunes à l\'agriculture durable avec une approche "apprendre en faisant".',
+                title: t('about.interventions.training.title'),
+                description: t('about.interventions.training.description'),
                 icon: BookOpen,
               },
               {
-                title: 'Recherche-Action',
-                description: 'Développement de stratégies agricoles innovantes et durables, en collaboration avec la communauté scientifique.',
+                title: t('about.interventions.research.title'),
+                description: t('about.interventions.research.description'),
                 icon: FlaskConical,
               },
               {
-                title: 'Agro-Tourisme',
-                description: 'Hébergement, restauration et circuits de découverte dans un cadre rural préservé.',
+                title: t('about.interventions.tourism.title'),
+                description: t('about.interventions.tourism.description'),
                 icon: Umbrella,
               },
             ].map((activity, index) => (
@@ -221,8 +216,8 @@ const About = () => {
       <SectionPhotoStrip photos={freePhotos} />
 
       <CTASection
-        title="Envie de nous rencontrer ?"
-        subtitle="Visitez la ferme, rejoignez une formation ou soutenez notre projet."
+        title={t('about.ctaTitle')}
+        subtitle={t('about.ctaText')}
       />
     </>
   )

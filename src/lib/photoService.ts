@@ -7,10 +7,12 @@ export interface Photo {
   url: string
   alt: string
   caption: string
+  alt_en: string
+  caption_en: string
   position: number
 }
 
-const PHOTO_COLUMNS = 'id, section_id, key, url, alt, caption, position'
+const PHOTO_COLUMNS = 'id, section_id, key, url, alt, caption, alt_en, caption_en, position'
 
 function toPhoto(row: {
   id: string
@@ -18,6 +20,8 @@ function toPhoto(row: {
   url: string
   alt: string
   caption: string
+  alt_en: string
+  caption_en: string
   position: number
 }): Photo {
   return {
@@ -26,6 +30,8 @@ function toPhoto(row: {
     url: row.url,
     alt: row.alt ?? '',
     caption: row.caption ?? '',
+    alt_en: row.alt_en ?? '',
+    caption_en: row.caption_en ?? '',
     position: row.position ?? 0,
   }
 }
@@ -74,6 +80,8 @@ export async function upsertPhoto(sectionSlug: string, photo: Photo): Promise<bo
     url: photo.url,
     alt: photo.alt,
     caption: photo.caption,
+    alt_en: photo.alt_en,
+    caption_en: photo.caption_en,
     position: photo.position,
   }
 

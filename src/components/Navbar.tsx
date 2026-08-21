@@ -3,35 +3,38 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronDown, Phone} from 'lucide-react'
 import { SiWhatsapp } from '@icons-pack/react-simple-icons'
+import { useTranslation } from 'react-i18next'
 import sainLogo from '../assets/SAIN-Logo.png'
 import { Button } from './ui/Button'
+import { useContactInfo } from '../hooks/useContactInfo'
+import LanguageSwitcher from './LanguageSwitcher'
 
 const easeOut = [0.23, 1, 0.32, 1] as const
 
 const aboutItems = [
-  { name: 'Le projet global', path: '/projet-global' },
-  { name: 'Responsabilité sociale', path: '/responsabilite-sociale' },
-  { name: 'Nos activités', path: '/activites-sain' },
-  { name: 'Notre équipe', path: '/equipe-sain' },
+  { nameKey: 'nav.aboutProject', path: '/projet-global' },
+  { nameKey: 'nav.responsability', path: '/responsabilite-sociale' },
+  { nameKey: 'nav.activities', path: '/activites-sain' },
+  { nameKey: 'nav.team', path: '/equipe-sain' },
 ]
 
 const ecoItems = [
-  { name: 'Hébergement', path: '/hebergement-ferme' },
-  { name: 'Restaurant', path: '/restaurant' },
-  { name: 'Circuits découverte', path: '/circuits-decouverte' },
+  { nameKey: 'nav.accommodation', path: '/hebergement-ferme' },
+  { nameKey: 'nav.restaurant', path: '/restaurant' },
+  { nameKey: 'nav.circuits', path: '/circuits-decouverte' },
 ]
 
 const mainNavItems = [
-  { name: 'Accueil', path: '/' },
-  { name: 'Formations', path: '/formations' },
-  { name: 'Nos produits', path: '/production' },
-  { name: 'Nous soutenir', path: '/nous-soutenir' },
-  { name: 'Galerie', path: '/galerie' },
+  { nameKey: 'nav.home', path: '/' },
+  { nameKey: 'nav.formations', path: '/formations' },
+  { nameKey: 'nav.production', path: '/production' },
+  { nameKey: 'nav.support', path: '/nous-soutenir' },
+  { nameKey: 'nav.gallery', path: '/galerie' },
 ]
 
 interface DropdownProps {
-  label: string
-  items: { name: string; path: string }[]
+  labelKey: string
+  items: { nameKey: string; path: string }[]
   solid: boolean
 }
 
@@ -39,7 +42,8 @@ interface DropdownProps {
  * NavDropdown — menu déroulant hover + clavier (focus), origin-aware,
  * 180ms ease-out. Les items masqués ne restent jamais dans le DOM.
  */
-const NavDropdown = ({ label, items, solid }: DropdownProps) => {
+const NavDropdown = ({ labelKey, items, solid }: DropdownProps) => {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
@@ -75,7 +79,7 @@ const NavDropdown = ({ label, items, solid }: DropdownProps) => {
         onClick={() => setOpen((o) => !o)}
         className={buttonClass}
       >
-        <span>{label}</span>
+        <span>{t(labelKey)}</span>
         <ChevronDown
           className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
@@ -107,7 +111,7 @@ const NavDropdown = ({ label, items, solid }: DropdownProps) => {
                       : 'text-ink-soft hover:text-ink hover:bg-earth-50'
                   }`}
                 >
-                  {item.name}
+                  {t(item.nameKey)}
                 </Link>
               </motion.div>
             ))}
@@ -122,6 +126,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const contact = useContactInfo()
+  const { t } = useTranslation()
   const isHome = location.pathname === '/'
 
   // Une seule source de vérité : barre blanche dès qu'on quitte le haut de l'accueil
@@ -183,20 +189,21 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-0.5">
             {mainNavItems.map((item) => (
               <NavLink key={item.path} to={item.path} className={({ isActive }) => linkClass(isActive)}>
-                {item.name}
+                {t(item.nameKey)}
               </NavLink>
             ))}
-            <NavDropdown label="À propos" items={aboutItems} solid={solid} />
-            <NavDropdown label="Éco-tourisme" items={ecoItems} solid={solid} />
+            <NavDropdown labelKey="nav.about" items={aboutItems} solid={solid} />
+            <NavDropdown labelKey="nav.ecoTourism" items={ecoItems} solid={solid} />
           </div>
 
           {/* Actions desktop */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
+            <LanguageSwitcher />
             <a
-              href="https://wa.me/22962444744"
+              href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}`}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="WhatsApp +229 62 44 47 44"
+              aria-label={`WhatsApp ${contact.whatsapp}`}
               className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 ${
                 solid ? 'text-leaf-600 hover:bg-leaf-50' : 'text-white hover:bg-white/10'
               }"
@@ -204,7 +211,7 @@ const Navbar = () => {
               <SiWhatsapp className="w-5 h-5" />
             </a>
             <Button to="/contact" variant="primary" size="sm">
-              Contact
+              {t('nav.contact')}
             </Button>
           </div>
 
@@ -250,16 +257,16 @@ const Navbar = () => {
                     }`
                   }
                 >
-                  {item.name}
+                  {t(item.nameKey)}
                 </NavLink>
               ))}
               {[
-                { label: 'À propos', items: aboutItems },
-                { label: 'Éco-tourisme', items: ecoItems },
+                { labelKey: 'nav.about', items: aboutItems },
+                { labelKey: 'nav.ecoTourism', items: ecoItems },
               ].map((section) => (
-                <div key={section.label} className="pt-3 mt-1 border-t border-earth-100">
+                <div key={section.labelKey} className="pt-3 mt-1 border-t border-earth-100">
                   <p className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-faint">
-                    {section.label}
+                    {t(section.labelKey)}
                   </p>
                   {section.items.map((item) => (
                     <NavLink
@@ -272,22 +279,22 @@ const Navbar = () => {
                         }`
                       }
                     >
-                      {item.name}
+                      {t(item.nameKey)}
                     </NavLink>
                   ))}
                 </div>
               ))}
 
               <div className="pt-3 mt-1 border-t border-earth-100">
-                <p className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-faint">Contact</p>
+                <p className="px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-faint">{t('nav.contact')}</p>
                 <div className="px-4 py-3 space-y-2">
-                  <a href="https://wa.me/22962444744" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink-soft hover:text-ink transition-colors duration-150 cursor-pointer">
+                  <a href={`https://wa.me/${contact.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-ink-soft hover:text-ink transition-colors duration-150 cursor-pointer">
                     <SiWhatsapp className="w-5 h-5 text-leaf-600" />
-                    <span className="text-[15px]">+229 62 44 47 44 (WhatsApp)</span>
+                    <span className="text-[15px]">{contact.whatsapp} (WhatsApp)</span>
                   </a>
-                  <a href="tel:+22997655628" className="flex items-center gap-3 text-ink-soft hover:text-ink transition-colors duration-150 cursor-pointer">
+                  <a href={`tel:${contact.mobile.replace(/[^0-9+]/g, '')}`} className="flex items-center gap-3 text-ink-soft hover:text-ink transition-colors duration-150 cursor-pointer">
                     <Phone className="w-5 h-5 text-leaf-600" />
-                    <span className="text-[15px]">+229 97 65 56 28</span>
+                    <span className="text-[15px]">{contact.mobile}</span>
                   </a>
                 </div>
               </div>
