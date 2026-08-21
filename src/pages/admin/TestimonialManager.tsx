@@ -9,12 +9,14 @@ import {
   Loader2,
   Check,
   GripVertical,
+  Camera,
 } from 'lucide-react'
 import {
   fetchTestimonials,
   upsertTestimonial,
   deleteTestimonial,
   reorderTestimonials,
+  uploadTestimonialImage,
   type Testimonial,
 } from '../../lib/testimonialService'
 
@@ -36,7 +38,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
   const [quote, setQuote] = useState(testimonial.quote)
   const [quoteEn, setQuoteEn] = useState(testimonial.quote_en)
   const [imageUrl, setImageUrl] = useState(testimonial.image_url)
-  const [busy, setBusy] = useState<'save' | 'delete' | null>(null)
+  const [busy, setBusy] = useState<'save' | 'delete' | 'upload' | null>(null)
   const [saved, setSaved] = useState(false)
 
   const save = async () => {
@@ -64,6 +66,16 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
     await deleteTestimonial(testimonial.id)
     setBusy(null)
     onChanged()
+  }
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setBusy('upload')
+    const url = await uploadTestimonialImage(file)
+    if (url) setImageUrl(url)
+    setBusy(null)
+    e.target.value = ''
   }
 
   const inputClass =
@@ -139,15 +151,32 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
             />
           </div>
 
-          {/* URL image */}
-          <input
-            type="text"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            aria-label="URL de la photo"
-            placeholder="URL de la photo (ex. /images/...)"
-            className={inputClass}
-          />
+          {/* Photo */}
+          <div className="flex items-center gap-3">
+            {imageUrl ? (
+              <img src={imageUrl} alt="Aperçu" className="w-16 h-16 rounded-lg object-cover border" />
+            ) : (
+              <div className="w-16 h-16 rounded-lg bg-earth-100 flex items-center justify-center">
+                <Camera className="w-6 h-6 text-earth-300" aria-hidden="true" />
+              </div>
+            )}
+            <div className="flex-1">
+              <label className="inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-earth-100 hover:bg-earth-200 text-earth-700 rounded-lg cursor-pointer transition-colors duration-200">
+                <Camera className="w-3.5 h-3.5" aria-hidden="true" />
+                {imageUrl ? 'Changer la photo' : 'Choisir une photo'}
+                <input type="file" accept="image/*" onChange={handleUpload} className="sr-only" />
+              </label>
+              {imageUrl && (
+                <button
+                  type="button"
+                  onClick={() => setImageUrl('')}
+                  className="ml-2 text-xs text-red-500 hover:text-red-700"
+                >
+                  Supprimer
+                </button>
+              )}
+            </div>
+          </div>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
@@ -157,14 +186,14 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
               disabled={busy !== null}
               className="inline-flex items-center gap-1.5 px-3.5 py-2.5 min-h-10 text-xs font-semibold bg-leaf-600 hover:bg-leaf-700 disabled:opacity-60 text-white rounded-lg transition-[background-color] duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2"
             >
-              {busy === 'save' ? (
+              {busy === 'save' || busy === 'upload' ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
               ) : saved ? (
                 <Check className="w-3.5 h-3.5" aria-hidden="true" />
               ) : (
                 <Save className="w-3.5 h-3.5" aria-hidden="true" />
               )}
-              {busy === 'save' ? 'Enregistrement…' : saved ? 'Enregistré' : 'Enregistrer'}
+              {busy === 'save' ? 'Enregistrement…' : busy === 'upload' ? 'Envoi…' : saved ? 'Enregistré' : 'Enregistrer'}
             </button>
             <button
               type="button"
@@ -194,8 +223,12 @@ const TestimonialManager = () => {
 
   const [newName, setNewName] = useState('')
   const [newRole, setNewRole] = useState('')
+  const [newRoleEn, setNewRoleEn] = useState('')
   const [newQuote, setNewQuote] = useState('')
+  const [newQuoteEn, setNewQuoteEn] = useState('')
+  const [newImageUrl, setNewImageUrl] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -228,19 +261,32 @@ const TestimonialManager = () => {
     const ok = await upsertTestimonial({
       name: newName.trim(),
       role: newRole.trim(),
-      role_en: '',
+      role_en: newRoleEn.trim(),
       quote: newQuote.trim(),
-      quote_en: '',
-      image_url: '',
+      quote_en: newQuoteEn.trim(),
+      image_url: newImageUrl.trim(),
       position: maxPosition + 1,
     })
     setAdding(false)
     if (ok) {
       setNewName('')
       setNewRole('')
+      setNewRoleEn('')
       setNewQuote('')
+      setNewQuoteEn('')
+      setNewImageUrl('')
       load()
     }
+  }
+
+  const handleNewUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const url = await uploadTestimonialImage(file)
+    if (url) setNewImageUrl(url)
+    setUploading(false)
+    e.target.value = ''
   }
 
   const inputClass =
@@ -260,7 +306,8 @@ const TestimonialManager = () => {
 
       {/* Formulaire d'ajout */}
       <div className="bg-white rounded-2xl shadow-card p-4 space-y-3">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* Nom + Photo */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <input
             type="text"
             value={newName}
@@ -268,40 +315,72 @@ const TestimonialManager = () => {
             aria-label="Nom du témoin"
             placeholder="Nom du témoin"
             className={`${inputClass} flex-1`}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault()
-                add()
-              }
-            }}
           />
+          <div className="flex items-center gap-2">
+            {newImageUrl ? (
+              <img src={newImageUrl} alt="Aperçu" className="w-10 h-10 rounded-lg object-cover border" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg bg-earth-100 flex items-center justify-center">
+                <Camera className="w-4 h-4 text-earth-300" aria-hidden="true" />
+              </div>
+            )}
+            <label className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-earth-100 hover:bg-earth-200 text-earth-700 rounded-lg cursor-pointer transition-colors duration-200">
+              <Camera className="w-3.5 h-3.5" aria-hidden="true" />
+              {uploading ? 'Envoi…' : newImageUrl ? 'Changer' : 'Photo'}
+              <input type="file" accept="image/*" onChange={handleNewUpload} className="sr-only" disabled={uploading} />
+            </label>
+            {newImageUrl && (
+              <button type="button" onClick={() => setNewImageUrl('')} className="text-xs text-red-500 hover:text-red-700">
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Rôle FR / EN */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <input
             type="text"
             value={newRole}
             onChange={(e) => setNewRole(e.target.value)}
             aria-label="Rôle (FR)"
-            placeholder="Rôle (FR, ex. Ancien élève)"
-            className={`${inputClass} flex-1`}
+            placeholder="Rôle FR (ex. Ancien élève)"
+            className={inputClass}
+          />
+          <input
+            type="text"
+            value={newRoleEn}
+            onChange={(e) => setNewRoleEn(e.target.value)}
+            aria-label="Rôle (EN)"
+            placeholder="Rôle EN (ex. Former student)"
+            className={`${inputClass} border-blue-200`}
           />
         </div>
-        <input
-          type="text"
-          value={newQuote}
-          onChange={(e) => setNewQuote(e.target.value)}
-          aria-label="Citation (FR)"
-          placeholder="Citation du témoin (FR)"
-          className={inputClass}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
-              add()
-            }
-          }}
-        />
+
+        {/* Citation FR / EN */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <textarea
+            value={newQuote}
+            onChange={(e) => setNewQuote(e.target.value)}
+            aria-label="Citation (FR)"
+            placeholder="Citation du témoin (FR)"
+            rows={3}
+            className={`${inputClass} resize-none`}
+          />
+          <textarea
+            value={newQuoteEn}
+            onChange={(e) => setNewQuoteEn(e.target.value)}
+            aria-label="Citation (EN)"
+            placeholder="Citation du témoin (EN)"
+            rows={3}
+            className={`${inputClass} resize-none border-blue-200`}
+          />
+        </div>
+
         <button
           type="button"
           onClick={add}
-          disabled={adding}
+          disabled={adding || uploading}
           className="inline-flex items-center gap-2 px-5 py-2.5 min-h-10 text-sm font-semibold bg-sun-600 hover:bg-earth-700 disabled:opacity-60 text-white rounded-lg transition-[background-color] duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sun-500 focus-visible:ring-offset-2"
         >
           {adding ? (

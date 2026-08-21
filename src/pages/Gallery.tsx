@@ -81,12 +81,15 @@ const Gallery = () => {
   ]
 
   // Dédupliquer par URL pour éviter les doublons (hero + photo libre identique)
+  const heroUrl = photos['hero']?.url
   const rawImages = freePhotos.length > 0
     ? freePhotos.map((photo) => ({ src: photo.url, alt: photo.alt }))
     : defaultGalleryImages
   const seenUrls = new Set<string>()
   const galleryImages = rawImages.filter((image) => {
     if (seenUrls.has(image.src)) return false
+    // Exclure l'image hero déjà affichée dans PageHero
+    if (heroUrl && image.src === heroUrl) return false
     seenUrls.add(image.src)
     return true
   })

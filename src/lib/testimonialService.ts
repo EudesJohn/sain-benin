@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase, PHOTOS_BUCKET } from './supabase'
 
 export interface Testimonial {
   id?: string
@@ -110,4 +110,23 @@ export function localizeTestimonial(t: Testimonial, lang: string): Testimonial {
     }
   }
   return t
+}
+
+/**
+ * Téléverse l'image d'un témoignage dans le bucket « photos » et renvoie
+ * l'URL publique, ou null en cas d'erreur.
+ */
+export async function uploadTestimonialImage(file: File): Promise<string | null> {
+  if (!supabase) return null
+  const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
+  const path = `testimonials/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+  const { error } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file, {
+    cacheControl: '31536000',
+    upsert: false,
+  })
+  if (error) {
+    console.error('Erreur uploadTestimonialImage:', error.message)
+    return null
+  }
+  return supabase.storage.from(PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl
 }
