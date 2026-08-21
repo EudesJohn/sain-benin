@@ -165,27 +165,43 @@ export const products = {
   },
 }
 
-// Témoignages
-export const testimonials = [
+// Témoignages (bilingues FR/EN — les noms restent identiques)
+export interface Testimonial {
+  id: number
+  name: string        // identique dans les 2 langues
+  role: string        // traduit selon la langue
+  role_en: string
+  quote: string       // traduit selon la langue
+  quote_en: string
+  image: string
+}
+
+export const testimonials: Testimonial[] = [
   {
     id: 1,
     name: 'Alassane Touré',
     role: 'Ancien élève',
+    role_en: 'Former student',
     quote: 'Grâce à SAIN, j\'ai appris à cultiver durablement et ai pu créer mon entreprise agricole. Merci à toute l\'équipe !',
+    quote_en: 'Thanks to SAIN, I learned sustainable farming and was able to create my agricultural business. Thank you to the whole team!',
     image: 'Etudiants-2-150x150.jpg',
   },
   {
     id: 2,
     name: 'Marie Dubois',
     role: 'Visiteuse touristique',
+    role_en: 'Tourist visitor',
     quote: 'Un lieu magique où l\'on découvre l\'agriculture autrement. L\'hébergement était parfait et le repas délicieux !',
+    quote_en: 'A magical place where you discover agriculture differently. The accommodation was perfect and the meal delicious!',
     image: 'Visite-Ferme-150x150.jpg',
   },
   {
     id: 3,
     name: 'Pasteur Houensou',
     role: 'Partenaire local',
+    role_en: 'Local partner',
     quote: 'SAIN est un modèle pour notre communauté. Leur engagement envers le développement rural est exemplaire.',
+    quote_en: 'SAIN is a model for our community. Their commitment to rural development is exemplary.',
     image: 'Sourire-Sain-150x150.jpg',
   },
 ]

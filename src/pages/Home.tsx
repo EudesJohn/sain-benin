@@ -33,7 +33,8 @@ const serviceIcons: Record<string, typeof Sprout> = {
 
 const Home = () => {
   const { photos, freePhotos } = useSectionPhotos('accueil')
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = i18n.language?.split('-')[0] || 'fr'
   const previewImages = ['apercu-1', 'apercu-2', 'apercu-3', 'apercu-4', 'apercu-5', 'apercu-6']
   return (
     <div className="overflow-hidden">
@@ -168,8 +169,8 @@ const Home = () => {
               <TestimonialCard
                 key={testimonial.id}
                 name={testimonial.name}
-                role={testimonial.role}
-                quote={testimonial.quote}
+                role={lang === 'en' ? testimonial.role_en : testimonial.role}
+                quote={lang === 'en' ? testimonial.quote_en : testimonial.quote}
                 image={photos[`temoin-${index + 1}`]?.url || `/images/${testimonial.image}`}
                 index={index}
               />
