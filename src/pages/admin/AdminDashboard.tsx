@@ -20,6 +20,7 @@ import {
   Utensils,
   Phone,
   AlertTriangle,
+  Quote,
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { SECTIONS, MENU_SECTIONS, type SectionDef, type PhotoSlot } from '../../lib/sections'
@@ -43,6 +44,7 @@ import {
 import PriceManager from './PriceManager'
 import MenuManager from './MenuManager'
 import ContactManager from './ContactManager'
+import TestimonialManager from './TestimonialManager'
 
 /* ─────────────────────────────────────────────
    Carte d'un emplacement fixe (slot)
@@ -570,7 +572,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true)
   const addFileRef = useRef<HTMLInputElement>(null)
   const [adding, setAdding] = useState(false)
-  const [tab, setTab] = useState<'media' | 'prices' | 'menus' | 'contacts'>('media')
+  const [tab, setTab] = useState<'media' | 'prices' | 'menus' | 'contacts' | 'testimonials'>('media')
 
   const section: SectionDef = SECTIONS.find((s) => s.slug === sectionSlug) ?? SECTIONS[0]
 
@@ -775,6 +777,16 @@ const AdminDashboard = () => {
             <Phone className="w-4 h-4" aria-hidden="true" />
             {t('admin.contacts')}
           </button>
+          <button
+            type="button"
+            onClick={() => setTab('testimonials')}
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-leaf-500 focus-visible:ring-offset-2 ${
+              tab === 'testimonials' ? 'bg-leaf-600 text-white shadow-card' : 'text-ink-soft hover:bg-earth-50 hover:text-ink'
+            }`}
+          >
+            <Quote className="w-4 h-4" aria-hidden="true" />
+            {t('admin.testimonials')}
+          </button>
         </div>
       </div>
 
@@ -839,6 +851,8 @@ const AdminDashboard = () => {
             <MenuManager sectionSlug={sectionSlug} />
           ) : tab === 'contacts' ? (
             <ContactManager />
+          ) : tab === 'testimonials' ? (
+            <TestimonialManager />
           ) : (
             <>
           <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">

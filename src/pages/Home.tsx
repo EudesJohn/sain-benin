@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import {
@@ -11,8 +12,9 @@ import {
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import HeroSection from '../components/HeroSection'
-import { serviceCards, testimonials } from '../data/sainData'
+import { serviceCards } from '../data/sainData'
 import TestimonialCard from '../components/TestimonialCard'
+import { fetchTestimonials, localizeTestimonial, type Testimonial } from '../lib/testimonialService'
 import SectionHeading from '../components/ui/SectionHeading'
 import Reveal from '../components/ui/Reveal'
 import Button from '../components/ui/Button'
@@ -35,6 +37,11 @@ const Home = () => {
   const { photos, freePhotos } = useSectionPhotos('accueil')
   const { t, i18n } = useTranslation()
   const lang = i18n.language?.split('-')[0] || 'fr'
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([])
+
+  useEffect(() => {
+    fetchTestimonials().then(setTestimonials)
+  }, [])
   const previewImages = ['apercu-1', 'apercu-2', 'apercu-3', 'apercu-4', 'apercu-5', 'apercu-6']
   return (
     <div className="overflow-hidden">
@@ -165,16 +172,19 @@ const Home = () => {
                 subtitle={t('home.testimonialsDescription')}
               />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard
-                key={testimonial.id}
-                name={testimonial.name}
-                role={lang === 'en' ? testimonial.role_en : testimonial.role}
-                quote={lang === 'en' ? testimonial.quote_en : testimonial.quote}
-                image={photos[`temoin-${index + 1}`]?.url || `/images/${testimonial.image}`}
-                index={index}
-              />
-            ))}
+            {testimonials.map((testimonial, index) => {
+              const localized = localizeTestimonial(testimonial, lang)
+              return (
+                <TestimonialCard
+                  key={testimonial.id}
+                  name={localized.name}
+                  role={localized.role}
+                  quote={localized.quote}
+                  image={testimonial.image_url || photos[`temoin-${index + 1}`]?.url || `/images/Etudiants-2-150x150.jpg`}
+                  index={index}
+                />
+              )
+            })}
           </div>
         </div>
       </section>

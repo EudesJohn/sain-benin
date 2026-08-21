@@ -632,6 +632,15 @@
     "newDishEn": "New dish (EN)",
     "noDishes": "No dishes in this category — add one above.",
     "noCategoriesYet": "No categories yet — add one above.",
-    "bilingualHint": "Blue fields: English version. Fill in both columns for the bilingual site."
+    "bilingualHint": "Blue fields: English version. Fill in both columns for the bilingual site.",
+    "testimonials": "Testimonials",
+    "testimonialsDescription": "Add, edit or delete testimonials. Changes are immediately visible on the site.",
+    "testimonialRoleFr": "Role (FR)",
+    "testimonialRoleEn": "Role (EN)",
+    "testimonialQuoteFr": "Quote (FR)",
+    "testimonialQuoteEn": "Quote (EN)",
+    "testimonialRequired": "Name and quote are required to add a testimonial.",
+    "addTestimonial": "Add a testimonial",
+    "noTestimonials": "No testimonials yet — add one above."
   }
 }

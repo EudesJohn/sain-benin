@@ -634,6 +634,15 @@
     "noCategoriesYet": "Aucune catégorie pour le moment — ajoutez-en une ci-dessus.",
     "bilingualHint": "Champs en bleu : version anglaise. Remplissez les deux colonnes pour le site bilingue.",
     "addPhotoMissing": "Ajoutez une photo pour chaque emplacement affiché en rouge.",
-    "backToSite": "Retour au site"
+    "backToSite": "Retour au site",
+    "testimonials": "Témoignages",
+    "testimonialsDescription": "Ajoutez, modifiez ou supprimez les témoignages. Les changements sont visibles immédiatement sur le site.",
+    "testimonialRoleFr": "Rôle (FR)",
+    "testimonialRoleEn": "Rôle (EN)",
+    "testimonialQuoteFr": "Citation (FR)",
+    "testimonialQuoteEn": "Citation (EN)",
+    "testimonialRequired": "Le nom et la citation sont obligatoires pour ajouter un témoignage.",
+    "addTestimonial": "Ajouter un témoignage",
+    "noTestimonials": "Aucun témoignage pour le moment — ajoutez-en un ci-dessus."
   }
 }
