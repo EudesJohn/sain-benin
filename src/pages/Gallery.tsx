@@ -80,7 +80,16 @@ const Gallery = () => {
     { src: '/images/sain5-150x150.jpg', alt: t('gallery.images.farmLife') },
   ]
 
-  const galleryImages = freePhotos.length > 0 ? freePhotos.map((photo) => ({ src: photo.url, alt: photo.alt })) : defaultGalleryImages
+  // Dédupliquer par URL pour éviter les doublons (hero + photo libre identique)
+  const rawImages = freePhotos.length > 0
+    ? freePhotos.map((photo) => ({ src: photo.url, alt: photo.alt }))
+    : defaultGalleryImages
+  const seenUrls = new Set<string>()
+  const galleryImages = rawImages.filter((image) => {
+    if (seenUrls.has(image.src)) return false
+    seenUrls.add(image.src)
+    return true
+  })
   const galleryVideos = videos.map((video) => ({ id: video.youtubeId, title: video.title }))
 
   const openModal = (index: number) => {
