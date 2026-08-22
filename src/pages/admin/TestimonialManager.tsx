@@ -108,7 +108,7 @@ const TestimonialCard = ({ testimonial, index, onChanged }: TestimonialCardProps
             value={name}
             onChange={(e) => setName(e.target.value)}
             aria-label="Nom du témoin"
-            placeholder="Nom du témoin (identique FR/EN)"              className={formInputClass}
+            placeholder="Nom du témoin (identique FR/EN)"              className={INPUT_CLASS}
           />
 
           {/* Rôle FR / EN */}
@@ -289,9 +289,6 @@ const TestimonialManager = () => {
     e.target.value = ''
   }
 
-  const formInputClass =
-    'px-3 py-2.5 text-sm border border-earth-200 rounded-lg focus:ring-2 focus:ring-sun-500 focus:border-transparent transition-[border-color,box-shadow] duration-200'
-
   return (
     <div className="space-y-6">
       <div>
@@ -313,7 +310,7 @@ const TestimonialManager = () => {
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
             aria-label="Nom du témoin"
-            placeholder="Nom du témoin"              className={`${formInputClass} flex-1`}
+            placeholder="Nom du témoin"              className={`${INPUT_CLASS} flex-1`}
           />
           <div className="flex items-center gap-2">
             {newImageUrl ? (
@@ -343,14 +340,14 @@ const TestimonialManager = () => {
             value={newRole}
             onChange={(e) => setNewRole(e.target.value)}
             aria-label="Rôle (FR)"
-            placeholder="Rôle FR (ex. Ancien élève)"              className={formInputClass}
+            placeholder="Rôle FR (ex. Ancien élève)"              className={INPUT_CLASS}
           />
           <input
             type="text"
             value={newRoleEn}
             onChange={(e) => setNewRoleEn(e.target.value)}
             aria-label="Rôle (EN)"
-            placeholder="Rôle EN (ex. Former student)"              className={`${formInputClass} border-blue-200`}
+            placeholder="Rôle EN (ex. Former student)"              className={`${INPUT_CLASS} border-blue-200`}
           />
         </div>
 
@@ -361,14 +358,14 @@ const TestimonialManager = () => {
             onChange={(e) => setNewQuote(e.target.value)}
             aria-label="Citation (FR)"
             placeholder="Citation du témoin (FR)"
-            rows={3}              className={`${formInputClass} resize-none`}
+            rows={3}              className={`${INPUT_CLASS} resize-none`}
           />
           <textarea
             value={newQuoteEn}
             onChange={(e) => setNewQuoteEn(e.target.value)}
             aria-label="Citation (EN)"
             placeholder="Citation du témoin (EN)"
-            rows={3}              className={`${formInputClass} resize-none border-blue-200`}
+            rows={3}              className={`${INPUT_CLASS} resize-none border-blue-200`}
           />
         </div>
 
